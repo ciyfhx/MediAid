@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MediAid.App"
+                          xmlns:local="clr-namespace:MediAid.Models">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#E87409</Color>
+            <Color x:Key="PrimaryDark">#FF6517</Color>
+            <Color x:Key="Accent">#FFA00A</Color>
+            <Color x:Key="LightBackgroundColor">#FFA00A</Color>
+            <Color x:Key="DarkBackgroundColor">#E83309</Color>
+            <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
+            <Color x:Key="LightTextColor">#999999</Color>
+
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+
+            <local:DrugTypeConverter x:Key="DrugTypeValuesConverter"/>
+            <local:ImageConverter x:Key="ImageConverter"/>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
