@@ -7,6 +7,7 @@ using System.Linq;
 using Xamarin.Forms;
 using MediAid.Views;
 using System.IO;
+using System.Diagnostics;
 
 namespace MediAid.Helpers
 {
@@ -24,6 +25,7 @@ namespace MediAid.Helpers
         {
             if (!File.Exists(path))
             {
+                Directory.CreateDirectory(path.Substring(0, path.LastIndexOf("/")));
                 File.Create(path);
             }
             db = new SQLiteConnection(path);

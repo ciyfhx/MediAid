@@ -1,5 +1,6 @@
 ﻿using MediAid.Helpers;
 using MediAid.Views;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,8 +22,7 @@ namespace MediAid
 		{
             InitializeComponent();
 
-            Debug.WriteLine(Path.Combine(EnvironmentUtils.GetPlatformEnironmentPath(), "Recordings/Reminders.db"));
-            StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(EnvironmentUtils.GetPlatformEnironmentPath(), "Recordings/Reminders.db"));
+            StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
             StoreDictionaryHandler.AddStoreDictionary(Reminders);
             StoreDictionaryHandler.AddStoreDictionary(Drugs);
 
