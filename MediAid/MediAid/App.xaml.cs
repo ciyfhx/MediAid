@@ -20,6 +20,7 @@ namespace MediAid
 
         public App()
 		{
+            //Test
             InitializeComponent();
 
             StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
