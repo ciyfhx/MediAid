@@ -40,7 +40,7 @@ namespace MediAid.Views
             Content = mainList;
             ToolbarItems.Add(new ToolbarItem("All", null, SelectAll, ToolbarItemOrder.Primary));
             ToolbarItems.Add(new ToolbarItem("None", null, SelectNone, ToolbarItemOrder.Primary));
-            ToolbarItems.Add(new ToolbarItem("Done", null, Done, ToolbarItemOrder.Primary));
+            ToolbarItems.Add(new ToolbarItem("Done", null, Done, ToolbarItemOrder.Primary));//TEST
         }
 
         protected override void OnAppearing()
