@@ -7,13 +7,21 @@
     <ContentPage.Content>
         <ScrollView >
             <StackLayout Spacing="20" Padding="15">
-            <Label Text="Reminder Name" FontSize="Medium" />
-            <Entry Text="{Binding Reminder.Name, Mode=TwoWay}" FontSize="Small" />
-            <Label Text="Message" FontSize="Medium" />
-            <Editor Text="{Binding Reminder.Message, Mode=TwoWay}" FontSize="Small" Margin="0" />
-            <Button Text="{Binding ButtonText}" Clicked="Record_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White">
-            </Button>
-            
+                <Frame>
+                    <StackLayout Spacing="20" Padding="15">
+                        <Label Text="Reminder Name" FontSize="Medium" />
+                        <Entry Text="{Binding Reminder.Name, Mode=TwoWay}" FontSize="Small" />
+
+                        <Label Text="{Binding Reminder.Hours, StringFormat='Hours {0}'}" FontSize="Medium"/>
+                        <Slider Maximum="24" Minimum="1"  Value="{Binding Reminder.Hours, Mode=TwoWay}">
+                        </Slider>
+                    </StackLayout>
+                </Frame>
+                <Button Text="{Binding ButtonText}" Clicked="Record_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White">
+                </Button>
+
+
+
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

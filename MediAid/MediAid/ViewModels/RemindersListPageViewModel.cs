@@ -35,7 +35,7 @@ namespace MediAid.ViewModels
             Reminders = new ObservableRangeCollection<Reminder>();
 
             //Get new reminder
-            MessagingCenter.Subscribe<NewReminderPage, Reminder>(this, "AddReminder", (obj, reminder) => {
+            MessagingCenter.Subscribe<PillsSelectListPage, Reminder>(this, "AddReminder", (obj, reminder) => {
                 Reminders.Add(reminder);
             });
 

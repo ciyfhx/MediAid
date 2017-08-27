@@ -86,7 +86,7 @@ namespace MediAid.Helpers
             db.Table<Reminder>().ToList().ForEach(reminder => remindersPath.Add(reminder, reminder.Id));
 
             //Subscribe to store data
-            MessagingCenter.Subscribe<NewReminderPage, Reminder>(this, "AddReminder", (obj, reminder) => {
+            MessagingCenter.Subscribe <PillsSelectListPage, Reminder>(this, "AddReminder", (obj, reminder) => {
                 db.Insert(reminder);
                 remindersPath.Add(reminder, reminder.Id);
             });

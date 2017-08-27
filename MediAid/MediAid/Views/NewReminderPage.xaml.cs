@@ -14,7 +14,8 @@ namespace MediAid.Views
 {
     public partial class NewReminderPage : ContentPage
     {
-        public Reminder Reminder { get; set; }
+        private Reminder reminder;
+        public Reminder Reminder { get => reminder; set => reminder = value; }
 
         private const string RECORD_TEXT = "Record a Reminder";
         private const string STOP_RECORD_TEXT = "Stop Recording";
@@ -33,7 +34,7 @@ namespace MediAid.Views
             Reminder = new Reminder
             {
 				Name = "",
-				Message = ""
+                Hours = 1
 			};
 
 			BindingContext = this;
@@ -42,8 +43,7 @@ namespace MediAid.Views
 
 		async void Save_Clicked(object sender, EventArgs e)
 		{
-			MessagingCenter.Send(this, "AddReminder", Reminder);
-			await Navigation.PopToRootAsync();
+            await Navigation.PushAsync(new PillsSelectListPage(ref reminder));
 		}
 
         void Record_Reminder(object sender, EventArgs e)
