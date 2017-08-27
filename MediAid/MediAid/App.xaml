@@ -19,6 +19,29 @@
             <local:DrugTypeConverter x:Key="DrugTypeValuesConverter"/>
             <local:ImageConverter x:Key="ImageConverter"/>
 
+            <DataTemplate x:Key="PillsTemplate">
+                <ViewCell>
+                    <Grid Padding="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Image VerticalOptions="Center" Grid.Row="0" Grid.Column="0" Aspect="AspectFit" HeightRequest="50" WidthRequest="50" Source="{Binding ImageFile, Converter={StaticResource ImageConverter}}" />
+                        <StackLayout Grid.Row="0" Grid.Column="1">
+                            <Label Text="{Binding Name}" 
+                   Style="{DynamicResource ListItemTextStyle}" 
+                   FontSize="16"/>
+                            <Label Text="{Binding DrugType, Converter={StaticResource DrugTypeValuesConverter}}" 
+                   Style="{DynamicResource ListItemDetailTextStyle}"
+                   FontSize="16"/>
+                        </StackLayout>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
