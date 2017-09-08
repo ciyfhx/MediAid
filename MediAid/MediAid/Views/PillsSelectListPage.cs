@@ -5,6 +5,7 @@ using global::MediAid.ViewModels;
 using System.ComponentModel;
 using Xamarin.Forms;
 using static Xamarin.Forms.Device;
+using MediAid.Services;
 
 namespace MediAid.Views
 {
@@ -59,6 +60,10 @@ namespace MediAid.Views
         async void Done()
         {
             MessagingCenter.Send(this, "AddReminder", reminder);
+            AlarmHandler handler = DependencyService.Get<AlarmHandler>();
+
+            handler.CreateAlarm(reminder);
+
             await Navigation.PopToRootAsync();
         }
 

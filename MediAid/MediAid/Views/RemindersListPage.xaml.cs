@@ -32,7 +32,7 @@ namespace MediAid.Views
 
             //await DisplayAlert("Reminder Tapped", "An Reminder was tapped.", "OK");
 
-
+            await Navigation.PushAsync(new ReminderDetails(e.SelectedItem as Reminder));
 
 
             //Deselect Reminder

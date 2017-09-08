@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MediAid.Views.Login"
+             Title="Login">
+    <ContentPage.Content>
+        <Frame>
+            <StackLayout Padding="5" Spacing="5">
+                <Label Text="Login to MediAid" FontSize="Medium"/>
+                <Entry Text="{Binding Username}" Placeholder="Username/Email" />
+                <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Password" />
+                <Label x:Name="Warning" FontSize="Small" TextColor="Red"/>
+                <Button Text="Login" Clicked="Login_ToFirebase"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
+
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

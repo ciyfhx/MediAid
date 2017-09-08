@@ -1,4 +1,5 @@
 ﻿using MediAid.Helpers;
+using MediAid.Services;
 using MediAid.Views;
 using System;
 using System.Diagnostics;
@@ -17,6 +18,9 @@ namespace MediAid
         public static readonly RemindersStoreDictionary Reminders = new RemindersStoreDictionary();
         public static readonly DrugsStoreDictionary Drugs = new DrugsStoreDictionary();
 
+        public static readonly FirebaseConnection firebase = DependencyService.Get<FirebaseConnection>();
+        public static readonly AudioHandler audioHandler = DependencyService.Get<AudioHandler>();
+
 
         public App()
 		{
@@ -32,33 +36,27 @@ namespace MediAid
                 Debug.WriteLine($"{pair.Key}, {pair.Value}");
 
             });
+            InitAudioHandler();
+            firebase.Init();
 
 			SetMainPage();
 		}
 
-		public static void SetMainPage()
+		public void SetMainPage()
 		{
-            Current.MainPage = new TabbedPage
-            {
-                Children =
-                {
-                    new NavigationPage(new RemindersListPage())
-                    {
-                        Title = "Reminders",
-                        Icon = Device.OnPlatform<string>("tab_feed.png",null,null)
-                    },
-                     new NavigationPage(new PillsListPage())
-                    {
-                        Title = "Pills",
-                        Icon = Device.OnPlatform<string>("tab_about.png",null,null)
-                    },
-                    new NavigationPage(new AboutPage())
-                    {
-                        Title = "About",
-                        Icon = Device.OnPlatform<string>("tab_about.png",null,null)
-                    },
-                }
-            };
+            Current.MainPage = new NavigationPage(new Login());
+
         }
-	}
+
+        public void InitAudioHandler()
+        {
+            string path = EnvironmentUtils.GetPlatformEnironmentPath() + "/Recordings";
+            Directory.CreateDirectory(path);
+            audioHandler.Init(path);
+
+        }
+
+
+
+    }
 }

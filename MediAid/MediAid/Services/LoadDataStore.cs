@@ -32,7 +32,7 @@ namespace MediAid.Services
 		public async Task<bool> UpdateItemAsync(T Item)
 		{
 			await InitializeAsync();
-
+            
 			var _Item = Items.Where((T arg) => arg.Id == Item.Id).FirstOrDefault();
 			Items.Remove(_Item);
 			Items.Add(Item);

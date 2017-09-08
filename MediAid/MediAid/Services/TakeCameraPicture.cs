@@ -10,6 +10,7 @@ using Xamarin.Forms;
 
 namespace MediAid.Services
 {
+    [Obsolete]
     public class TakeCameraPicture
     {
         public static async Task<ImageSource> TakePicture()

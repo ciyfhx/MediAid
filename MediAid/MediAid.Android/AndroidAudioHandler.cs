@@ -64,12 +64,20 @@ namespace MediAid.Services.Android
             recorder?.Stop();
             IsRecording = false;
 
-            //TESTING
+            return IsRecorderNull();
+        }
+
+        public override bool PlayRecording(string fileName)
+        {
+
+            Debug.WriteLine($"TEST Recording File: {fileName}");
+            Debug.WriteLine(Path.Combine(RecordingPath, fileName));
+
             player.SetDataSource(Path.Combine(RecordingPath, fileName));
             player.Prepare();
             player.Start();
 
-            return IsRecorderNull();
+            return true;
         }
 
         private bool IsRecorderNull()

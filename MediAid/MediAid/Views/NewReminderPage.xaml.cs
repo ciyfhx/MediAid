@@ -22,12 +22,10 @@ namespace MediAid.Views
 
         public string ButtonText { get; set; }
 
-        AudioHandler audioHandler;
 
         public NewReminderPage()
 		{
 			InitializeComponent();
-            InitAudioHandler();
 
             ButtonText = RECORD_TEXT;
 
@@ -48,14 +46,14 @@ namespace MediAid.Views
 
         void Record_Reminder(object sender, EventArgs e)
         {
-            if (!audioHandler.IsRecording)
+            if (!App.audioHandler.IsRecording)
             {
-                audioHandler.StartRecording($"{Reminder.Id}.3gpp");
+                App.audioHandler.StartRecording($"{Reminder.Id}.3gpp");
                 ButtonText = STOP_RECORD_TEXT;
             }
             else
             {
-                audioHandler.StopRecording();
+                App.audioHandler.StopRecording();
                 ButtonText = RECORD_TEXT;
             }
 
@@ -63,14 +61,7 @@ namespace MediAid.Views
 
        
 
-        public void InitAudioHandler()
-        {
-            string path = EnvironmentUtils.GetPlatformEnironmentPath() + "/Recordings";
-            Directory.CreateDirectory(path);
-            audioHandler = DependencyService.Get<AudioHandler>();
-            audioHandler.Init(path);
 
-        }
 
     }
 }
