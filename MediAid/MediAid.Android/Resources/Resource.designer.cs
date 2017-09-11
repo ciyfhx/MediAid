@@ -26,6 +26,8 @@ namespace MediAid.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::MediAid.Droid.Resource.String.ApplicationName;
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::MediAid.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::MediAid.Droid.Resource.Attribute.actionBarSize;
 		}
 		
@@ -3770,6 +3772,12 @@ namespace MediAid.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f0a0050
+			public const int ApplicationName = 2131361872;
+			
+			// aapt resource value: 0x7f0a004f
+			public const int Hello = 2131361871;
+			
 			// aapt resource value: 0x7f0a0026
 			public const int abc_action_bar_home_description = 2131361830;
 			
@@ -3922,6 +3930,27 @@ namespace MediAid.Droid
 			
 			// aapt resource value: 0x7f0a0010
 			public const int common_signin_button_text_long = 2131361808;
+			
+			// aapt resource value: 0x7f0a0053
+			public const int default_web_client_id = 2131361875;
+			
+			// aapt resource value: 0x7f0a0054
+			public const int firebase_database_url = 2131361876;
+			
+			// aapt resource value: 0x7f0a0051
+			public const int gcm_defaultSenderId = 2131361873;
+			
+			// aapt resource value: 0x7f0a0055
+			public const int google_api_key = 2131361877;
+			
+			// aapt resource value: 0x7f0a0052
+			public const int google_app_id = 2131361874;
+			
+			// aapt resource value: 0x7f0a0056
+			public const int google_crash_reporting_api_key = 2131361878;
+			
+			// aapt resource value: 0x7f0a0057
+			public const int google_storage_bucket = 2131361879;
 			
 			// aapt resource value: 0x7f0a0011
 			public const int mr_button_content_description = 2131361809;

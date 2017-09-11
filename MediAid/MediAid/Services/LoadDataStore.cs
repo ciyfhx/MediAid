@@ -13,7 +13,7 @@ namespace MediAid.Services
 {
 	public class LoadDataStore<T> : IDataStore<T> where T : BaseModel
     {
-		bool isInitialized;
+		public bool isInitialized { get; set; }
 		List<T> Items;
 
         public delegate List<T> LoadData();
@@ -89,5 +89,6 @@ namespace MediAid.Services
 			isInitialized = true;
 		}
 
-	}
+     
+    }
 }

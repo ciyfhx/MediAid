@@ -6,14 +6,16 @@ namespace MediAid.Models
 {
     public class BaseModel
     {
+
+        public string Id { get; set; }
         
-        public readonly string Id;
 
         public BaseModel()
         {
             //Generate a Gobal Unique Id
             Id = Guid.NewGuid().ToString();
         }
+
 
     }
 }

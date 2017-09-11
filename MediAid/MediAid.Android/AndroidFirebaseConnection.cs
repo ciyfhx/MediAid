@@ -50,15 +50,12 @@ namespace MediAid.Droid
             }
 
         }
-
-
+        
         public void Connect()
         {
 
-
-
-
         }
+
 
         public async Task<bool> LoginUser(string username, string password)
         {

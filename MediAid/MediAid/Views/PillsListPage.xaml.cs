@@ -38,6 +38,7 @@ namespace MediAid.Views
                 return;
 
             //await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            await Navigation.PushAsync(new PillDetails(e.SelectedItem as Drug));
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
@@ -47,8 +48,8 @@ namespace MediAid.Views
         {
             base.OnAppearing();
 
-            if (viewModel.Drugs.Count == 0)
-                viewModel.LoadDrugsCommand.Execute(null);
+            if (viewModel.Items.Count == 0)
+                viewModel.LoadItemsCommand.Execute(null);
         }
 
     }

@@ -14,7 +14,7 @@ namespace MediAid
     public partial class App : Application
     {
 
-        private StoreDictionaryHandler StoreDictionaryHandler;
+        public static readonly StoreDictionaryHandler StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
         public static readonly RemindersStoreDictionary Reminders = new RemindersStoreDictionary();
         public static readonly DrugsStoreDictionary Drugs = new DrugsStoreDictionary();
 
@@ -26,14 +26,13 @@ namespace MediAid
 		{
             InitializeComponent();
 
-            StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
             StoreDictionaryHandler.AddStoreDictionary(Reminders);
             StoreDictionaryHandler.AddStoreDictionary(Drugs);
 
             //Testing
-            Drugs.GetItems().ToList().ForEach(pair =>
+            Reminders.GetItems().ToList().ForEach(pair =>
             {
-                Debug.WriteLine($"{pair.Key}, {pair.Value}");
+                Debug.WriteLine($"TEST {pair.Key.Drugs}, {pair.Value}");
 
             });
             InitAudioHandler();

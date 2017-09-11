@@ -41,30 +41,26 @@ namespace MediAid.Views
             Content = mainList;
             ToolbarItems.Add(new ToolbarItem("All", null, SelectAll, ToolbarItemOrder.Primary));
             ToolbarItems.Add(new ToolbarItem("None", null, SelectNone, ToolbarItemOrder.Primary));
-            ToolbarItems.Add(new ToolbarItem("Done", null, Done, ToolbarItemOrder.Primary));
+            ToolbarItems.Add(new ToolbarItem("Next", null, Next, ToolbarItemOrder.Primary));
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (viewModel.Drugs.Count == 0)
-                viewModel.LoadDrugsCommand.Execute(null);
+            if (viewModel.Items.Count == 0)
+                viewModel.LoadItemsCommand.Execute(null);
 
-            WrappedItems = viewModel.Drugs.Select(item => new WrappedSelection<Drug>() { Item = item, IsSelected = false }).ToList();
+            WrappedItems = viewModel.Items.Select(item => new WrappedSelection<Drug>() { Item = item, IsSelected = false }).ToList();
 
             mainList.ItemsSource = WrappedItems;
 
         }
 
-        async void Done()
+        async void Next()
         {
-            MessagingCenter.Send(this, "AddReminder", reminder);
-            AlarmHandler handler = DependencyService.Get<AlarmHandler>();
-
-            handler.CreateAlarm(reminder);
-
-            await Navigation.PopToRootAsync();
+            reminder.Drugs = WrappedItems.ToList().Where(drug => drug.IsSelected).ToList().Select(drug => drug.Item).ToList();
+            await Navigation.PushAsync(new RecordReminder(reminder));
         }
 
         void SelectAll()

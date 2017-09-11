@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SQLite;
 using System.Linq;
 using Xamarin.Forms;
 using MediAid.Views;
 using System.IO;
 using System.Diagnostics;
+using SQLite;
+using SQLiteNetExtensions.Extensions;
 
 namespace MediAid.Helpers
 {
@@ -15,7 +16,7 @@ namespace MediAid.Helpers
     public class StoreDictionaryHandler
     {
 
-        SQLiteConnection db;
+        public readonly SQLiteConnection db;
 
         /// <summary>
         /// Init the database and must be called before retrieving the data
@@ -38,6 +39,7 @@ namespace MediAid.Helpers
             storeDictionary.CallInit(db);
             stores.Add(storeDictionary);
         }
+
 
 
 
@@ -81,15 +83,38 @@ namespace MediAid.Helpers
         {
 
             db.CreateTable<Reminder>();
+            db.CreateTable<ReminderDrug>();
 
-            //Load reminders to dictionary
-            db.Table<Reminder>().ToList().ForEach(reminder => remindersPath.Add(reminder, reminder.Id));
+
+            var list = db.Table<Reminder>().ToList();
+
+           
+            list.ForEach(reminder => {
+
+                //Load reminders to dictionary
+                remindersPath.Add(reminder, reminder.Id);
+
+            });
 
             //Subscribe to store data
-            MessagingCenter.Subscribe <PillsSelectListPage, Reminder>(this, "AddReminder", (obj, reminder) => {
+            MessagingCenter.Subscribe <RecordReminder, Reminder>(this, "AddReminder", (obj, reminder) => {
                 db.Insert(reminder);
                 remindersPath.Add(reminder, reminder.Id);
+
+                //Update Relations
+                db.UpdateWithChildren(reminder);
             });
+
+            MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "RemoveReminder", (obj, reminder) => {
+                Debug.WriteLine("First");
+                //Removing Relationship
+                reminder.Drugs = null;
+                db.UpdateWithChildren(reminder);
+
+                db.Delete(reminder);
+                remindersPath.Remove(reminder);
+            });
+
         }
     }
 
@@ -97,18 +122,32 @@ namespace MediAid.Helpers
     {
         protected override void Init(SQLiteConnection db, Dictionary<Drug, string> drugsPath)
         {
-            db.CreateTable<DrugData>();
+            db.CreateTable<Drug>();
 
             //Load reminders to dictionary
-            db.Table<DrugData>().ToList().ForEach(drug => drugsPath.Add(drug.ToDrug(), ""));
+            db.Table<Drug>().ToList().ForEach(drug => drugsPath.Add(drug, ""));
 
 
             //Subscribe to store data
             MessagingCenter.Subscribe<AddDrug, Drug>(this, "AddDrug", (obj, drug) => {
-                db.Insert(drug.ToDrugData());
+                db.Insert(drug);
                 drugsPath.Add(drug, drug.Id);
             });
+            MessagingCenter.Subscribe<PillDetails, Drug>(this, "RemoveDrug", (obj, drug) => {
+                //Remove Reminder Relation
+                db.Table<ReminderDrug>().Where(record => record.DatabaseId == drug.DatabaseId).ToList().ForEach(record => db.Delete(record));
+                
+
+                db.Delete(drug);
+                drugsPath.Remove(drug);
+
+
+
+            });
         }
+
+
+
     }
 
 

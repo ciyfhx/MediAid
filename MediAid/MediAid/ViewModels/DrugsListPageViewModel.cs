@@ -12,69 +12,31 @@ using Xamarin.Forms;
 
 namespace MediAid.ViewModels
 {
-    class DrugsListPageViewModel : BaseViewModel
+    class DrugsListPageViewModel : LoadData<Drug>
     {
 
-        public ObservableRangeCollection<Drug> Drugs { get; set; }
-
-        public Command LoadDrugsCommand { get; set; }
-
-        public LoadDataStore<Drug> DrugsDataStore = new LoadDataStore<Drug>();
-
-        private List<Drug> LoadDrugs()
+        public override List<Drug> GetData()
         {
             return App.Drugs.GetItems().Keys.ToList();
         }
 
 
-        public DrugsListPageViewModel()
+        public DrugsListPageViewModel() : base()
         {
-            //Load Drugs
-            DrugsDataStore.LoadDataHandler = LoadDrugs;
-
-
-            Drugs = new ObservableRangeCollection<Drug>();
 
             //Get new drug
             MessagingCenter.Subscribe<AddDrug, Drug>(this, "AddDrug", (obj, drug) => {
-                Drugs.Add(drug);
+                Items.Add(drug);
+            });
+            //Remove drug
+            MessagingCenter.Subscribe<PillDetails, Drug>(this, "RemoveDrug", (obj, drug) => {
+                Items.Remove(drug);
             });
 
-            LoadDrugsCommand = new Command(async () => await ExecuteLoadDrugsCommand());
 
         }
 
 
-        async Task ExecuteLoadDrugsCommand()
-        {
-            Debug.WriteLine(IsBusy);
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
-
-            try
-            {
-                Drugs.Clear();
-                var _Drugs = await DrugsDataStore.GetItemsAsync(true);
-                Drugs.ReplaceRange(_Drugs);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                MessagingCenter.Send(new MessagingCenterAlert
-                {
-                    Title = "Error",
-                    Message = "Unable to load Drugs.",
-                    Cancel = "OK"
-                }, "message");
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
-
-
+        
     }
 }

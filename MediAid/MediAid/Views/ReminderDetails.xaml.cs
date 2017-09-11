@@ -14,9 +14,9 @@ namespace MediAid.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ReminderDetails : ContentPage
 	{
-        DrugsListPageViewModel viewModel;
 
         private Reminder reminder;
+        private ReminderDrugsListPage viewModel;
 
         public ReminderDetails(Reminder reminder)
         {
@@ -27,7 +27,7 @@ namespace MediAid.Views
             Reminder.Text = this.reminder.Name;
 
 
-            BindingContext = viewModel = new DrugsListPageViewModel();
+            BindingContext = viewModel = new ReminderDrugsListPage(reminder);
 
         }
 
@@ -38,17 +38,28 @@ namespace MediAid.Views
 
          void Play_Reminder(object sender, EventArgs e)
         {
-            App.audioHandler.PlayRecording($"{Reminder.Id}.3gpp");
+            App.audioHandler.PlayRecording($"{reminder.RecordId}.3gpp");
 
 
         }
+
+        void Remove_Reminder(object sender, EventArgs e)
+        {
+            App.audioHandler.RemoveRecording($"{reminder.RecordId}.3gpp");
+
+            MessagingCenter.Send(this, "RemoveReminder", reminder);
+
+            Navigation.PopToRootAsync();
+
+        }
+
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (viewModel.Drugs.Count == 0)
-                viewModel.LoadDrugsCommand.Execute(null);
+            if (viewModel.Items.Count == 0)
+                viewModel.LoadItemsCommand.Execute(null);
         }
 
     }

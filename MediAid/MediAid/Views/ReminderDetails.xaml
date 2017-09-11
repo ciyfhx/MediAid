@@ -10,7 +10,7 @@
 
                     <Label HorizontalTextAlignment="Center" x:Name="Reminder"  FontSize="Large" />
 
-                    <ListView ItemsSource="{Binding Drugs}"
+                    <ListView ItemsSource="{Binding Items}"
                                ItemTapped="Handle_ItemTapped"
                                VerticalOptions="FillAndExpand"
                                HasUnevenRows="true"
@@ -22,7 +22,7 @@
             </Frame>
 
             <Button Text="Play Reminder" Clicked="Play_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
-            <Button Text="Remove Reminder" Clicked="Play_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
+            <Button Text="Remove Reminder" Clicked="Remove_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
         
         </StackLayout>
     </ContentPage.Content>

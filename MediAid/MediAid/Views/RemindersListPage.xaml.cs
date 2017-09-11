@@ -3,6 +3,7 @@ using MediAid.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,12 +28,13 @@ namespace MediAid.Views
 
         async void Handle_ReminderTapped(object sender, SelectedItemChangedEventArgs e)
         {
+
+
             if (e.SelectedItem == null)
                 return;
 
-            //await DisplayAlert("Reminder Tapped", "An Reminder was tapped.", "OK");
 
-            await Navigation.PushAsync(new ReminderDetails(e.SelectedItem as Reminder));
+            await Navigation.PushAsync(new ReminderDetails(viewModel.SelectedItem));
 
 
             //Deselect Reminder
@@ -50,8 +52,9 @@ namespace MediAid.Views
         {
             base.OnAppearing();
 
-            if (viewModel.Reminders.Count == 0)
-                viewModel.LoadRemindersCommand.Execute(null);
+            if (viewModel.Items.Count == 0)
+            viewModel.LoadItemsCommand.Execute(null);
         }
+
     }
 }

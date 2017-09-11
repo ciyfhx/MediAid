@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Drug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoadData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Reminder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AlarmHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AudioHandler.cs" />
@@ -33,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoadDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TakeCameraPicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddDrugViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ReminderDrugsListPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DrugsListPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RemindersListPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
@@ -55,11 +57,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\NewReminderPage.xaml.cs">
       <DependentUpon>NewReminderPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\PillDetails.xaml.cs">
+      <DependentUpon>PillDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\PillsListPage.xaml.cs">
       <DependentUpon>PillsListPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\PillsSelectListPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RecordReminder.xaml.cs">
+      <DependentUpon>RecordReminder.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderDetails.xaml.cs">
       <DependentUpon>ReminderDetails.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -95,6 +104,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\PillDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RecordReminder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

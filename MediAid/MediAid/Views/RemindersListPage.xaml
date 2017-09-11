@@ -6,8 +6,9 @@
 <ContentPage.ToolbarItems>
   <ToolbarItem Text="Add Reminder" Clicked="AddReminder_Clicked" />
 </ContentPage.ToolbarItems>
-    <ListView ItemsSource="{Binding Reminders}"
+    <ListView ItemsSource="{Binding Items, Mode=TwoWay}"
             ItemTapped="Handle_ReminderTapped"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             VerticalOptions="FillAndExpand"
             HasUnevenRows="true"
             CachingStrategy="RecycleElement">
@@ -18,9 +19,6 @@
                     <StackLayout Padding="10">
                         <Label Text="{Binding Name}" 
                          Style="{DynamicResource ListReminderTextStyle}" 
-                         FontSize="16"/>
-                        <Label Text="{Binding Message}" 
-                         Style="{DynamicResource ListReminderDetailTextStyle}"
                          FontSize="16"/>
                     </StackLayout>
                 </ViewCell>

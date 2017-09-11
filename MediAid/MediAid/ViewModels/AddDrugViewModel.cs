@@ -18,7 +18,7 @@ namespace MediAid.ViewModels
         {
             DrugTypeValues = DrugType.Values.ToList();
 
-            Drug = new Drug { Name = "", DrugType = null };
+            Drug = new Drug { Name = "" };
 
 
 

@@ -5,7 +5,7 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.CAMERA" />
-	<application android:label="MediAid" android:icon="@drawable/icon">
+	<application android:label="MediAid" android:largeHeap="true" android:icon="@drawable/icon">
 
     <provider android:name="android.support.v4.content.FileProvider"
 				android:authorities="com.ciyfhx.MediAid.fileprovider"

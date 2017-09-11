@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using MediAid.Models;
 
 namespace MediAid.Helpers
 {
@@ -21,12 +22,12 @@ namespace MediAid.Helpers
 		{
 		}
 
-		/// <summary> 
-		/// Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class that contains elements copied from the specified collection. 
-		/// </summary> 
-		/// <param name="collection">collection: The collection from which the elements are copied.</param> 
-		/// <exception cref="System.ArgumentNullException">The collection parameter cannot be null.</exception> 
-		public ObservableRangeCollection(IEnumerable<T> collection)
+        /// <summary> 
+        /// Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class that contains elements copied from the specified collection. 
+        /// </summary> 
+        /// <param name="collection">collection: The collection from which the elements are copied.</param> 
+        /// <exception cref="System.ArgumentNullException">The collection parameter cannot be null.</exception> 
+        public ObservableRangeCollection(IEnumerable<T> collection)
 			: base(collection)
 		{
 		}

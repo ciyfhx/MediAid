@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MediAid.Views.PillDetails">
+    <ContentPage.Content>
+
+        <StackLayout Spacing="20" Padding="15">
+            <Frame>
+                <StackLayout  Spacing="20" Padding="15">
+
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Drug.Name}"  FontSize="Large" />
+                    <Image Source="{Binding Drug.ImageFile, Converter={StaticResource ImageConverter}}"/>
+
+                </StackLayout>
+            </Frame>
+            <Button Text="Remove Medication" Clicked="Remove_Medication" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

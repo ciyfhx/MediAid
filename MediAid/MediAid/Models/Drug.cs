@@ -6,30 +6,48 @@ using System.Linq;
 using Xamarin.Forms;
 using System.Diagnostics;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace MediAid.Models
 {
+    //public class Drug : BaseModel
+    //{
+    //    public int DatabaseId { get; set; }
+    //    public string Name { get; set; }
+    //    public DrugType DrugType { get; set; }
+    //    public string ImageFile { get; set; }
+
+    //    public DrugData ToDrugData() { return new DrugData { DatabaseId = this.DatabaseId, Name = this.Name, DrugType = this.DrugType.ToString(), ImageFile = this.ImageFile }; }
+
+    //}
+
     public class Drug : BaseModel
-    {
-        public int DatabaseId { get; set; }
-        public string Name { get; set; }
-        public DrugType DrugType { get; set; }
-        public string ImageFile { get; set; }
-
-        public DrugData ToDrugData() { return new DrugData { DatabaseId = this.DatabaseId, Name = this.Name, DrugType = this.DrugType.ToString(), ImageFile = this.ImageFile }; }
-
-    }
-
-    public class DrugData
     {
         [PrimaryKey, AutoIncrement]
         public int DatabaseId { get; set; }
         public string Name { get; set; }
-        public string DrugType { get; set; }
+
+        public string DrugTypeString { get; set; }
+
+        [Ignore]
+        public DrugType DrugType { get => DrugTypeConverter.FromString(DrugTypeString); set => DrugTypeString = value.Name; }
         public string ImageFile { get; set; }
 
-        public Drug ToDrug() { return new Drug { DatabaseId = this.DatabaseId, Name = this.Name, DrugType = DrugTypeConverter.FromString(this.DrugType), ImageFile = this.ImageFile }; }
+        //public Drug ToDrug() { return new Drug { DatabaseId = this.DatabaseId, Name = this.Name, DrugType = DrugTypeConverter.FromString(this.DrugType), ImageFile = this.ImageFile }; }
     }
+
+    public class ReminderDrug
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        [ForeignKey(typeof(Drug))]
+        public int DatabaseId { get; set; }
+
+        [ForeignKey(typeof(Reminder))]
+        public int ReminderId { get; set; }
+    }
+
 
     //Create a list of drugs type
     public class DrugType

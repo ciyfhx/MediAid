@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(AndroidAudioHandler))]
@@ -22,7 +24,6 @@ namespace MediAid.Services.Android
         {
             base.Init(recordingPath);
             recorder = new MediaRecorder();
-            player = new MediaPlayer();
             IsRecording = false;
         }
 
@@ -38,6 +39,7 @@ namespace MediAid.Services.Android
             recorder.Prepare();
             recorder.Start();
             IsRecording = true;
+
 
             Debug.WriteLine($"Recording File: {fileName}");
             Debug.WriteLine(Path.Combine(RecordingPath, fileName));
@@ -64,21 +66,65 @@ namespace MediAid.Services.Android
             recorder?.Stop();
             IsRecording = false;
 
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             return IsRecorderNull();
         }
 
         public override bool PlayRecording(string fileName)
         {
-
+            if (player != null) return false;
             Debug.WriteLine($"TEST Recording File: {fileName}");
             Debug.WriteLine(Path.Combine(RecordingPath, fileName));
 
-            player.SetDataSource(Path.Combine(RecordingPath, fileName));
-            player.Prepare();
-            player.Start();
+            ListFile(RecordingPath);
+            
+           player = new MediaPlayer();
+           player.SetDataSource(Path.Combine(RecordingPath, fileName));
+           player.Prepare();
+           player.Start();
+
+           player = null;
+            
+
 
             return true;
         }
+
+        /// <summary>
+        /// Remove the file of the recording
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>If successful</returns>
+        public override bool RemoveRecording(string fileName)
+        {
+            ListFile(RecordingPath);
+            //Delete the file
+            Debug.WriteLine(Path.Combine(RecordingPath, fileName));
+            File.Delete(Path.Combine(RecordingPath, fileName));
+
+            ListFile(RecordingPath);
+
+            return true;
+
+        }
+
+
+        [Obsolete("Testing Purposes")]
+        private void ListFile(string path)
+        {
+            var files = Directory.GetFiles(path);
+            
+            foreach(var file in files)
+            {
+                Debug.WriteLine($"File: {file}");
+            }
+
+
+
+        }
+
 
         private bool IsRecorderNull()
         {

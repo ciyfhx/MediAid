@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MediAid.Views.RecordReminder">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Done" Clicked="Done" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center" Padding="5" Spacing="5">
+            <Button x:Name="RecordBtn" Clicked="Record_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White">
+            </Button>
+            <Label Text="{Binding Details, Mode=TwoWay}" TextColor="Red" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

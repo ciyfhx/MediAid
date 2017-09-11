@@ -37,7 +37,7 @@ namespace MediAid.Views
 
 
 
-            bool connected = await App.firebase.LoginUser(username, password);
+            bool connected = await App.firebase.LoginUser("test@testing.com", "password");
 
 
             if (connected)
