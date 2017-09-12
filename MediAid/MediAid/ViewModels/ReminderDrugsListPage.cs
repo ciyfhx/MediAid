@@ -15,19 +15,19 @@ namespace MediAid.ViewModels
 {
     class ReminderDrugsListPage : LoadData<Drug>
     {
-        private Reminder reminder;
+        public Reminder Reminder { get; set; }
 
 
         public override List<Drug> GetData()
         {
             //reminder.Drugs.ForEach(drug => list.Add(drug.ToDrug()));
-            return App.StoreDictionaryHandler.db.GetWithChildren<Reminder>(reminder.ReminderId).Drugs;
+            return App.StoreDictionaryHandler.db.GetWithChildren<Reminder>(Reminder.ReminderId).Drugs;
         }
 
 
         public ReminderDrugsListPage(Reminder reminder) : base()
         {
-            this.reminder = reminder;
+            this.Reminder = reminder;
         }
 
     }

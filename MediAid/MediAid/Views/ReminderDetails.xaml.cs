@@ -1,7 +1,10 @@
 ﻿using MediAid.Models;
+using MediAid.Services;
 using MediAid.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,19 +17,17 @@ namespace MediAid.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ReminderDetails : ContentPage
 	{
-
-        private Reminder reminder;
         private ReminderDrugsListPage viewModel;
 
         public ReminderDetails(Reminder reminder)
         {
-            this.reminder = reminder;
+            App.alarmHandler.RemoveAlarm(reminder);
             InitializeComponent();
 
             //Manually set the data
-            Reminder.Text = this.reminder.Name;
+            Reminder.Text = reminder.Name;
 
-
+            Debug.WriteLine(reminder);
             BindingContext = viewModel = new ReminderDrugsListPage(reminder);
 
         }
@@ -38,16 +39,16 @@ namespace MediAid.Views
 
          void Play_Reminder(object sender, EventArgs e)
         {
-            App.audioHandler.PlayRecording($"{reminder.RecordId}.3gpp");
+            App.audioHandler.PlayRecording($"{viewModel.Reminder.RecordId}.3gpp");
 
 
         }
 
         void Remove_Reminder(object sender, EventArgs e)
         {
-            App.audioHandler.RemoveRecording($"{reminder.RecordId}.3gpp");
+            App.audioHandler.RemoveRecording($"{viewModel.Reminder.RecordId}.3gpp");
 
-            MessagingCenter.Send(this, "RemoveReminder", reminder);
+            MessagingCenter.Send(this, "RemoveReminder", viewModel.Reminder);
 
             Navigation.PopToRootAsync();
 
@@ -62,5 +63,20 @@ namespace MediAid.Views
                 viewModel.LoadItemsCommand.Execute(null);
         }
 
+        private void Toggle_Reminder(object sender, ToggledEventArgs e)
+        {
+            if (viewModel.Reminder.IsEnabled)
+            {
+                viewModel.Reminder.TimeEnabled = DateTime.Now;
+
+                App.alarmHandler.CreateAlarm(viewModel.Reminder);
+            }
+            else
+            {
+                App.alarmHandler.RemoveAlarm(viewModel.Reminder);
+            }
+
+
+        }
     }
 }

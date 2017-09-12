@@ -67,9 +67,9 @@ namespace MediAid.Views
         async void Done()
         {
             MessagingCenter.Send(this, "AddReminder", reminder);
-            AlarmHandler handler = DependencyService.Get<AlarmHandler>();
+            //AlarmHandler handler = DependencyService.Get<AlarmHandler>();
 
-            handler.CreateAlarm(reminder);
+            //handler.CreateAlarm(reminder);
 
             await Navigation.PopToRootAsync();
         }

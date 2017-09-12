@@ -12,6 +12,5 @@ namespace MediAid.Services
         bool RemoveAlarm(Reminder reminder);
 
 
-
     }
 }

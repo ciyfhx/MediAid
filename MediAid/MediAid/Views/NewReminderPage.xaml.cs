@@ -27,7 +27,6 @@ namespace MediAid.Views
             {
                 Name = "",
                 Hours = 1,
-                TimeCreated = DateTime.Now,
                 RecordId = Guid.NewGuid().ToString()
 			};
 

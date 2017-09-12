@@ -36,7 +36,8 @@ namespace MediAid.Models
             }
         }
 
-        public DateTime TimeCreated { get; set; }
+        public bool IsEnabled { get; set; } = false;
+        public DateTime TimeEnabled { get; set; }
         [ManyToMany(typeof(ReminderDrug), CascadeOperations = CascadeOperation.All)]
         public List<Drug> Drugs { get; set; }
         //private ReminderType type;

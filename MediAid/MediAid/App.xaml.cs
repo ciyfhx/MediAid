@@ -20,6 +20,9 @@ namespace MediAid
 
         public static readonly FirebaseConnection firebase = DependencyService.Get<FirebaseConnection>();
         public static readonly AudioHandler audioHandler = DependencyService.Get<AudioHandler>();
+        public static readonly AlarmHandler alarmHandler = DependencyService.Get<AlarmHandler>();
+
+        public static int ShowReminder { get; set; } = -1;
 
 
         public App()
@@ -44,7 +47,12 @@ namespace MediAid
 		public void SetMainPage()
 		{
             Current.MainPage = new NavigationPage(new Login());
-
+            Debug.WriteLine(ShowReminder);
+            if (ShowReminder != -1)
+            {
+                Current.MainPage.Navigation.PushAsync(new ReminderDetails(Reminders.GetItems().Keys.First(k => k.ReminderId == ShowReminder)));
+                ShowReminder = -1;
+            }
         }
 
         public void InitAudioHandler()
