@@ -27,6 +27,11 @@ namespace MediAid.Views
             //Manually set the data
             Reminder.Text = reminder.Name;
 
+            if (!App.audioHandler.RecordingExist($"{reminder.RecordId}.3gpp"))
+            {
+                PlayReminderBtn.IsEnabled = false;
+            }
+
             Debug.WriteLine(reminder);
             BindingContext = viewModel = new ReminderDrugsListPage(reminder);
 

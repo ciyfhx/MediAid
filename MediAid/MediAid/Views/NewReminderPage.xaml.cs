@@ -44,9 +44,6 @@ namespace MediAid.Views
             Reminder = reminder;
 
             BindingContext = this;
-
-
-            Debug.WriteLine($"DOS {reminder.Name} ");
         }
 
 

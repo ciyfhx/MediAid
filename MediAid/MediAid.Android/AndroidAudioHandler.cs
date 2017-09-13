@@ -130,5 +130,10 @@ namespace MediAid.Services.Android
         {
             return (recorder == null);
         }
+
+        public override bool RecordingExist(string fileName)
+        {
+            return File.Exists(Path.Combine(RecordingPath, fileName));
+        }
     }
 }

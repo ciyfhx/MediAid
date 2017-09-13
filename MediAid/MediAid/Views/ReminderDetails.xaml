@@ -25,7 +25,7 @@
                 </StackLayout>
             </Frame>
 
-            <Button Text="Play Reminder" Clicked="Play_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
+            <Button x:Name="PlayReminderBtn" Text="Play Reminder" Clicked="Play_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
             <Button Text="Remove Reminder" Clicked="Remove_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
         
         </StackLayout>

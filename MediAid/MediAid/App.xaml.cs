@@ -19,7 +19,7 @@ namespace MediAid
         public static readonly StoreDictionaryHandler StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
         public static readonly RemindersStoreDictionary Reminders = new RemindersStoreDictionary();
         public static readonly DrugsStoreDictionary Drugs = new DrugsStoreDictionary();
-        //public static readonly SettingsStoreDictionary SettingsDictionary = new SettingsStoreDictionary();
+        public static readonly SettingsStoreDictionary SettingsDictionary = new SettingsStoreDictionary();
 
         public static readonly FirebaseConnection firebase = DependencyService.Get<FirebaseConnection>();
         public static readonly AudioHandler audioHandler = DependencyService.Get<AudioHandler>();
@@ -37,10 +37,10 @@ namespace MediAid
 
             StoreDictionaryHandler.AddStoreDictionary(Reminders);
             StoreDictionaryHandler.AddStoreDictionary(Drugs);
-            //StoreDictionaryHandler.AddStoreDictionary(SettingsDictionary);
+            StoreDictionaryHandler.AddStoreDictionary(SettingsDictionary);
 
             //Set the settings
-            //settings = StoreDictionaryHandler.db.Table<Settings>().First();
+            settings = StoreDictionaryHandler.db.Table<Settings>().First();
 
             //Testing
             Reminders.GetItems().ToList().ForEach(pair =>
@@ -58,10 +58,10 @@ namespace MediAid
 
 		public void SetMainPage()
 		{
-            //Current.MainPage = new NavigationPage(new Login());
-            var masterDetail = new RootMasterPage();
+            Current.MainPage = new NavigationPage(new LoginPage());
+            //var masterDetail = new RootMasterPage();
 
-            Current.MainPage = masterDetail;
+            //Current.MainPage = masterDetail;
 
             Debug.WriteLine(ShowReminder);
             if (ShowReminder != -1)

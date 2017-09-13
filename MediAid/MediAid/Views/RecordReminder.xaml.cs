@@ -66,6 +66,7 @@ namespace MediAid.Views
 
         async void Done()
         {
+            if (App.audioHandler.IsRecording) App.audioHandler.StopRecording();
             MessagingCenter.Send(this, "AddReminder", reminder);
             //AlarmHandler handler = DependencyService.Get<AlarmHandler>();
 

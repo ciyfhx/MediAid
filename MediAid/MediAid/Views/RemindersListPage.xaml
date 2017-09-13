@@ -6,7 +6,7 @@
 <ContentPage.ToolbarItems>
   <ToolbarItem Text="Add Reminder" Clicked="AddReminder_Clicked" />
 </ContentPage.ToolbarItems>
-    <ListView ItemsSource="{Binding Items, Mode=TwoWay}"
+    <ListView ItemsSource="{Binding Items}"
             ItemTapped="Handle_ReminderTapped"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             VerticalOptions="FillAndExpand"

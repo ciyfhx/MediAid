@@ -49,10 +49,13 @@ namespace MediAid.Helpers
     public abstract class StoreDictionary<K, V> : Store
     {
         Dictionary<K, V> dictionary = new Dictionary<K, V>();
+        private bool initialize = false;
 
         public void CallInit(SQLiteConnection db)
         {
+            if (initialize) return;
             this.Init(db, dictionary);
+            initialize = true;
         }
 
         protected abstract void Init(SQLiteConnection db, Dictionary<K, V> dictionary);
@@ -79,19 +82,24 @@ namespace MediAid.Helpers
 
     public class SettingsStoreDictionary : StoreDictionary<Settings, string>
     {
+
         protected override void Init(SQLiteConnection db, Dictionary<Settings, string> dictionary)
         {
             db.CreateTable<Settings>();
 
+            Debug.WriteLine(db.Table<Settings>().Count());
             if (db.Table<Settings>().Count() == 0)
             {
                 //No Settings so we will create one
-                var settings = new Settings();
+                Settings settings = new Settings();
                 db.Insert(settings);
+                Debug.WriteLine(db.Table<Settings>().Count());
             }
 
 
             MessagingCenter.Subscribe<Settings, Settings>(this, "UpdateSettings", (obj, settings) => {
+                Debug.WriteLine($"Updating Settings {settings.FirstLogin}");
+
                 db.Update(settings);
             });
 
@@ -125,6 +133,8 @@ namespace MediAid.Helpers
 
                 //Update Relations
                 db.UpdateWithChildren(reminder);
+
+                App.firebase.AddReminder(reminder);
             });
 
             MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "RemoveReminder", (obj, reminder) => {
@@ -134,6 +144,7 @@ namespace MediAid.Helpers
 
                 db.Delete(reminder);
                 remindersPath.Remove(reminder);
+                App.firebase.AddReminder(reminder);
             });
 
             MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "UpdateReminder", (obj, reminder) => {
@@ -142,6 +153,7 @@ namespace MediAid.Helpers
 
                 //Update Relations
                 db.UpdateWithChildren(reminder);
+                App.firebase.AddReminder(reminder);
             });
 
         }

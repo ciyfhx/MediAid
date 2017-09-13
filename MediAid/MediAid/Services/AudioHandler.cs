@@ -21,6 +21,7 @@ namespace MediAid.Services
         public abstract bool StopRecording();
         public abstract bool PlayRecording(string fileName);
         public abstract bool RemoveRecording(string fileName);
+        public abstract bool RecordingExist(string fileName);
 
         public string RecordingPath {
 
