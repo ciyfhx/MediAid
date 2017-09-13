@@ -18,7 +18,7 @@ namespace MediAid.Views
 
         public List<WrappedSelection<Drug>> WrappedItems = new List<WrappedSelection<Drug>>();
 
-        public PillsSelectListPage(ref Reminder reminder)
+        public PillsSelectListPage(Reminder reminder)
         {
             this.reminder = reminder;
             Title = "Select Pills";

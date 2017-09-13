@@ -29,8 +29,8 @@ namespace MediAid.Droid
         public void Init()
         {
             //FirebaseApp.InitializeApp(Android.App.Application.Context);
-            //database = FirebaseDatabase.Instance;
-            //DatabaseReference databaseRef = database.GetReference("");
+            database = FirebaseDatabase.Instance;
+            DatabaseReference databaseRef = database.GetReference("");
 
 
 

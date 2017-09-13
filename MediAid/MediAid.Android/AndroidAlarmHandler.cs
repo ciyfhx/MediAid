@@ -19,18 +19,19 @@ using Android.Content.Res;
 using MediAid.Views;
 using Android.App.Job;
 using Java.Lang;
+using Android.Support.V4.Content;
 
 [assembly: Dependency(typeof(AndroidAlarmHandler))]
 namespace MediAid.Droid
 {
-    [BroadcastReceiver(Name = "com.ciyfhx.MediAid.receiver", Enabled = true)]
-    public class AlarmReceiver : BroadcastReceiver
+    [BroadcastReceiver(Enabled = true)]
+    public class AlarmReceiver : WakefulBroadcastReceiver
     {
         private Intent ringIntent;
 
         public override void OnReceive(Context context, Intent intent)
         {
-            //System.Diagnostics.Debug.WriteLine("Ringing");
+            System.Diagnostics.Debug.WriteLine("Ringing");
 
             ringIntent = new Intent(context, typeof(RingtoneService));
             var playOrEnd = intent.GetBooleanExtra("PlayOrEnd", false);
@@ -70,7 +71,7 @@ namespace MediAid.Droid
 
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(context, reminder.ReminderId, intent, PendingIntentFlags.UpdateCurrent);
 
-            alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, reminder.Hours * 10, pendingIntent);
+            alarmManager.SetExactAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, reminder.Hours * 3600, pendingIntent);
             System.Diagnostics.Debug.WriteLine($"Alarm Created {reminder.Name}, {reminder.ReminderId}");
 
             return true;

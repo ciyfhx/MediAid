@@ -21,7 +21,7 @@ namespace MediAid.ViewModels
         public override List<Drug> GetData()
         {
             //reminder.Drugs.ForEach(drug => list.Add(drug.ToDrug()));
-            return App.StoreDictionaryHandler.db.GetWithChildren<Reminder>(Reminder.ReminderId).Drugs;
+            return Reminder.Drugs;
         }
 
 

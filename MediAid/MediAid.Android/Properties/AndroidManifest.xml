@@ -9,7 +9,6 @@
   <uses-permission android:name="com.android.alarm.permission.WAKE_LOCK"/>
 
   <application android:label="MediAid" android:largeHeap="true" android:icon="@drawable/icon">
-    <receiver android:name="com.ciyfhx.MediAid.receiver"></receiver>
     <provider android:name="android.support.v4.content.FileProvider"
 				android:authorities="com.ciyfhx.MediAid.fileprovider"
 				android:exported="false"

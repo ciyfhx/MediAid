@@ -1,6 +1,8 @@
 ﻿using MediAid.Helpers;
+using MediAid.Models;
 using MediAid.Services;
 using MediAid.Views;
+using SQLiteNetExtensions.Extensions;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -13,14 +15,18 @@ namespace MediAid
 {
     public partial class App : Application
     {
-
+        // Too many stuffs
         public static readonly StoreDictionaryHandler StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
         public static readonly RemindersStoreDictionary Reminders = new RemindersStoreDictionary();
         public static readonly DrugsStoreDictionary Drugs = new DrugsStoreDictionary();
+        //public static readonly SettingsStoreDictionary SettingsDictionary = new SettingsStoreDictionary();
 
         public static readonly FirebaseConnection firebase = DependencyService.Get<FirebaseConnection>();
         public static readonly AudioHandler audioHandler = DependencyService.Get<AudioHandler>();
         public static readonly AlarmHandler alarmHandler = DependencyService.Get<AlarmHandler>();
+
+        public static Settings Settings { get => settings; }
+        private static Settings settings;
 
         public static int ShowReminder { get; set; } = -1;
 
@@ -31,11 +37,17 @@ namespace MediAid
 
             StoreDictionaryHandler.AddStoreDictionary(Reminders);
             StoreDictionaryHandler.AddStoreDictionary(Drugs);
+            //StoreDictionaryHandler.AddStoreDictionary(SettingsDictionary);
+
+            //Set the settings
+            //settings = StoreDictionaryHandler.db.Table<Settings>().First();
 
             //Testing
             Reminders.GetItems().ToList().ForEach(pair =>
             {
-                Debug.WriteLine($"TEST {pair.Key.Drugs}, {pair.Value}");
+                Debug.WriteLine($"TEST {pair.Key}, {pair.Value}");
+                pair.Key.Drugs = App.StoreDictionaryHandler.db.GetWithChildren<Reminder>(pair.Key.ReminderId).Drugs;
+                Debug.WriteLine($"{pair.Key.ToJson()}");
 
             });
             InitAudioHandler();
@@ -46,7 +58,11 @@ namespace MediAid
 
 		public void SetMainPage()
 		{
-            Current.MainPage = new NavigationPage(new Login());
+            //Current.MainPage = new NavigationPage(new Login());
+            var masterDetail = new RootMasterPage();
+
+            Current.MainPage = masterDetail;
+
             Debug.WriteLine(ShowReminder);
             if (ShowReminder != -1)
             {

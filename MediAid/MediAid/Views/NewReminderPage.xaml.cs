@@ -14,29 +14,46 @@ namespace MediAid.Views
 {
     public partial class NewReminderPage : ContentPage
     {
-        private Reminder reminder;
-        public Reminder Reminder { get => reminder; set => reminder = value; }
+        public Reminder Reminder { get; set; }
 
 
 
         public NewReminderPage()
 		{
-			InitializeComponent();
 
-            Reminder = new Reminder
+            var temp = new Reminder
             {
                 Name = "",
                 Hours = 1,
+                IsEnabled = false,
                 RecordId = Guid.NewGuid().ToString()
 			};
 
-			BindingContext = this;
+            Init(temp);
+        }
 
-		}
+        public NewReminderPage(Reminder reminder)
+        {
+            Init(reminder);
+        }
+
+        private void Init(Reminder reminder)
+        {
+            InitializeComponent();
+
+            Reminder = reminder;
+
+            BindingContext = this;
+
+
+            Debug.WriteLine($"DOS {reminder.Name} ");
+        }
+
+
 
 		async void Next_Clicked(object sender, EventArgs e)
 		{
-            await Navigation.PushAsync(new PillsSelectListPage(ref reminder));
+            await Navigation.PushAsync(new PillsSelectListPage(Reminder));
 		}
 
        

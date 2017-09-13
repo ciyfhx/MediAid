@@ -30,7 +30,7 @@ namespace MediAid.Views
 
         public async void Save()
         {
-            viewModel.Drug.DrugTypeString = viewModel.DrugTypeName;
+            viewModel.Drug.DrugTypeEnum = DrugTypeConverter.FromString(viewModel.DrugTypeName).Id;
             MessagingCenter.Send(this, "AddDrug", viewModel.Drug);
             await Navigation.PopToRootAsync();
         }

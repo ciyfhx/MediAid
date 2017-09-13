@@ -6,6 +6,8 @@ using System.ComponentModel;
 using SQLiteNetExtensions.Attributes;
 using SQLite;
 using SQLiteNetExtensions.Extensions;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace MediAid.Models
 {
@@ -36,7 +38,7 @@ namespace MediAid.Models
             }
         }
 
-        public bool IsEnabled { get; set; } = false;
+        public bool IsEnabled { get; set; }
         public DateTime TimeEnabled { get; set; }
         [ManyToMany(typeof(ReminderDrug), CascadeOperations = CascadeOperation.All)]
         public List<Drug> Drugs { get; set; }
@@ -49,4 +51,22 @@ namespace MediAid.Models
 
 
     }
+
+    public static class ReminderExtension
+    {
+        public static string ToJson(this Reminder reminder)
+        {
+            StringBuilder builder = new StringBuilder();
+            StringWriter writer = new StringWriter(builder);
+            new JsonSerializer().Serialize(new JsonTextWriter(writer), reminder);
+            return writer.ToString();
+        }
+
+        public static Reminder FromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<Reminder>(json);
+        }
+
+    }
+
 }

@@ -77,6 +77,28 @@ namespace MediAid.Helpers
 
     }
 
+    public class SettingsStoreDictionary : StoreDictionary<Settings, string>
+    {
+        protected override void Init(SQLiteConnection db, Dictionary<Settings, string> dictionary)
+        {
+            db.CreateTable<Settings>();
+
+            if (db.Table<Settings>().Count() == 0)
+            {
+                //No Settings so we will create one
+                var settings = new Settings();
+                db.Insert(settings);
+            }
+
+
+            MessagingCenter.Subscribe<Settings, Settings>(this, "UpdateSettings", (obj, settings) => {
+                db.Update(settings);
+            });
+
+
+        }
+    }
+
     public class RemindersStoreDictionary : StoreDictionary<Reminder, string>
     {
         protected override void Init(SQLiteConnection db, Dictionary<Reminder, string> remindersPath)
@@ -106,13 +128,20 @@ namespace MediAid.Helpers
             });
 
             MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "RemoveReminder", (obj, reminder) => {
-                Debug.WriteLine("First");
                 //Removing Relationship
                 reminder.Drugs = null;
                 db.UpdateWithChildren(reminder);
 
                 db.Delete(reminder);
                 remindersPath.Remove(reminder);
+            });
+
+            MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "UpdateReminder", (obj, reminder) => {
+                db.Update(reminder);
+                //remindersPath[reminder.Id] = reminder;
+
+                //Update Relations
+                db.UpdateWithChildren(reminder);
             });
 
         }

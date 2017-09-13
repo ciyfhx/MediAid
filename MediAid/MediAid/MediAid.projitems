@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LoadData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Reminder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AlarmHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AudioHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FirebaseConnection.cs" />
@@ -54,6 +55,8 @@
       <DependentUpon>Login.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MainPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MenuPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\NewReminderPage.xaml.cs">
       <DependentUpon>NewReminderPage.xaml</DependentUpon>
     </Compile>
@@ -75,6 +78,17 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\RemindersListPage.xaml.cs">
       <DependentUpon>RemindersListPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RootMasterPage.xaml.cs">
+      <DependentUpon>RootMasterPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RootMasterPageMaster.xaml.cs">
+      <DependentUpon>RootMasterPageMaster.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RootMasterPageMenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -116,6 +130,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RecordReminder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RootMasterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RootMasterPageMaster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

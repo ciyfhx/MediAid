@@ -75,8 +75,14 @@ namespace MediAid.Views
             {
                 App.alarmHandler.RemoveAlarm(viewModel.Reminder);
             }
+            MessagingCenter.Send(this, "UpdateReminder", viewModel.Reminder);
 
 
+        }
+
+        private void Edit_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new NewReminderPage(viewModel.Reminder));
         }
     }
 }

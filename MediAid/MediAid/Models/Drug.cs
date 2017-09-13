@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using System.Diagnostics;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
+using Newtonsoft.Json;
 
 namespace MediAid.Models
 {
@@ -27,10 +28,10 @@ namespace MediAid.Models
         public int DatabaseId { get; set; }
         public string Name { get; set; }
 
-        public string DrugTypeString { get; set; }
+        public short DrugTypeEnum { get; set; }
 
-        [Ignore]
-        public DrugType DrugType { get => DrugTypeConverter.FromString(DrugTypeString); set => DrugTypeString = value.Name; }
+        [Ignore, JsonIgnore]
+        public DrugType DrugType { get => DrugTypeConverter.FromShort(DrugTypeEnum); set => DrugTypeEnum = value.Id; }
         public string ImageFile { get; set; }
 
         //public Drug ToDrug() { return new Drug { DatabaseId = this.DatabaseId, Name = this.Name, DrugType = DrugTypeConverter.FromString(this.DrugType), ImageFile = this.ImageFile }; }
@@ -67,26 +68,28 @@ namespace MediAid.Models
             }
         }
 
-        public static readonly DrugType Pill = new DrugType("Pill");
-        public static readonly DrugType Tablet = new DrugType("Tablet");
-        public static readonly DrugType Capsule = new DrugType("Capsule");
-        public static readonly DrugType Liquid = new DrugType("Liquid");
+        public static readonly DrugType Pill = new DrugType("Pill", 0);
+        public static readonly DrugType Tablet = new DrugType("Tablet", 1);
+        public static readonly DrugType Capsule = new DrugType("Capsule", 2);
+        public static readonly DrugType Liquid = new DrugType("Liquid", 3);
 
         private string name;
+        private short id;
 
-        public DrugType(string name)
+        public DrugType(string name, short Id)
         {
             this.name = name;
+            this.id = Id;
         }
 
 
-        public string Name { get { return name; } }
+        public string Name { get => name; }
+        public short Id { get => id; }
 
         public override string ToString()
         {
             return Name;
         }
-
 
     }
 
@@ -139,6 +142,17 @@ namespace MediAid.Models
 
             throw new NotFoundException("Cannot find DrugType from Name");
         }
+
+        public static DrugType FromShort(short Id)
+        {
+            foreach (DrugType drugType in DrugType.Values)
+            {
+                if (drugType.Id == Id) return drugType;
+            }
+
+            throw new NotFoundException("Cannot find DrugType from Id");
+        }
+
 
     }
 
