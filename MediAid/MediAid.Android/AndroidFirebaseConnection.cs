@@ -32,14 +32,6 @@ namespace MediAid.Droid
 
         private FirebaseUser user;
 
-        public void Init()
-        {
-            //FirebaseApp.InitializeApp(Android.App.Application.Context);
-
-
-
-        }
-
         private void InitDatabase()
         {
 
@@ -49,58 +41,45 @@ namespace MediAid.Droid
             databaseRef = database.GetReference("").Child("users").Child(user.Uid);
         }
 
-        public void SetData(string json, params string[] childs)
+        public override void SetData(string json, params string[] childs)
         {
             var subDatabaseRef = databaseRef;
             childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
             subDatabaseRef?.SetValue(json);
         }
-        public void SetData(IDictionary dictionary, params string[] childs)
+        public override void SetData(IDictionary dictionary, params string[] childs)
         {
             var subDatabaseRef = databaseRef;
             childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
             subDatabaseRef?.SetValue(new HashMap(dictionary));
         }
 
-        public void AddReminder(Reminder reminder)
+        public override void AddReminder(Reminder reminder)
         {
             databaseRef.Child("reminders").SetValue(reminder.ToMap());
         }
 
-        private async void OnFirstConnect()
+
+        public override async Task<bool> LoginUserAsync(string username, string password)
         {
-            FirebaseAuth auth = FirebaseAuth.Instance;
-            var user = auth.CurrentUser;
-
-            if (user is null)
-            {
-
-                //
-                //await auth.CreateUserWithEmailAndPasswordAsync();
-            }
-
-        }
-        
-        public void Connect()
-        {
-
-        }
-
-
-        public async Task<bool> LoginUser(string username, string password)
-        {
-            await FirebaseAuth.Instance.SignInWithEmailAndPasswordAsync(username, password);
-            var user = FirebaseAuth.Instance.CurrentUser;
+            IAuthResult result = await FirebaseAuth.Instance.SignInWithEmailAndPasswordAsync(username, password);
+            var user = result.User;
+            IsLogin = true;
             InitDatabase();
             return user!=null;
         }
 
-        public async Task<bool> CreateUser(string username, string password)
+        public override void LoginUser(string username, string password)
+        {
+            var task = FirebaseAuth.Instance.SignInWithEmailAndPassword(username, password);
+            IsLogin = true;
+            InitDatabase();
+        }
+
+        public override async Task<bool> CreateUser(string username, string password)
         {
             throw new NotImplementedException();
         }
-
-  
 
     }
 
@@ -114,7 +93,7 @@ namespace MediAid.Droid
             map.Put("Hours", reminder.Hours);
             map.Put("IsEnabled", reminder.IsEnabled);
             map.Put("TimeEnabled", reminder.TimeEnabled.ToLongTimeString());
-            map.Put("Drugs", new JavaList(reminder.Drugs));
+            //map.Put("Drugs", new JavaList(reminder.Drugs));
 
             return map;
         }

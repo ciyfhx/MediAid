@@ -13,7 +13,7 @@ namespace MediAid.Services
 {
 	public class LoadDataStore<T> : IDataStore<T> where T : BaseModel
     {
-		public bool isInitialized { get; set; }
+		public bool IsInitialized { get; set; }
 		List<T> Items;
 
         public delegate List<T> LoadData();
@@ -77,7 +77,7 @@ namespace MediAid.Services
 
 		public async Task InitializeAsync()
 		{
-			if (isInitialized)
+			if (IsInitialized)
 				return;
 
             Items = new List<T>();
@@ -86,7 +86,7 @@ namespace MediAid.Services
 
             _Items.ForEach(Item => Items.Add(Item));
 
-			isInitialized = true;
+			IsInitialized = true;
 		}
 
      

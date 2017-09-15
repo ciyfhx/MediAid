@@ -17,8 +17,11 @@ namespace MediAid.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            LoadApplication(new App());
+            var ReminderId = Intent.GetIntExtra("ReminderId", -1);
+
+            LoadApplication(new App(ReminderId));
         }
+
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {

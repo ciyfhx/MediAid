@@ -73,7 +73,7 @@ namespace MediAid.Views
 
         private async Task<bool> LoginAsync(string username, string password)
         {
-            bool connected = await App.firebase.LoginUser(username, password);
+            bool connected = await App.firebase.LoginUserAsync(username, password);
             return connected;
 
         }

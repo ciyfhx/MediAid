@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace MediAid.Services
 {
-    public interface FirebaseConnection
+    public abstract class FirebaseConnection
     {
 
-        void Init();
 
-        void Connect();
-        Task<bool> CreateUser(string username, string password);
-        Task<bool> LoginUser(string username, string password);
+        public bool IsLogin { get; set; } = false;
 
-        void SetData(string json, params string[] childs);
-        void SetData(IDictionary dictionary, params string[] childs);
-        void AddReminder(Reminder reminder);
+        public abstract Task<bool> CreateUser(string username, string password);
+        public abstract Task<bool> LoginUserAsync(string username, string password);
+        public abstract  void LoginUser(string username, string password);
+
+        public abstract  void SetData(string json, params string[] childs);
+        public abstract  void SetData(IDictionary dictionary, params string[] childs);
+        public abstract  void AddReminder(Reminder reminder);
 
     }
 }

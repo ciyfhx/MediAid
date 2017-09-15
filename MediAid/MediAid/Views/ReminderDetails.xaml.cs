@@ -32,7 +32,6 @@ namespace MediAid.Views
                 PlayReminderBtn.IsEnabled = false;
             }
 
-            Debug.WriteLine(reminder);
             BindingContext = viewModel = new ReminderDrugsListPage(reminder);
 
         }

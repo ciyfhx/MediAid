@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Android.Media;
+
+namespace MediAid.Droid
+{
+    class Services
+    {
+
+
+        [Service]
+        public class RingtoneService : Service
+        {
+
+            public MediaPlayer MediaPlayer;
+
+
+            public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+            {
+                Context context = Android.App.Application.Context;
+                if (intent.GetBooleanExtra("PlayOrEnd", false) && MediaPlayer == null)
+                {
+                    var title = intent.GetStringExtra("Title");
+                    var ReminderId = intent.GetIntExtra("ReminderId", -1);
+                    
+                    Notification.Builder builder = new Notification.Builder(context)
+                        .SetContentTitle(title)
+                        .SetOngoing(true)
+                        .SetAutoCancel(true)
+                        .SetContentText("Time to take your medications!")
+                        .SetSmallIcon(Resource.Drawable.icon);
+
+                    Notification notification = builder.Build();
+
+                    Intent launchIntent = new Intent(context, typeof(MainActivity));
+                    launchIntent.PutExtra("ReminderId", ReminderId);
+                    notification.ContentIntent = PendingIntent.GetActivity(context, 0, launchIntent, 0);
+
+                    NotificationManager notificationManager =
+                        context.GetSystemService(Context.NotificationService) as NotificationManager;
+
+
+                    const int notificationId = 0;
+                    notificationManager.Notify(notificationId, notification);
+
+
+                    MediaPlayer = MediaPlayer.Create(this, Resource.Raw.ringtone);
+                    MediaPlayer.Looping = true;
+                    MediaPlayer.Start();
+
+                }
+                
+                return StartCommandResult.Sticky;
+
+            }
+
+            public override void OnDestroy()
+            {
+                System.Diagnostics.Debug.WriteLine("Stop");
+                if (MediaPlayer != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Stop");
+                    MediaPlayer.Pause();
+                    MediaPlayer.Stop();
+                    MediaPlayer.Reset();
+                    MediaPlayer = null;
+                }
+            }
+
+            public override IBinder OnBind(Intent intent)
+            {
+
+                return null;
+            }
+        }
+     
+
+    }
+}

@@ -14,6 +14,7 @@ namespace MediAid.Models
         public int SettingsId { get; set; }
 
         private bool firstLogin;
+
         //Not the best way to store user sensitive informations
         private string username;
         private string password;

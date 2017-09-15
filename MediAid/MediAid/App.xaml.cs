@@ -16,20 +16,36 @@ namespace MediAid
     public partial class App : Application
     {
         // Too many stuffs
+        //SQL Stores
         public static readonly StoreDictionaryHandler StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
         public static readonly RemindersStoreDictionary Reminders = new RemindersStoreDictionary();
         public static readonly DrugsStoreDictionary Drugs = new DrugsStoreDictionary();
         public static readonly SettingsStoreDictionary SettingsDictionary = new SettingsStoreDictionary();
 
+        //Dependency Services
         public static readonly FirebaseConnection firebase = DependencyService.Get<FirebaseConnection>();
         public static readonly AudioHandler audioHandler = DependencyService.Get<AudioHandler>();
         public static readonly AlarmHandler alarmHandler = DependencyService.Get<AlarmHandler>();
 
+        //Settings information
         public static Settings Settings { get => settings; }
         private static Settings settings;
 
-        public static int ShowReminder { get; set; } = -1;
+        private bool IsRunning = false;
 
+        public App(int ReminderId) : this()
+        {
+            Debug.WriteLine(ReminderId);
+
+            if (ReminderId != -1)
+            {
+                //Go to details page
+                var rootMasterPage = new RootMasterPage();
+                Current.MainPage = rootMasterPage;
+                Debug.WriteLine(firebase.IsLogin);
+                rootMasterPage.Detail.Navigation.PushAsync(new ReminderDetails(Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId)));
+            }
+        }
 
         public App()
 		{
@@ -51,23 +67,23 @@ namespace MediAid
 
             });
             InitAudioHandler();
-            firebase.Init();
 
-			SetMainPage();
-		}
+            SetPage();
+            IsRunning = true;
 
-		public void SetMainPage()
+        }
+
+		public async void SetPage()
 		{
-            Current.MainPage = new NavigationPage(new LoginPage());
-            //var masterDetail = new RootMasterPage();
-
-            //Current.MainPage = masterDetail;
-
-            Debug.WriteLine(ShowReminder);
-            if (ShowReminder != -1)
+            if (!firebase.IsLogin)
             {
-                Current.MainPage.Navigation.PushAsync(new ReminderDetails(Reminders.GetItems().Keys.First(k => k.ReminderId == ShowReminder)));
-                ShowReminder = -1;
+                Debug.WriteLine("To Login Page");
+                //Let the Login Page handle the login
+                Current.MainPage = new NavigationPage(new LoginPage());
+            }else
+            {
+                Debug.WriteLine("Automatically Login");
+                await firebase.LoginUserAsync(settings.Username, settings.Password);
             }
         }
 
