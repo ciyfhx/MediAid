@@ -12,9 +12,13 @@
                         <Label Text="Reminder Name" FontSize="Medium" />
                         <Entry Text="{Binding Reminder.Name, Mode=TwoWay}" FontSize="Small" />
 
+                       
                         <Label Text="{Binding Reminder.Hours, StringFormat='Hours {0}'}" FontSize="Medium"/>
                         <Slider Maximum="24" Minimum="1"  Value="{Binding Reminder.Hours, Mode=TwoWay}">
                         </Slider>
+
+                     
+
                     </StackLayout>
                 </Frame>
 

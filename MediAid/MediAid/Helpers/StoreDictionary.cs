@@ -41,9 +41,6 @@ namespace MediAid.Helpers
         }
 
 
-
-
-
     }
 
     public abstract class StoreDictionary<K, V> : Store
@@ -106,6 +103,29 @@ namespace MediAid.Helpers
 
         }
     }
+
+    //public class TimingStoreDictionary : StoreDictionary<int, Timing>
+    //{
+    //    protected override void Init(SQLiteConnection db, Dictionary<int, Timing> dictionary)
+    //    {
+    //        db.CreateTable<Timing>();
+
+    //        db.Table<Timing>().ToList().ForEach(timing => dictionary.Add(timing.Id, timing));
+
+    //        MessagingCenter.Subscribe<NewReminderPage, Timing>(this, "AddTiming", (obj, timing) => {
+    //            obj.Reminder.Timings.Add(timing);
+
+    //            db.Insert(timing);
+    //        });
+
+    //        MessagingCenter.Subscribe<NewReminderPage, Timing>(this, "RemoveTiming", (obj, timing) => {
+    //            obj.Reminder.Timings.Remove(timing);
+
+    //            db.Delete(timing);
+    //        });
+
+    //    }
+    //}
 
     public class RemindersStoreDictionary : StoreDictionary<Reminder, string>
     {

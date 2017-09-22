@@ -10,6 +10,13 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using static MediAid.Droid.Services;
+using MediAid.Helpers;
+using static System.Diagnostics.Debug;
+using Xamarin.Forms;
+using MediAid.Services;
+using SQLite;
+using MediAid.Models;
+using System.IO;
 
 namespace MediAid.Droid
 {
@@ -42,7 +49,28 @@ namespace MediAid.Droid
             }
 
         }
+        [BroadcastReceiver(Enabled = true)]
+        [IntentFilter(new[] { Android.Content.Intent.ActionBootCompleted })]
+        public class BootReceiver : BroadcastReceiver
+        {
+            //Have to declare our database path here since we cannot access App.xaml.cs
+            private string DATABASE = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Recordings/Reminders.db");
 
+            public override void OnReceive(Context context, Intent intent)
+            {
+                WriteLine("Setting up alarms");
+
+                var db = new SQLiteConnection(DATABASE);
+
+                var alarmHandler = new AndroidAlarmHandler();
+
+                //Restart alarms
+                db.Table<Reminder>().ToList().ForEach(reminder => {
+                    if (reminder.IsEnabled) alarmHandler.CreateAlarm(reminder);
+                });
+                WriteLine("Alarm Restart Complete");
+            }
+        }
 
     }
 }

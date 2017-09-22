@@ -21,6 +21,8 @@ using Android.App.Job;
 using Java.Lang;
 using Android.Support.V4.Content;
 using Java.Util;
+using MediAid.Helpers;
+using static System.Diagnostics.Debug;
 
 [assembly: Dependency(typeof(AndroidAlarmHandler))]
 namespace MediAid.Droid
@@ -39,11 +41,26 @@ namespace MediAid.Droid
             intent.PutExtra("PlayOrEnd", true);
 
             PendingIntent pendingIntent = PendingIntent.GetService(context, reminder.ReminderId, intent, PendingIntentFlags.UpdateCurrent);
-            
 
-            alarmManager.SetExactAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, reminder.Hours * 1000, pendingIntent);
+            DateTime now = DateTime.Now;
+            //Get Change in time
+            System.Diagnostics.Debug.WriteLine($"{reminder.Time.Hours}, {now.Hour}");
+            int diffHours = reminder.Time.Hours - now.Hour;
+            int diffMins = reminder.Time.Minutes - now.Minute;
+
+            int cHours = (diffHours < 0) ? (24 + diffHours) : diffHours;
+            int cMins = (diffMins < 0) ? (24 + diffMins) : diffMins;
+
+            //long millis = ((cHours + reminder.Hours) * 1000 * 60 * 60) + (diffMins * 60 * 1000);
+            //Test
+            long millis = 1000*5;
+
+            alarmManager.SetExactAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, millis, pendingIntent);
+
+            Toast.MakeText(context, $"Alarm Created {DateTime.Now.AddMilliseconds(millis)}", ToastLength.Short).Show();
+
             //alarmManager.SetRepeating(AlarmType.Rtc, reminder.Hours* 1000, AlarmManager.IntervalDay, pendingIntent);
-            System.Diagnostics.Debug.WriteLine($"Alarm Created {reminder.Name}, {reminder.ReminderId}");
+            WriteLine($"Alarm Created {reminder.Name}, {reminder.ReminderId}");
 
             return true;
 
@@ -63,9 +80,12 @@ namespace MediAid.Droid
 
             alarmManager.Cancel(pendingIntent);
 
-            System.Diagnostics.Debug.WriteLine($"Alarm Removed {reminder.Name}, {reminder.ReminderId}");
+            WriteLine($"Alarm Removed {reminder.Name}, {reminder.ReminderId}");
             return true;
         }
     }
+
+    
+
 
 }

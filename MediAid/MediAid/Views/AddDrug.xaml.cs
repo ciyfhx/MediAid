@@ -5,6 +5,7 @@ using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,8 @@ namespace MediAid.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AddDrug : ContentPage
 	{
-        AddDrugViewModel viewModel;
-
+        private AddDrugViewModel viewModel;
+        private bool save = false;
 
 		public AddDrug()
 		{
@@ -30,15 +31,22 @@ namespace MediAid.Views
 
         public async void Save()
         {
+            if (!Validate()) return;
+            save = true;
             viewModel.Drug.DrugTypeEnum = DrugTypeConverter.FromString(viewModel.DrugTypeName).Id;
             MessagingCenter.Send(this, "AddDrug", viewModel.Drug);
             await Navigation.PopToRootAsync();
         }
 
+        private bool Validate()
+        {
+            var drug = viewModel.Drug;
+            return (!String.IsNullOrEmpty(drug.Name) && viewModel.Drug.DrugType != null);
+        }
+
         async void Take_PictureAsync(object sender, EventArgs e)
         {
             await CrossMedia.Current.Initialize();
-            Debug.WriteLine("Init");
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
                 Debug.WriteLine("Unable to take picture");
@@ -68,7 +76,13 @@ namespace MediAid.Views
         }
 
 
-
+        protected override bool OnBackButtonPressed()
+        {
+            //Delete image if drug not created
+            Debug.WriteLine("Check delete");
+            if(!save)File.Delete(viewModel.Drug.ImageFile);
+            return base.OnBackButtonPressed();
+        }
 
     }
 }

@@ -9,6 +9,7 @@ using MediAid.Helpers;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace MediAid.Views
 {
@@ -16,6 +17,8 @@ namespace MediAid.Views
     {
         public Reminder Reminder { get; set; }
 
+        //TimePicker
+        //public TimeSpan Time { get; set; }
 
 
         public NewReminderPage()
@@ -26,7 +29,8 @@ namespace MediAid.Views
                 Name = "",
                 Hours = 1,
                 IsEnabled = false,
-                RecordId = Guid.NewGuid().ToString()
+                RecordId = Guid.NewGuid().ToString(),
+                Time = new TimeSpan(12, 0, 0)
 			};
 
             Init(temp);
@@ -46,10 +50,10 @@ namespace MediAid.Views
             BindingContext = this;
         }
 
-
-
-		async void Next_Clicked(object sender, EventArgs e)
+        async void Next_Clicked(object sender, EventArgs e)
 		{
+            //MessagingCenter.Send(this, "AddTiming", new Timing { Time = this.Time});
+            //Debug.WriteLine($"{picker.Time.Hours}, {picker.Time.TotalHours}");
             await Navigation.PushAsync(new PillsSelectListPage(Reminder));
 		}
 

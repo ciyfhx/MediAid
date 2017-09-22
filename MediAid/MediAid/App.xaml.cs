@@ -15,10 +15,14 @@ namespace MediAid
 {
     public partial class App : Application
     {
+
+        public static readonly string DATABASE = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db");
+
         // Too many stuffs
         //SQL Stores
-        public static readonly StoreDictionaryHandler StoreDictionaryHandler = new StoreDictionaryHandler(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Recordings/Reminders.db"));
+        public static readonly StoreDictionaryHandler StoreDictionaryHandler = new StoreDictionaryHandler(DATABASE);
         public static readonly RemindersStoreDictionary Reminders = new RemindersStoreDictionary();
+        //public static readonly TimingStoreDictionary Timing = new TimingStoreDictionary();
         public static readonly DrugsStoreDictionary Drugs = new DrugsStoreDictionary();
         public static readonly SettingsStoreDictionary SettingsDictionary = new SettingsStoreDictionary();
 
@@ -30,8 +34,6 @@ namespace MediAid
         //Settings information
         public static Settings Settings { get => settings; }
         private static Settings settings;
-
-        private bool IsRunning = false;
 
         public App(int ReminderId) : this()
         {
@@ -52,6 +54,7 @@ namespace MediAid
             InitializeComponent();
 
             StoreDictionaryHandler.AddStoreDictionary(Reminders);
+            //StoreDictionaryHandler.AddStoreDictionary(Timing);
             StoreDictionaryHandler.AddStoreDictionary(Drugs);
             StoreDictionaryHandler.AddStoreDictionary(SettingsDictionary);
 
@@ -68,24 +71,11 @@ namespace MediAid
             });
             InitAudioHandler();
 
-            SetPage();
-            IsRunning = true;
+            MainPage = new StartPage();
 
         }
 
-		public async void SetPage()
-		{
-            if (!firebase.IsLogin)
-            {
-                Debug.WriteLine("To Login Page");
-                //Let the Login Page handle the login
-                Current.MainPage = new NavigationPage(new LoginPage());
-            }else
-            {
-                Debug.WriteLine("Automatically Login");
-                await firebase.LoginUserAsync(settings.Username, settings.Password);
-            }
-        }
+
 
         public void InitAudioHandler()
         {

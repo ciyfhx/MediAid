@@ -11,10 +11,6 @@ using System.IO;
 
 namespace MediAid.Models
 {
-    //public enum ReminderType
-    //{
-    //    RemindOnce, RemindDaily, RemindWeekly
-    //}
 
     public sealed class Reminder : BaseModel, INotifyPropertyChanged
     {
@@ -40,9 +36,12 @@ namespace MediAid.Models
 
         public bool IsEnabled { get; set; }
         public DateTime TimeEnabled { get; set; }
+        public TimeSpan Time { get; set; }
         [ManyToMany(typeof(ReminderDrug), CascadeOperations = CascadeOperation.All)]
         public List<Drug> Drugs { get; set; }
-        //private ReminderType type;
+
+        //[OneToMany]
+        //public List<Timing> Timings { get; set; }
 
 
 
@@ -50,6 +49,16 @@ namespace MediAid.Models
 
 
 
+    }
+
+    public class Timing
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        public TimeSpan Time { get; set; }
+        public bool IsEnabled { get; set; } = false;
+        
     }
 
     public static class ReminderExtension

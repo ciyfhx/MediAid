@@ -10,15 +10,19 @@
     <ContentPage.Content>
         <ScrollView >
             <StackLayout Spacing="20" Padding="15">
-                <Label Text="Medication Name" FontSize="Medium" />
-                <Entry Text="{Binding Drug.Name, Mode=TwoWay}" FontSize="Small" />
-                <Label Text="Type" FontSize="Medium" />
-                <Picker SelectedItem="{Binding DrugTypeName, Mode=TwoWay}" ItemsSource="{Binding DrugTypeValues, Converter={StaticResource DrugTypeValuesConverter}}">
-                    </Picker>
-                <Button Text="Take a Picture" Clicked="Take_PictureAsync" BackgroundColor="{StaticResource Primary}" TextColor="White">
-                </Button>
-                <Image x:Name="Image" >
-                </Image>
+                <Frame>
+                    <StackLayout Spacing="20" Padding="15">
+                        <Label Text="Medication Name" FontSize="Medium" />
+                        <Entry Text="{Binding Drug.Name, Mode=TwoWay}" FontSize="Small" />
+                        <Label Text="Type" FontSize="Medium" />
+                        <Picker SelectedItem="{Binding DrugTypeName, Mode=TwoWay}" ItemsSource="{Binding DrugTypeValues, Converter={StaticResource DrugTypeValuesConverter}}">
+                        </Picker>
+                        <Button Text="Take a Picture" Clicked="Take_PictureAsync" BackgroundColor="{StaticResource Primary}" TextColor="White">
+                        </Button>
+                        <Image x:Name="Image" >
+                        </Image>
+                    </StackLayout>
+                </Frame>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

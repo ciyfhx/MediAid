@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoadDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TakeCameraPicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddDrugViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FirebaseOrLocalStorageLoadData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ReminderDrugsListPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DrugsListPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RemindersListPageViewModel.cs" />
@@ -91,6 +92,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\RootMasterPageMenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RemindersListPage.xaml">
@@ -144,6 +148,12 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RootMasterPageMaster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using Java.Util;
 using MediAid.Models;
+using static System.Diagnostics.Debug;
 
 [assembly: Dependency(typeof(AndroidFirebaseConnection))]
 namespace MediAid.Droid
@@ -34,7 +35,7 @@ namespace MediAid.Droid
 
         private void InitDatabase()
         {
-
+            WriteLine("Initizating Database");
             var user = FirebaseAuth.Instance.CurrentUser;
 
             database = FirebaseDatabase.Instance;
@@ -56,6 +57,7 @@ namespace MediAid.Droid
 
         public override void AddReminder(Reminder reminder)
         {
+            if (!IsLogin) return; 
             databaseRef.Child("reminders").SetValue(reminder.ToMap());
         }
 
@@ -93,7 +95,11 @@ namespace MediAid.Droid
             map.Put("Hours", reminder.Hours);
             map.Put("IsEnabled", reminder.IsEnabled);
             map.Put("TimeEnabled", reminder.TimeEnabled.ToLongTimeString());
-            //map.Put("Drugs", new JavaList(reminder.Drugs));
+
+            var list = new JavaList();
+            reminder.Drugs.ForEach(drug => list.Add(drug.DatabaseId));
+
+            map.Put("Drugs", list);
 
             return map;
         }
