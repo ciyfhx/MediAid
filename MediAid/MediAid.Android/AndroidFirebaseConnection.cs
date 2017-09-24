@@ -29,7 +29,7 @@ namespace MediAid.Droid
     {
 
         private FirebaseDatabase database;
-        private DatabaseReference databaseRef;
+        private DatabaseReference databaseRef, remindersRef, drugsRef;
 
         private FirebaseUser user;
 
@@ -40,27 +40,33 @@ namespace MediAid.Droid
 
             database = FirebaseDatabase.Instance;
             databaseRef = database.GetReference("").Child("users").Child(user.Uid);
+            remindersRef = databaseRef.Child("reminders");
+            drugsRef = databaseRef.Child("drugs");
+
+            //OnDataChange
+            remindersRef.AddValueEventListener(this);
+
+
         }
 
-        public override void SetData(string json, params string[] childs)
-        {
-            var subDatabaseRef = databaseRef;
-            childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
-            subDatabaseRef?.SetValue(json);
-        }
-        public override void SetData(IDictionary dictionary, params string[] childs)
-        {
-            var subDatabaseRef = databaseRef;
-            childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
-            subDatabaseRef?.SetValue(new HashMap(dictionary));
-        }
 
         public override void AddReminder(Reminder reminder)
         {
             if (!IsLogin) return; 
-            databaseRef.Child("reminders").SetValue(reminder.ToMap());
+            var reminderRef = remindersRef.Child(Convert.ToString(reminder.ReminderId));
+            reminderRef.SetValue(reminder.ToMap());
         }
 
+        public override void AddDrug(Drug drug)
+        {
+            if (!IsLogin) return;
+            drugsRef.SetValue(drug.ToMap());
+        }
+
+        private void UploadFile()
+        {
+
+        }
 
         public override async Task<bool> LoginUserAsync(string username, string password)
         {
@@ -71,17 +77,31 @@ namespace MediAid.Droid
             return user!=null;
         }
 
-        public override void LoginUser(string username, string password)
-        {
-            var task = FirebaseAuth.Instance.SignInWithEmailAndPassword(username, password);
-            IsLogin = true;
-            InitDatabase();
-        }
+        //public override void SetData(string json, params string[] childs)
+        //{
+        //    var subDatabaseRef = databaseRef;
+        //    childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
+        //    subDatabaseRef?.SetValue(json);
+        //}
+        //public override void SetData(IDictionary dictionary, params string[] childs)
+        //{
+        //    var subDatabaseRef = databaseRef;
+        //    childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
+        //    subDatabaseRef?.SetValue(new HashMap(dictionary));
+        //}
+
+        //public override void LoginUser(string username, string password)
+        //{
+        //    var task = FirebaseAuth.Instance.SignInWithEmailAndPassword(username, password);
+        //    IsLogin = true;
+        //    InitDatabase();
+        //}
 
         public override async Task<bool> CreateUser(string username, string password)
         {
             throw new NotImplementedException();
         }
+
 
     }
 
@@ -90,11 +110,12 @@ namespace MediAid.Droid
         public static HashMap ToMap(this Reminder reminder)
         {
             HashMap map = new HashMap();
-            map.Put("Uid", reminder.ReminderId);
+            //map.Put("Uid", reminder.ReminderId);
             map.Put("Name", reminder.Name);
             map.Put("Hours", reminder.Hours);
             map.Put("IsEnabled", reminder.IsEnabled);
-            map.Put("TimeEnabled", reminder.TimeEnabled.ToLongTimeString());
+            map.Put("Time", reminder.Time.ToString());
+            //map.Put("TimeEnabled", reminder.TimeEnabled.ToLongTimeString());
 
             var list = new JavaList();
             reminder.Drugs.ForEach(drug => list.Add(drug.DatabaseId));
@@ -103,6 +124,54 @@ namespace MediAid.Droid
 
             return map;
         }
+
+        public static Reminder FromMapToReminder(HashMap map, int id)
+        {
+            return new Reminder { ReminderId = id,
+                Name = map.Get("Name").ToString(),
+                Hours = Convert.ToInt32(map.Get("Hours")),
+                IsEnabled = Boolean.Parse(map.Get("Name").ToString()),
+                Time = TimeSpan.Parse(map.Get("Time").ToString())
+            };
+        }
+
+        public static HashMap ToMap(this Drug drug)
+        {
+            HashMap map = new HashMap();
+            map.Put("Uid", drug.DatabaseId);
+            map.Put("Name", drug.Name);
+            //map.Put("TimeEnabled", reminder.TimeEnabled.ToLongTimeString());
+
+            return map;
+        }
+
     }
+
+    public class AndroidReminderFirebaseValueListener : IValueEventListener
+    {
+        public IntPtr Handle => throw new NotImplementedException();
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnCancelled(DatabaseError error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnDataChange(DataSnapshot snapshot)
+        {
+            HashMap map = snapshot.GetValue(true) as HashMap;
+            
+            foreach (MapEntry entry in map.EntrySet())
+            {
+                var reminder = Extensions.FromMapToReminder(entry.);
+            }
+
+        }
+    }
+
 
 }
