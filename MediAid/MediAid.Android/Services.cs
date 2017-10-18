@@ -22,6 +22,9 @@ namespace MediAid.Droid
         {
 
             public MediaPlayer MediaPlayer;
+            public NotificationManager notificationManager;
+
+            private const int notificationId = 0;
 
 
             public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
@@ -45,11 +48,11 @@ namespace MediAid.Droid
                     launchIntent.PutExtra("ReminderId", ReminderId);
                     notification.ContentIntent = PendingIntent.GetActivity(context, 0, launchIntent, 0);
 
-                    NotificationManager notificationManager =
+                    notificationManager =
                         context.GetSystemService(Context.NotificationService) as NotificationManager;
 
 
-                    const int notificationId = 0;
+                    
                     notificationManager.Notify(notificationId, notification);
 
 
@@ -65,7 +68,6 @@ namespace MediAid.Droid
 
             public override void OnDestroy()
             {
-                System.Diagnostics.Debug.WriteLine("Stop");
                 if (MediaPlayer != null)
                 {
                     System.Diagnostics.Debug.WriteLine("Stop");
@@ -73,6 +75,7 @@ namespace MediAid.Droid
                     MediaPlayer.Stop();
                     MediaPlayer.Reset();
                     MediaPlayer = null;
+                    notificationManager.Cancel(notificationId);
                 }
             }
 

@@ -30,13 +30,20 @@ namespace MediAid.ViewModels
             });
             //Remove drug
             MessagingCenter.Subscribe<PillDetails, Drug>(this, "RemoveDrug", (obj, drug) => {
-                Items.Remove(drug);
+                RemoveItem(drug);
             });
 
 
         }
 
+        /// <summary>
+        /// Sometime the drug object might not be the same so we have to remove via DatabaseID
+        /// </summary>
+        /// <param name="drug"></param>
+        public void RemoveByKey(Drug drug)
+        {
+            Items.Remove(Items.First(i => drug.DatabaseId==i.DatabaseId));
+        }
 
-        
     }
 }

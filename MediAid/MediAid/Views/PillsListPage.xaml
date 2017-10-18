@@ -6,10 +6,10 @@
         <ToolbarItem Text="Add Medication" Clicked="AddMedication_Clicked" />
     </ContentPage.ToolbarItems>
     <ListView ItemsSource="{Binding Items}"
-            ItemTapped="Handle_ItemTapped"
-               VerticalOptions="FillAndExpand"
-            HasUnevenRows="true"
-            CachingStrategy="RecycleElement"
+            ItemTapped="To_PillDetails"
+            VerticalOptions="FillAndExpand"
+             HasUnevenRows="true"
+             CachingStrategy="RecycleElement"
              ItemTemplate="{StaticResource PillsTemplate}">
 
     </ListView>

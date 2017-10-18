@@ -15,7 +15,7 @@
                         <Switch x:Name="Switch" IsToggled="{Binding Reminder.IsEnabled, Mode=TwoWay}" Toggled="Toggle_Reminder"/>
                     </StackLayout>
                     <ListView ItemsSource="{Binding Items}"
-                               ItemTapped="Handle_ItemTapped"
+                               ItemTapped="To_PillDetails"
                                VerticalOptions="FillAndExpand"
                                HasUnevenRows="true"
                                CachingStrategy="RecycleElement"

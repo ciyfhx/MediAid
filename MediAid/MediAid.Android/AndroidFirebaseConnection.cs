@@ -33,6 +33,8 @@ namespace MediAid.Droid
 
         private FirebaseUser user;
 
+        private AndroidFirebaseValueListener ValueListener;
+
         private void InitDatabase()
         {
             WriteLine("Initizating Database");
@@ -43,8 +45,32 @@ namespace MediAid.Droid
             remindersRef = databaseRef.Child("reminders");
             drugsRef = databaseRef.Child("drugs");
 
+            //Save drugs for later iteration of reminder
+            var listDrugs = new List<Drug>();
+
+
             //OnDataChange
-            remindersRef.AddValueEventListener(this);
+            ValueListener = new AndroidFirebaseValueListener();
+            ValueListener.AddDrug += (drug) =>
+            {
+                WriteLine(drug.Name);
+                MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddDrug", drug);
+                listDrugs.Add(drug);
+            };
+
+            ValueListener.AddReminder += (reminder, list) => 
+            {
+                WriteLine(reminder.Name);
+
+                //Loop through saved drugs
+                if(list!=null)
+                reminder.Drugs = listDrugs.Where(drug => list.Contains(drug.DatabaseId)).ToList();
+
+                MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddReminder", reminder);
+            };
+
+            remindersRef.AddValueEventListener(ValueListener);
+            drugsRef.AddValueEventListener(ValueListener);
 
 
         }
@@ -53,53 +79,51 @@ namespace MediAid.Droid
         public override void AddReminder(Reminder reminder)
         {
             if (!IsLogin) return; 
-            var reminderRef = remindersRef.Child(Convert.ToString(reminder.ReminderId));
+            var reminderRef = remindersRef.Child(reminder.ReminderId.ToString());
             reminderRef.SetValue(reminder.ToMap());
         }
 
         public override void AddDrug(Drug drug)
         {
             if (!IsLogin) return;
-            drugsRef.SetValue(drug.ToMap());
+            var drugRef = drugsRef.Child(drug.DatabaseId.ToString());
+            drugRef.SetValue(drug.ToMap());
+        }
+
+        public override void RemoveReminder(Reminder reminder)
+        {
+            if (!IsLogin) return;
+            remindersRef.Child(reminder.ReminderId.ToString()).RemoveValue();
+        }
+
+        public override void RemoveDrug(Drug drug)
+        {
+            if (!IsLogin) return;
+            drugsRef.Child(drug.DatabaseId.ToString()).RemoveValue();
         }
 
         private void UploadFile()
         {
-
+          
         }
 
         public override async Task<bool> LoginUserAsync(string username, string password)
         {
             IAuthResult result = await FirebaseAuth.Instance.SignInWithEmailAndPasswordAsync(username, password);
-            var user = result.User;
+            user = result.User;
             IsLogin = true;
             InitDatabase();
             return user!=null;
         }
 
-        //public override void SetData(string json, params string[] childs)
-        //{
-        //    var subDatabaseRef = databaseRef;
-        //    childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
-        //    subDatabaseRef?.SetValue(json);
-        //}
-        //public override void SetData(IDictionary dictionary, params string[] childs)
-        //{
-        //    var subDatabaseRef = databaseRef;
-        //    childs.ToList().ForEach(child => subDatabaseRef = subDatabaseRef.Child(child));
-        //    subDatabaseRef?.SetValue(new HashMap(dictionary));
-        //}
-
-        //public override void LoginUser(string username, string password)
-        //{
-        //    var task = FirebaseAuth.Instance.SignInWithEmailAndPassword(username, password);
-        //    IsLogin = true;
-        //    InitDatabase();
-        //}
-
         public override async Task<bool> CreateUser(string username, string password)
         {
             throw new NotImplementedException();
+        }
+
+        public override string GetEmail()
+        {
+            return user.Email;
         }
 
 
@@ -110,12 +134,10 @@ namespace MediAid.Droid
         public static HashMap ToMap(this Reminder reminder)
         {
             HashMap map = new HashMap();
-            //map.Put("Uid", reminder.ReminderId);
             map.Put("Name", reminder.Name);
             map.Put("Hours", reminder.Hours);
             map.Put("IsEnabled", reminder.IsEnabled);
             map.Put("Time", reminder.Time.ToString());
-            //map.Put("TimeEnabled", reminder.TimeEnabled.ToLongTimeString());
 
             var list = new JavaList();
             reminder.Drugs.ForEach(drug => list.Add(drug.DatabaseId));
@@ -125,20 +147,28 @@ namespace MediAid.Droid
             return map;
         }
 
-        public static Reminder FromMapToReminder(HashMap map, int id)
+        public static Reminder FromMapToReminder(IDictionary dictionary, int id)
         {
             return new Reminder { ReminderId = id,
-                Name = map.Get("Name").ToString(),
-                Hours = Convert.ToInt32(map.Get("Hours")),
-                IsEnabled = Boolean.Parse(map.Get("Name").ToString()),
-                Time = TimeSpan.Parse(map.Get("Time").ToString())
+                Name = dictionary["Name"].ToString(),
+                Hours = Convert.ToInt32(dictionary["Hours"]),
+                IsEnabled = Boolean.Parse(dictionary["IsEnabled"].ToString()),
+                Time = TimeSpan.Parse(dictionary["Time"].ToString())
+            };
+        }
+
+        public static Drug FromMapToDrug(IDictionary dictionary, int id)
+        {
+            return new Drug
+            {
+                DatabaseId = id,
+                Name = dictionary["Name"].ToString()
             };
         }
 
         public static HashMap ToMap(this Drug drug)
         {
             HashMap map = new HashMap();
-            map.Put("Uid", drug.DatabaseId);
             map.Put("Name", drug.Name);
             //map.Put("TimeEnabled", reminder.TimeEnabled.ToLongTimeString());
 
@@ -147,30 +177,44 @@ namespace MediAid.Droid
 
     }
 
-    public class AndroidReminderFirebaseValueListener : IValueEventListener
+    public class AndroidFirebaseValueListener : Java.Lang.Object, IValueEventListener
     {
-        public IntPtr Handle => throw new NotImplementedException();
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        public event Action<Reminder, JavaList> AddReminder;
+        public event Action<Drug> AddDrug;
+
+        //public delegate void OnReminderAdd(Reminder reminder);
 
         public void OnCancelled(DatabaseError error)
         {
-            throw new NotImplementedException();
+            WriteLine(error.Message);
         }
 
         public void OnDataChange(DataSnapshot snapshot)
-        {
-            HashMap map = snapshot.GetValue(true) as HashMap;
-            
-            foreach (MapEntry entry in map.EntrySet())
+        { 
+            string refName = snapshot.Ref.Key;
+            var refDictionary = snapshot.Value as JavaDictionary;
+            if (refDictionary == null) return;
+            if (refName.Equals("reminders"))
             {
-                var reminder = Extensions.FromMapToReminder(entry.);
+                foreach (DictionaryEntry item in refDictionary)
+                {
+                    JavaDictionary dictionary = item.Value as JavaDictionary;
+                    //WriteLine(dictionary[""]);
+                    AddReminder(Extensions.FromMapToReminder(dictionary, Convert.ToInt32(item.Key)), dictionary["Drugs"] as JavaList);
+                }
             }
-
+            else if (refName.Equals("drugs"))
+            {
+                foreach (DictionaryEntry item in refDictionary)
+                {
+                    JavaDictionary dictionary = item.Value as JavaDictionary;
+                    //WriteLine(dictionary[""]);
+                    AddDrug(Extensions.FromMapToDrug(dictionary, Convert.ToInt32(item.Key)));
+                }
+            }
         }
+
     }
 
 

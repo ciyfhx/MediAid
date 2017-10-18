@@ -36,12 +36,19 @@ namespace MediAid.Views
 
         }
 
-         void Handle_ItemTapped(object sender, SelectedItemChangedEventArgs e)
+        async void To_PillDetails(object sender, SelectedItemChangedEventArgs e)
         {
+            if (e.SelectedItem == null)
+                return;
 
+            //await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            await Navigation.PushAsync(new PillDetails(e.SelectedItem as Drug));
+
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
         }
 
-         void Play_Reminder(object sender, EventArgs e)
+        void Play_Reminder(object sender, EventArgs e)
         {
             App.audioHandler.PlayRecording($"{viewModel.Reminder.RecordId}.3gpp");
 

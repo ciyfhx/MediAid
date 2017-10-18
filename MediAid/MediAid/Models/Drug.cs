@@ -61,17 +61,19 @@ namespace MediAid.Models
             get
             {
 
-                yield return Pill;
-                yield return Tablet;
-                yield return Capsule;
-                yield return Liquid;
+                yield return Pills;
+                //yield return Tablet;
+                yield return Inhaler;
+                yield return Capsules;
+                yield return Syrup;
             }
         }
 
-        public static readonly DrugType Pill = new DrugType("Pill", 0);
-        public static readonly DrugType Tablet = new DrugType("Tablet", 1);
-        public static readonly DrugType Capsule = new DrugType("Capsule", 2);
-        public static readonly DrugType Liquid = new DrugType("Liquid", 3);
+        public static readonly DrugType Pills = new DrugType("Pills", 0);
+        //public static readonly DrugType Tablet = new DrugType("Tablet", 1);
+        public static readonly DrugType Inhaler = new DrugType("Inhaler", 1);
+        public static readonly DrugType Capsules = new DrugType("Capsules", 2);
+        public static readonly DrugType Syrup = new DrugType("Syrup", 3);
 
         private string name;
         private short id;
@@ -90,6 +92,14 @@ namespace MediAid.Models
         {
             return Name;
         }
+
+        public static DrugType FromString(string name)
+        {
+            return Values.First(drug => drug.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            //foreach (var drug in Values) if (drug.Name.ToLower().Equals(name)) return drug;
+            //return default(DrugType);
+        }
+
 
     }
 

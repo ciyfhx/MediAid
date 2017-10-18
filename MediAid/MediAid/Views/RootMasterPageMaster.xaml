@@ -23,6 +23,11 @@
           </Grid.RowDefinitions>
           <Label
               Grid.Column="1"
+              Grid.Row="1"
+              Text="{Binding Email}"
+              Style="{DynamicResource SubtitleStyle}"/>
+           <Label
+              Grid.Column="1"
               Grid.Row="2"
               Text="MediAid"
               Style="{DynamicResource SubtitleStyle}"/>

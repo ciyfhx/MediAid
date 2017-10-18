@@ -61,14 +61,14 @@ namespace MediAid
             //Set the settings
             settings = StoreDictionaryHandler.db.Table<Settings>().First();
 
-            //Testing
-            Reminders.GetItems().ToList().ForEach(pair =>
-            {
-                Debug.WriteLine($"TEST {pair.Key}, {pair.Value}");
-                pair.Key.Drugs = App.StoreDictionaryHandler.db.GetWithChildren<Reminder>(pair.Key.ReminderId).Drugs;
-                Debug.WriteLine($"{pair.Key.ToJson()}");
+            ////Testing
+            //Reminders.GetItems().ToList().ForEach(pair =>
+            //{
+            //    Debug.WriteLine($"TEST {pair.Key}, {pair.Value}");
+            //    pair.Key.Drugs = App.StoreDictionaryHandler.db.GetWithChildren<Reminder>(pair.Key.ReminderId).Drugs;
+            //    Debug.WriteLine($"{pair.Key.ToJson()}");
 
-            });
+            //});
             InitAudioHandler();
 
             MainPage = new StartPage();

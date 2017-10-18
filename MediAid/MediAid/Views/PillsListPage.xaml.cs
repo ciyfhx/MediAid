@@ -32,7 +32,7 @@ namespace MediAid.Views
         }
 
 
-        async void Handle_ItemTapped(object sender, SelectedItemChangedEventArgs e)
+        async void To_PillDetails(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
                 return;

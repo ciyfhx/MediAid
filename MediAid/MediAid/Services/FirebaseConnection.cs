@@ -22,6 +22,10 @@ namespace MediAid.Services
         //public abstract void SetData(IDictionary dictionary, params string[] childs);
         public abstract void AddReminder(Reminder reminder);
         public abstract void AddDrug(Drug drug);
+        public abstract void RemoveReminder(Reminder reminder);
+        public abstract void RemoveDrug(Drug drug);
+
+        public abstract string GetEmail();
 
     }
 

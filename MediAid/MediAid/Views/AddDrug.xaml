@@ -15,7 +15,7 @@
                         <Label Text="Medication Name" FontSize="Medium" />
                         <Entry Text="{Binding Drug.Name, Mode=TwoWay}" FontSize="Small" />
                         <Label Text="Type" FontSize="Medium" />
-                        <Picker SelectedItem="{Binding DrugTypeName, Mode=TwoWay}" ItemsSource="{Binding DrugTypeValues, Converter={StaticResource DrugTypeValuesConverter}}">
+                        <Picker x:Name="DrugsPicker" SelectedItem="{Binding DrugTypeName, Mode=TwoWay}" ItemsSource="{Binding DrugTypeValues, Converter={StaticResource DrugTypeValuesConverter}}">
                         </Picker>
                         <Button Text="Take a Picture" Clicked="Take_PictureAsync" BackgroundColor="{StaticResource Primary}" TextColor="White">
                         </Button>

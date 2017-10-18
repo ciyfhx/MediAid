@@ -33,13 +33,18 @@ namespace MediAid.Views
         class RootMasterPageMasterViewModel : INotifyPropertyChanged
         {
             public ObservableCollection<RootMasterPageMenuItem> MenuItems { get; set; }
-            
+
+            //Email
+            public string Email { get; set; } = App.firebase.GetEmail();
+
+
             public RootMasterPageMasterViewModel()
             {
                 MenuItems = new ObservableCollection<RootMasterPageMenuItem> {
                     new MainPage { Id = 0, Title = "Medications" },
                     //new RootMasterPageMenuItem { Id = 1, Title = "Settings" },
                 };
+
             }
             
             #region INotifyPropertyChanged Implementation
