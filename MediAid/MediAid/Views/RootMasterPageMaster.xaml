@@ -26,7 +26,8 @@
               Grid.Row="1"
               Text="{Binding Email}"
               Style="{DynamicResource SubtitleStyle}"/>
-           <Label
+                    <Image Source="{Binding ProfilePic}"/>
+          <Label
               Grid.Column="1"
               Grid.Row="2"
               Text="MediAid"

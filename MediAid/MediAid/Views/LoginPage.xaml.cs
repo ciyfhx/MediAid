@@ -1,4 +1,5 @@
-﻿using MediAid.Services;
+﻿using Firebase.Auth;
+using MediAid.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -73,9 +74,16 @@ namespace MediAid.Views
 
         private async Task<bool> LoginAsync(string username, string password)
         {
-            bool connected = await App.firebase.LoginUserAsync(username, password);
-            return connected;
-
+            try
+            {
+                bool connected = await App.firebase.LoginUserAsync(username, password);
+                return connected;
+            }
+            catch(FirebaseAuthInvalidCredentialsException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            return false;
         }
 
 

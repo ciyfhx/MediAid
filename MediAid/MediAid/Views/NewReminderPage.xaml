@@ -17,7 +17,8 @@
                         <Slider Maximum="24" Minimum="1"  Value="{Binding Reminder.Hours, Mode=TwoWay}">
                         </Slider>
 
-                     
+                        <Label Text="Starting Time" FontSize="Medium"/>
+                        <TimePicker Time="{Binding Reminder.Time}"/>
 
                     </StackLayout>
                 </Frame>

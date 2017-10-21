@@ -37,12 +37,16 @@ namespace MediAid.Views
             //Email
             public string Email { get; set; } = App.firebase.GetEmail();
 
+            public Image ProfilePic { get; set; }
+
+
 
             public RootMasterPageMasterViewModel()
             {
                 MenuItems = new ObservableCollection<RootMasterPageMenuItem> {
-                    new MainPage { Id = 0, Title = "Medications" },
+                    new MainPageMenuItem { Id = 0, Title = "Medications" },
                     //new RootMasterPageMenuItem { Id = 1, Title = "Settings" },
+                    new LogOutPageMenuItem { Id = 2, Title = "Log Out" }
                 };
 
             }
@@ -51,10 +55,7 @@ namespace MediAid.Views
             public event PropertyChangedEventHandler PropertyChanged;
             void OnPropertyChanged([CallerMemberName] string propertyName = "")
             {
-                if (PropertyChanged == null)
-                    return;
-
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
             #endregion
         }

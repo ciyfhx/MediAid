@@ -22,8 +22,6 @@
                                ItemTemplate="{StaticResource PillsTemplate}">
 
                     </ListView>
-                    <Label Text="Starting Time" FontSize="Medium"/>
-                    <TimePicker Time="{Binding Reminder.Time}"/>
 
                 </StackLayout>
             </Frame>

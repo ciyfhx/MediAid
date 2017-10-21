@@ -88,7 +88,7 @@ namespace MediAid.Views
 
         private async Task<Predictions> SendImageForPredictionAsync(string file)
         {
-            WebRequest webrequest = WebRequest.Create(new Uri(""));
+            WebRequest webrequest = WebRequest.Create(new Uri("http://220.255.167.114:80"));
             webrequest.ContentType = "application/x-www-form-urlencoded";
             webrequest.Method = "POST";
 

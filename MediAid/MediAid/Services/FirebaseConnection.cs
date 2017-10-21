@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MediAid.Services
 {
@@ -15,6 +16,7 @@ namespace MediAid.Services
         public event OnRemindersUpdate ReminderUpdate;
 
         public abstract Task<bool> CreateUser(string username, string password);
+        public abstract void SignOut();
         public abstract Task<bool> LoginUserAsync(string username, string password);
         //public abstract  void LoginUser(string username, string password);
 
@@ -26,6 +28,7 @@ namespace MediAid.Services
         public abstract void RemoveDrug(Drug drug);
 
         public abstract string GetEmail();
+        public abstract Image GetProfilePicture();
 
     }
 

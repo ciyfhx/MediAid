@@ -51,9 +51,13 @@ namespace MediAid.Droid
             int cHours = (diffHours < 0) ? (24 + diffHours) : diffHours;
             int cMins = (diffMins < 0) ? (24 + diffMins) : diffMins;
 
-            //long millis = ((cHours + reminder.Hours) * 1000 * 60 * 60) + (diffMins * 60 * 1000);
-            //Test
+#if DEBUG
             long millis = 1000*5;
+            
+#else
+            //Test
+            long millis = ((cHours + reminder.Hours) * 1000 * 60 * 60) + (diffMins * 60 * 1000);
+#endif
 
             alarmManager.SetExactAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, millis, pendingIntent);
 

@@ -41,7 +41,6 @@ namespace MediAid.Views
             if (e.SelectedItem == null)
                 return;
 
-            //await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
             await Navigation.PushAsync(new PillDetails(e.SelectedItem as Drug));
 
             //Deselect Item

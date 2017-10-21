@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 
 namespace MediAid.Views
 {
-    public class MainPage : RootMasterPageMenuItem
+    public class MainPageMenuItem : RootMasterPageMenuItem
     {
         public override Page CreatePage()
         {
@@ -34,4 +34,14 @@ namespace MediAid.Views
             };
         }
     }
+
+    public class LogOutPageMenuItem : RootMasterPageMenuItem
+    {
+        public override Page CreatePage()
+        {
+            App.Current.MainPage = new LogOutPage();
+            return null;
+        }
+    }
+
 }

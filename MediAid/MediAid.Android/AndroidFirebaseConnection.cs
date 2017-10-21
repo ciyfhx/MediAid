@@ -116,6 +116,13 @@ namespace MediAid.Droid
             return user!=null;
         }
 
+        public override void SignOut()
+        {
+            if (user == null) throw new InvalidOperationException("Not Login");
+            FirebaseAuth.Instance.SignOut();
+            IsLogin = false;
+        }
+
         public override async Task<bool> CreateUser(string username, string password)
         {
             throw new NotImplementedException();
@@ -126,7 +133,12 @@ namespace MediAid.Droid
             return user.Email;
         }
 
-
+        public override Image GetProfilePicture()
+        {
+            return new Image {
+                Source = ImageSource.FromUri(new Uri(user.PhotoUrl.ToString()))
+            };
+        }
     }
 
     static class Extensions

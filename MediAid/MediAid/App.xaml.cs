@@ -72,6 +72,7 @@ namespace MediAid
             InitAudioHandler();
 
             MainPage = new StartPage();
+            //MainPage = new ContentPage();
 
         }
 
@@ -84,6 +85,7 @@ namespace MediAid
             audioHandler.Init(path);
 
         }
+
 
 
 

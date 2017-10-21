@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,21 +8,12 @@ using System.Diagnostics;
 
 namespace MediAid.Views
 {
-    public  partial class StartPage : LoadingPage
+    public class StartPage : LoadingPage
     {
 
-        public StartPage() : base()
-        {
-            
-        }
+        public StartPage() : base() => this.LoadingText = "Welcome to MediAid, Your own medications reminder.";
 
-        public override void LoadingTask()
-        {
-
-        }
-
-
-        public async void SetPage_AndLogin()
+        public async override void LoadingTask()
         {
             var firebase = App.firebase;
             var settings = App.Settings;
@@ -43,7 +34,7 @@ namespace MediAid.Views
                     //Let the Login Page handle the login
                     App.Current.MainPage = new NavigationPage(new LoginPage());
                     //Navigation.PushAsync(new LoginPage());
-                    
+
                 }
 
             }
@@ -53,6 +44,20 @@ namespace MediAid.Views
             //    await firebase.LoginUserAsync(settings.Username, settings.Password);
             //}
         }
-
     }
+
+    public class LogOutPage : LoadingPage
+    {
+        public LogOutPage() : base() => this.LoadingText = "Logging Out";
+
+        public override void LoadingTask() {
+            App.firebase.SignOut();
+            App.Settings.FirstLogin = false;
+
+            //To Login Page
+            App.Current.MainPage = new StartPage();
+
+        }
+    }
+
 }

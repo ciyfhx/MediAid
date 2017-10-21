@@ -34,10 +34,13 @@ namespace MediAid.Views
         private void SetPage(RootMasterPageMenuItem item)
         {
             var page = item.CreatePage();
-            page.Title = item.Title;
+            if (page != null)
+            {
+                page.Title = item.Title;
 
-            Detail = new NavigationPage(page);
-            IsPresented = false;
+                Detail = new NavigationPage(page);
+                IsPresented = false;
+            }
 
             MasterPage.ListView.SelectedItem = null;
         }

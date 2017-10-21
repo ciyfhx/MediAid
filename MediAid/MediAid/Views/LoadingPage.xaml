@@ -1,12 +1,12 @@
 ﻿<ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="MediAid.Views.StartPage"
+    x:Class="MediAid.Views.LoadingPage"
     xmlns:local="using:MediAid.Views">
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15" VerticalOptions="CenterAndExpand">
-            <Label HorizontalTextAlignment="Center" FontSize="Large" TextColor="Black"  Text="{Binding WelcomeText}" />
+            <Label HorizontalTextAlignment="Center" FontSize="Large" TextColor="Black"  Text="{Binding LoadingText, Mode=TwoWay}" />
             <ActivityIndicator Color="{StaticResource Primary}" IsRunning="true" />
         </StackLayout>
 
