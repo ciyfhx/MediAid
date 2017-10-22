@@ -8,7 +8,7 @@
         <ToolbarItem Text="Save" Clicked="Save"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView >
+        <ScrollView>
             <StackLayout Spacing="20" Padding="15">
                 <Frame>
                     <StackLayout Spacing="20" Padding="15">

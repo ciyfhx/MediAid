@@ -11,7 +11,7 @@
                 <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Password" />
                 <Label x:Name="Warning" FontSize="Small" TextColor="Red"/>
                 <Button Text="Login" Clicked="Login_ToFirebase"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
-
+                <Label x:Name="CreateAccountLbl" FontSize="Small" Text="Create account" TextColor="Blue"/>
             </StackLayout>
         </Frame>
     </ContentPage.Content>

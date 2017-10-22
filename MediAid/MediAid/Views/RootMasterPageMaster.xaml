@@ -21,16 +21,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
           </Grid.RowDefinitions>
-          <Label
-              Grid.Column="1"
-              Grid.Row="1"
-              Text="{Binding Email}"
-              Style="{DynamicResource SubtitleStyle}"/>
-                    <Image Source="{Binding ProfilePic}"/>
-          <Label
+              <Image
+                  Grid.Column="1"
+                  Grid.Row="1"
+                  Aspect="AspectFit" Source="{Binding ProfilePicture}" HeightRequest="40" WidthRequest="40"/>
+              <Label
               Grid.Column="1"
               Grid.Row="2"
-              Text="MediAid"
+              
+              HorizontalTextAlignment="Center" 
+              Text="{Binding Email}"
               Style="{DynamicResource SubtitleStyle}"/>
         </Grid>
       </ListView.Header>
@@ -41,7 +41,7 @@
               <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
                     Text="{Binding Title}" 
-                    FontSize="24"/>
+                    FontSize="16"/>
             </StackLayout>
           </ViewCell>
         </DataTemplate>

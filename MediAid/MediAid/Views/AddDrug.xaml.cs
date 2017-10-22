@@ -26,9 +26,11 @@ namespace MediAid.Views
 
         public AddDrug()
         {
+            
+            BindingContext = viewModel = new AddDrugViewModel();
+
             InitializeComponent();
 
-            BindingContext = viewModel = new AddDrugViewModel();
 
         }
 

@@ -28,7 +28,7 @@ namespace MediAid.Services
         public abstract void RemoveDrug(Drug drug);
 
         public abstract string GetEmail();
-        public abstract Image GetProfilePicture();
+        public abstract string GetProfilePicture();
 
     }
 

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MediAid.Views.CreateAccountPage"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Next" Clicked="Next"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="10" Padding="15" >
+                <Label x:Name="PasswordError" IsVisible="False" TextColor="Red" FontSize="Small"/>
+                <Image Source="{Binding ProfilePicture}" Aspect="AspectFit"/>
+                <Label Text="Email:" />
+                <Entry Text="{Binding Email}" Placeholder="Email"/>
+                <Label Text="Password:" />
+                <Entry Text="{Binding Password}"  IsPassword="True" Placeholder="Password" TextChanged="ValidatePassword"/>
+                <Label Text="Confirm Password:" />
+                <Entry Text="{Binding ConfirmPassword}" IsPassword="True" Placeholder="Confirm Password" TextChanged="ValidatePassword"/>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+
+</ContentPage>

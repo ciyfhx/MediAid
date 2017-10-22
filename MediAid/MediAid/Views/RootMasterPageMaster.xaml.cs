@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -35,9 +36,12 @@ namespace MediAid.Views
             public ObservableCollection<RootMasterPageMenuItem> MenuItems { get; set; }
 
             //Email
-            public string Email { get; set; } = App.firebase.GetEmail();
+            public string Email { get;  } = App.firebase.GetEmail();
 
-            public Image ProfilePic { get; set; }
+            public ImageSource ProfilePicture { get {
+                    string uri = App.firebase.GetProfilePicture();
+                    return !String.IsNullOrEmpty(uri) ? ImageSource.FromUri(new Uri(uri)) : ImageSource.FromResource("profile.jpg");
+                } }
 
 
 
@@ -46,7 +50,7 @@ namespace MediAid.Views
                 MenuItems = new ObservableCollection<RootMasterPageMenuItem> {
                     new MainPageMenuItem { Id = 0, Title = "Medications" },
                     //new RootMasterPageMenuItem { Id = 1, Title = "Settings" },
-                    new LogOutPageMenuItem { Id = 2, Title = "Log Out" }
+                    new LogOutPageMenuItem { Id = 2, Title = "Logout" }
                 };
 
             }

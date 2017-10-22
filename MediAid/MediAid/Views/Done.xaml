@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MediAid.Views.Done">
+    <ContentPage.Content>
+        <StackLayout  Spacing="20" Padding="15" VerticalOptions="CenterAndExpand">
+            <Label HorizontalTextAlignment="Center" FontSize="Large" TextColor="Black"  Text="{Binding Text, Mode=TwoWay}" />
+            <Button Text="Done" Clicked="OnClickTask"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

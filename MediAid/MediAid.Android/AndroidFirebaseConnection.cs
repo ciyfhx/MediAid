@@ -20,6 +20,7 @@ using System.Collections;
 using Java.Util;
 using MediAid.Models;
 using static System.Diagnostics.Debug;
+using Android.Content.Res;
 
 [assembly: Dependency(typeof(AndroidFirebaseConnection))]
 namespace MediAid.Droid
@@ -125,7 +126,11 @@ namespace MediAid.Droid
 
         public override async Task<bool> CreateUser(string username, string password)
         {
-            throw new NotImplementedException();
+            IAuthResult result = await FirebaseAuth.Instance.CreateUserWithEmailAndPasswordAsync(username, password);
+            var tuser = result.User;
+            tuser.SendEmailVerification();
+
+            return tuser != null;
         }
 
         public override string GetEmail()
@@ -133,11 +138,9 @@ namespace MediAid.Droid
             return user.Email;
         }
 
-        public override Image GetProfilePicture()
+        public override string GetProfilePicture()
         {
-            return new Image {
-                Source = ImageSource.FromUri(new Uri(user.PhotoUrl.ToString()))
-            };
+            return user.PhotoUrl?.ToString();
         }
     }
 

@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\FirebaseConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoadDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TakeCameraPicture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CreateAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddDrugViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FirebaseOrLocalStorageLoadData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ReminderDrugsListPage.cs" />
@@ -50,6 +51,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AddDrug.xaml.cs">
       <DependentUpon>AddDrug.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CreateAccountPage.xaml.cs">
+      <DependentUpon>CreateAccountPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Done.xaml.cs">
+      <DependentUpon>Done.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\LoadingPage.xaml.cs">
@@ -156,5 +165,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CreateAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Done.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\profile.jpg">
+	<LogicalName>profile.jpg</LogicalName>
+	</EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
 </Project>

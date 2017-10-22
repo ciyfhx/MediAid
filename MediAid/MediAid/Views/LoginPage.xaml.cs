@@ -27,12 +27,21 @@ namespace MediAid.Views
         public LoginPage ()
 		{
 
-
+            
             Title = "Login";
 
 			InitializeComponent ();
 
             BindingContext = this;
+
+            //Hyperlink
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (s, e) =>
+            {
+                Navigation.PushAsync(new CreateAccountPage());
+            };
+            CreateAccountLbl.GestureRecognizers.Add(tap);
+
 
 
 		}
