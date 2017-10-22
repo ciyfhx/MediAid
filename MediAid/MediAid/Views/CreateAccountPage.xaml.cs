@@ -1,5 +1,4 @@
-﻿using Firebase.Auth;
-using MediAid.ViewModels;
+﻿using MediAid.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,18 +18,17 @@ namespace MediAid.Views
 
 		public CreateAccountPage ()
 		{
-
             this.BindingContext = viewModel = new CreateAccountViewModel();
 
             InitializeComponent ();
-
-
 		}
 
         public static bool ValidatePasswordLength(string password) => password?.Length > 8;
         public static bool? ValidateConfirmPassword(string password, string confirmPassword) => password?.Equals(confirmPassword);
 
-        private void ValidatePassword(object sender, TextChangedEventArgs e)
+        private void ValidatePassword(object sender, TextChangedEventArgs e) => Validation();
+
+        private bool Validation()
         {
             string password = viewModel.Password;
             bool validationLength = ValidatePasswordLength(password);
@@ -45,11 +43,12 @@ namespace MediAid.Views
             if (validationConfirmPassword.HasValue && !validationConfirmPassword.Value) StringAppend(ref text, "Password and confirm password are not the same!");
 
             PasswordError.Text = text;
-            PasswordError.IsVisible = !validationLength || (validationConfirmPassword.HasValue && !validationConfirmPassword.Value);
 
+            bool val = !validationLength || (validationConfirmPassword.HasValue && !validationConfirmPassword.Value);
 
+            PasswordError.IsVisible = val;
+            return !val;
         }
-
 
 
         public string StringAppend(ref string val, string append)
@@ -60,12 +59,13 @@ namespace MediAid.Views
 
         private async void Next(object sender, EventArgs e)
         {
+            if (!Validation()) return;
             try
             {
                 bool done = await App.firebase.CreateUser(viewModel.Email, viewModel.Password);
                 if (done) await Navigation.PushModalAsync(new ToLoginDone());
             }
-            catch(FirebaseAuthUserCollisionException)
+            catch(Exception)
             {
                 PasswordError.Text = "Account already exists";
                 PasswordError.IsVisible = true;
@@ -79,7 +79,7 @@ namespace MediAid.Views
 
         public ToLoginDone() : base() => this.Text = "User Created!";
 
-        public override async void OnClickTask(object sender, EventArgs e)
+        public override void OnClickTask(object sender, EventArgs e)
         {
             //Cannot work
             //await Navigation.PopToRootAsync();

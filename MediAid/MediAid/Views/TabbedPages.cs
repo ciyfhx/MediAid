@@ -43,5 +43,13 @@ namespace MediAid.Views
             return null;
         }
     }
+    public class SettingsPageMenuItem : RootMasterPageMenuItem
+    {
+        public override Page CreatePage()
+        {
+            return new SettingsPage();
+        }
+    }
+
 
 }

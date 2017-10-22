@@ -53,6 +53,7 @@ namespace MediAid.Views
         public override void LoadingTask() {
             App.firebase.SignOut();
             App.Settings.FirstLogin = false;
+            App.Settings.DeleteCredentials();
 
             //To Login Page
             App.Current.MainPage = new StartPage();

@@ -32,6 +32,11 @@ namespace MediAid.ViewModels
             MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "RemoveReminder", (obj, reminder) => {
                 RemoveItem(reminder);
             });
+
+            //Clear reminder
+            MessagingCenter.Subscribe<SettingsPage>(this, "ClearReminder", (obj) => {
+                Items.Clear();
+            });
         }
 
         public override List<Reminder> GetData()

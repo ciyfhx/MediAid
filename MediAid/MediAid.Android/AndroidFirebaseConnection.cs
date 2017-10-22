@@ -21,6 +21,8 @@ using Java.Util;
 using MediAid.Models;
 using static System.Diagnostics.Debug;
 using Android.Content.Res;
+using Firebase.Storage;
+using System.IO;
 
 [assembly: Dependency(typeof(AndroidFirebaseConnection))]
 namespace MediAid.Droid
@@ -31,6 +33,8 @@ namespace MediAid.Droid
 
         private FirebaseDatabase database;
         private DatabaseReference databaseRef, remindersRef, drugsRef;
+        private FirebaseStorage storage;
+        private StorageReference storageRef, sRemindersRef, sDrugsRef;
 
         private FirebaseUser user;
 
@@ -46,8 +50,13 @@ namespace MediAid.Droid
             remindersRef = databaseRef.Child("reminders");
             drugsRef = databaseRef.Child("drugs");
 
+            storage = FirebaseStorage.Instance;
+            storageRef = storage.GetReferenceFromUrl("gs://mediaid-79290.appspot.com").Child("users").Child(user.Uid);
+            sRemindersRef = storageRef.Child("reminders");
+            sDrugsRef = storageRef.Child("drugs");
+
             //Save drugs for later iteration of reminder
-            var listDrugs = new List<Drug>();
+            //var listDrugs = new List<Drug>();
 
 
             //OnDataChange
@@ -55,8 +64,9 @@ namespace MediAid.Droid
             ValueListener.AddDrug += (drug) =>
             {
                 WriteLine(drug.Name);
-                MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddDrug", drug);
-                listDrugs.Add(drug);
+                drug.ImageFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), drug.DatabaseId + ".jpg");
+                //MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddDrug", drug);
+                drugs.Add(drug);
             };
 
             ValueListener.AddReminder += (reminder, list) => 
@@ -65,9 +75,10 @@ namespace MediAid.Droid
 
                 //Loop through saved drugs
                 if(list!=null)
-                reminder.Drugs = listDrugs.Where(drug => list.Contains(drug.DatabaseId)).ToList();
+                reminder.Drugs = drugs.Where(drug => list.Contains(drug.DatabaseId)).ToList();
 
-                MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddReminder", reminder);
+                reminders.Add(reminder);
+                //MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddReminder", reminder);
             };
 
             remindersRef.AddValueEventListener(ValueListener);
@@ -82,6 +93,11 @@ namespace MediAid.Droid
             if (!IsLogin) return; 
             var reminderRef = remindersRef.Child(reminder.ReminderId.ToString());
             reminderRef.SetValue(reminder.ToMap());
+
+            var sReminderRef = sRemindersRef.Child(reminder.ReminderId.ToString());
+
+            sReminderRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(Path.Combine(App.audioHandler.RecordingPath, reminder.RecordId + ".3gpp"))));
+
         }
 
         public override void AddDrug(Drug drug)
@@ -89,23 +105,25 @@ namespace MediAid.Droid
             if (!IsLogin) return;
             var drugRef = drugsRef.Child(drug.DatabaseId.ToString());
             drugRef.SetValue(drug.ToMap());
+
+            var sDrugRef = sDrugsRef.Child(drug.DatabaseId.ToString());
+
+            sDrugRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile)));
+
         }
 
         public override void RemoveReminder(Reminder reminder)
         {
             if (!IsLogin) return;
             remindersRef.Child(reminder.ReminderId.ToString()).RemoveValue();
+            sRemindersRef.Child(reminder.ReminderId.ToString());
         }
 
         public override void RemoveDrug(Drug drug)
         {
             if (!IsLogin) return;
             drugsRef.Child(drug.DatabaseId.ToString()).RemoveValue();
-        }
-
-        private void UploadFile()
-        {
-          
+            sDrugsRef.Child(drug.DatabaseId.ToString()).Delete();
         }
 
         public override async Task<bool> LoginUserAsync(string username, string password)
@@ -142,6 +160,20 @@ namespace MediAid.Droid
         {
             return user.PhotoUrl?.ToString();
         }
+
+        public override bool IsAccountVerified()
+        {
+            if (user == null) throw new InvalidOperationException("Not Login");
+            return user.IsEmailVerified;
+        }
+
+        public void RedownloadFiles()
+        {
+            drugs.ForEach(drug => sDrugsRef.Child(drug.DatabaseId.ToString()).GetFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile))));
+            reminders.ForEach(reminder => sDrugsRef.Child(reminder.ReminderId.ToString()).GetFile(Android.Net.Uri.FromFile(new Java.IO.File(Path.Combine(App.audioHandler.RecordingPath, reminder.RecordId + ".3gpp")))));
+
+        }
+
     }
 
     static class Extensions

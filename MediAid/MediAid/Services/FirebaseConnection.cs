@@ -11,6 +11,8 @@ namespace MediAid.Services
     public abstract class FirebaseConnection
     {
 
+        public List<Drug> drugs = new List<Drug>();
+        public List<Reminder> reminders = new List<Reminder>();
 
         public bool IsLogin { get; set; } = false;
         public event OnRemindersUpdate ReminderUpdate;
@@ -29,6 +31,7 @@ namespace MediAid.Services
 
         public abstract string GetEmail();
         public abstract string GetProfilePicture();
+        public abstract bool IsAccountVerified();
 
     }
 

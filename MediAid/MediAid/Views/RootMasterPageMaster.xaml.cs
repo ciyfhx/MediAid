@@ -29,6 +29,7 @@ namespace MediAid.Views
             BindingContext = viewModel = new RootMasterPageMasterViewModel();
 
             ListView = MenuItemsListView;
+            
         }
 
         class RootMasterPageMasterViewModel : INotifyPropertyChanged
@@ -38,10 +39,11 @@ namespace MediAid.Views
             //Email
             public string Email { get;  } = App.firebase.GetEmail();
 
+            //Profile Picture
             public ImageSource ProfilePicture { get {
                     string uri = App.firebase.GetProfilePicture();
                     return !String.IsNullOrEmpty(uri) ? ImageSource.FromUri(new Uri(uri)) : ImageSource.FromResource("profile.jpg");
-                } }
+             } }
 
 
 
@@ -49,7 +51,7 @@ namespace MediAid.Views
             {
                 MenuItems = new ObservableCollection<RootMasterPageMenuItem> {
                     new MainPageMenuItem { Id = 0, Title = "Medications" },
-                    //new RootMasterPageMenuItem { Id = 1, Title = "Settings" },
+                    new SettingsPageMenuItem { Id = 1, Title = "Settings" },
                     new LogOutPageMenuItem { Id = 2, Title = "Logout" }
                 };
 

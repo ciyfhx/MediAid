@@ -2,13 +2,15 @@
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
     "Newtonsoft.Json": "10.0.3",
+    "PCLCrypto": "2.0.147",
     "sqlite-net-pcl": "1.3.1",
     "SQLiteNetExtensions": "2.0.0-alpha1",
     "Xam.Plugin.Media": "3.0.1",
+    "Xamarin.Auth": "1.5.0.3",
     "Xamarin.Forms": "2.3.4.247"
   },
   "frameworks": {
-    "uap10.0": {}
+    "uap10.0.10586": {}
   },
   "runtimes": {
     "win10-arm": {},

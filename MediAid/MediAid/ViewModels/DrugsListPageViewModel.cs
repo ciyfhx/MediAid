@@ -32,7 +32,10 @@ namespace MediAid.ViewModels
             MessagingCenter.Subscribe<PillDetails, Drug>(this, "RemoveDrug", (obj, drug) => {
                 RemoveItem(drug);
             });
-
+            //Clear drug
+            MessagingCenter.Subscribe<SettingsPage>(this, "ClearDrug", (obj) => {
+                Items.Clear();
+            });
 
         }
 
