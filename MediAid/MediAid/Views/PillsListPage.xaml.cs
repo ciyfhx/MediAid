@@ -34,14 +34,16 @@ namespace MediAid.Views
 
         async void To_PillDetails(object sender, SelectedItemChangedEventArgs e)
         {
-            if (e.SelectedItem == null)
+            ListView listView = (ListView)sender;
+            if (listView.SelectedItem == null)
                 return;
 
+
             //await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
-            await Navigation.PushAsync(new PillDetails(e.SelectedItem as Drug));
+            await Navigation.PushAsync(new PillDetails(listView.SelectedItem as Drug));
 
             //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            listView.SelectedItem = null;
         }
 
         protected override void OnAppearing()

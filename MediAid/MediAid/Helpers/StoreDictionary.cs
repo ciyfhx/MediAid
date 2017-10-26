@@ -130,15 +130,18 @@ namespace MediAid.Helpers
             MessagingCenter.Subscribe<RecordReminder, Reminder>(this, "AddReminder", (obj, reminder) =>
             {
                 AddReminderDatabase(db, remindersPath, reminder);
+                App.firebase.AddReminder(reminder);
             });
 
             MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "RemoveReminder", (obj, reminder) =>
             {
                 RemoveReminderDatabase(db, remindersPath, reminder);
+                App.firebase.RemoveReminder(reminder);
             });
 
             MessagingCenter.Subscribe<ReminderDetails, Reminder>(this, "UpdateReminder", (obj, reminder) => {
                 UpdateReminderDatabase(db, reminder);
+                App.firebase.AddReminder(reminder);
             });
             MessagingCenter.Subscribe<RecordReminder, Reminder>(this, "UpdateReminder", (obj, reminder) => {
                 UpdateReminderDatabase(db, reminder);
@@ -146,6 +149,14 @@ namespace MediAid.Helpers
 
             MessagingCenter.Subscribe<SettingsPage>(this, "ClearReminder", (obj) => {
                 remindersPath.Select(kp => kp.Key).ToList().ForEach(treminder => RemoveReminderDatabase(db, remindersPath, treminder));
+                db.DropTable<Reminder>();
+                db.DropTable<ReminderDrug>();
+                db.CreateTable<Reminder>();
+                db.CreateTable<ReminderDrug>();
+            });
+
+            MessagingCenter.Subscribe<SettingsPage, Reminder>(this, "AddReminder", (obj, reminder) => {
+                AddReminderDatabase(db, remindersPath, reminder);
             });
 
         }
@@ -158,7 +169,7 @@ namespace MediAid.Helpers
             //Update Relations
             db.UpdateWithChildren(reminder);
 
-            App.firebase.AddReminder(reminder);
+
         }
 
         private void RemoveReminderDatabase(SQLiteConnection db, Dictionary<Reminder, string> remindersPath, Reminder reminder)
@@ -169,7 +180,7 @@ namespace MediAid.Helpers
 
             db.Delete(reminder);
             remindersPath.Remove(reminder);
-            App.firebase.RemoveReminder(reminder);
+
         }
 
 
@@ -181,7 +192,7 @@ namespace MediAid.Helpers
 
             //Update Relations
             db.UpdateWithChildren(reminder);
-            App.firebase.AddReminder(reminder);
+
         }
 
     }
@@ -197,20 +208,33 @@ namespace MediAid.Helpers
 
 
             //Subscribe to store data
-            MessagingCenter.Subscribe<AddDrug, Drug>(this, "AddDrug", (obj, drug) => {
-                db.Insert(drug);
-                drugsPath.Add(drug, drug.Id);
+            MessagingCenter.Subscribe<AddDrug, Drug>(this, "AddDrug", (obj, drug) =>
+            {
+                AddDrug(db, drugsPath, drug);
                 App.firebase.AddDrug(drug);
             });
             MessagingCenter.Subscribe<PillDetails, Drug>(this, "RemoveDrug", (obj, drug) =>
             {
                 RemoveDrugDatabase(db, drugsPath, drug);
-
+                App.firebase.RemoveDrug(drug);
             });
 
             MessagingCenter.Subscribe<SettingsPage>(this, "ClearDrug", (obj) => {
                 drugsPath.Select(kp => kp.Key).ToList().ForEach(tdrug => RemoveDrugDatabase(db, drugsPath, tdrug));
+                db.DropTable<Drug>();
+                db.CreateTable<Drug>();
             });
+
+            MessagingCenter.Subscribe<SettingsPage, Drug>(this, "AddDrug", (obj, drug) => {
+                AddDrug(db, drugsPath, drug);
+            });
+
+        }
+
+        private static void AddDrug(SQLiteConnection db, Dictionary<Drug, string> drugsPath, Drug drug)
+        {
+            db.Insert(drug);
+            drugsPath.Add(drug, drug.Id);
 
         }
 
@@ -222,7 +246,7 @@ namespace MediAid.Helpers
 
             db.Delete(drug);
             drugsPath.Remove(drug);
-            App.firebase.RemoveDrug(drug);
+
         }
 
 

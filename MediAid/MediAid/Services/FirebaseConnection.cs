@@ -33,6 +33,8 @@ namespace MediAid.Services
         public abstract string GetProfilePicture();
         public abstract bool IsAccountVerified();
 
+        public abstract void RedownloadFiles();
+
     }
 
     public delegate void OnRemindersUpdate(Reminder reminder);

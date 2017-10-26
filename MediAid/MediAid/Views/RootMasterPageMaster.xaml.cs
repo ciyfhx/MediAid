@@ -37,6 +37,7 @@ namespace MediAid.Views
             public ObservableCollection<RootMasterPageMenuItem> MenuItems { get; set; }
 
             //Email
+            //Causing alarm restarting issue
             public string Email { get;  } = App.firebase.GetEmail();
 
             //Profile Picture

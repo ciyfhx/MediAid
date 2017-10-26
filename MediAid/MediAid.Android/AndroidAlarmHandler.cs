@@ -52,7 +52,7 @@ namespace MediAid.Droid
             int cMins = (diffMins < 0) ? (24 + diffMins) : diffMins;
 
 #if DEBUG
-            long millis = 1000*5;
+            long millis = 1000*reminder.Hours;
             
 #else
             //Test

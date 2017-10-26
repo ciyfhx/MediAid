@@ -91,9 +91,8 @@ namespace MediAid.Views
                 bool connected = await App.firebase.LoginUserAsync(username, password);
                 return connected;
             }
-            catch(FirebaseAuthInvalidCredentialsException e)
+            catch(FirebaseAuthInvalidCredentialsException)
             {
-                Debug.WriteLine(e.Message);
             }
             return false;
         }

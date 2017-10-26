@@ -65,7 +65,6 @@ namespace MediAid.Droid
             {
                 WriteLine(drug.Name);
                 drug.ImageFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), drug.DatabaseId + ".jpg");
-                //MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddDrug", drug);
                 drugs.Add(drug);
             };
 
@@ -74,11 +73,17 @@ namespace MediAid.Droid
                 WriteLine(reminder.Name);
 
                 //Loop through saved drugs
-                if(list!=null)
-                reminder.Drugs = drugs.Where(drug => list.Contains(drug.DatabaseId)).ToList();
+                if (list != null)
+                {
+
+                    //reminder.Drugs = drugs.Where(drug => cList.Any(id => drug.DatabaseId == id)).ToList();
+
+                    reminder.Drugs = drugs.Where(drug => list.CheckIdContains(drug.DatabaseId)).ToList();
+
+                }
+                
 
                 reminders.Add(reminder);
-                //MessagingCenter.Send(typeof(FirebaseConnection), "FirebaseAddReminder", reminder);
             };
 
             remindersRef.AddValueEventListener(ValueListener);
@@ -167,7 +172,7 @@ namespace MediAid.Droid
             return user.IsEmailVerified;
         }
 
-        public void RedownloadFiles()
+        public override void RedownloadFiles()
         {
             drugs.ForEach(drug => sDrugsRef.Child(drug.DatabaseId.ToString()).GetFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile))));
             reminders.ForEach(reminder => sDrugsRef.Child(reminder.ReminderId.ToString()).GetFile(Android.Net.Uri.FromFile(new Java.IO.File(Path.Combine(App.audioHandler.RecordingPath, reminder.RecordId + ".3gpp")))));
@@ -185,6 +190,7 @@ namespace MediAid.Droid
             map.Put("Hours", reminder.Hours);
             map.Put("IsEnabled", reminder.IsEnabled);
             map.Put("Time", reminder.Time.ToString());
+            map.Put("RecordId", reminder.RecordId);
 
             var list = new JavaList();
             reminder.Drugs.ForEach(drug => list.Add(drug.DatabaseId));
@@ -200,7 +206,8 @@ namespace MediAid.Droid
                 Name = dictionary["Name"].ToString(),
                 Hours = Convert.ToInt32(dictionary["Hours"]),
                 IsEnabled = Boolean.Parse(dictionary["IsEnabled"].ToString()),
-                Time = TimeSpan.Parse(dictionary["Time"].ToString())
+                Time = TimeSpan.Parse(dictionary["Time"].ToString()),
+                RecordId = dictionary["RecordId"].ToString()
             };
         }
 
@@ -222,6 +229,13 @@ namespace MediAid.Droid
             return map;
         }
 
+        public static bool CheckIdContains(this JavaList list, int id)
+        {
+            foreach (long item in list) if (item == id) return true;
+            return false;
+        }
+
+
     }
 
     public class AndroidFirebaseValueListener : Java.Lang.Object, IValueEventListener
@@ -240,24 +254,24 @@ namespace MediAid.Droid
         public void OnDataChange(DataSnapshot snapshot)
         { 
             string refName = snapshot.Ref.Key;
-            var refDictionary = snapshot.Value as JavaDictionary;
-            if (refDictionary == null) return;
+            var refList = snapshot.Value as JavaList;
+            if (refList == null) return;
             if (refName.Equals("reminders"))
             {
-                foreach (DictionaryEntry item in refDictionary)
+                for (int i = 0; i < refList.Count; i++)
                 {
-                    JavaDictionary dictionary = item.Value as JavaDictionary;
-                    //WriteLine(dictionary[""]);
-                    AddReminder(Extensions.FromMapToReminder(dictionary, Convert.ToInt32(item.Key)), dictionary["Drugs"] as JavaList);
+                    JavaDictionary dictionary = refList[i] as JavaDictionary;
+                    if (dictionary != null)
+                        AddReminder(Extensions.FromMapToReminder(dictionary, Convert.ToInt32(i)), dictionary["Drugs"] as JavaList);
                 }
             }
             else if (refName.Equals("drugs"))
             {
-                foreach (DictionaryEntry item in refDictionary)
+                for (int i = 0; i < refList.Count; i++)
                 {
-                    JavaDictionary dictionary = item.Value as JavaDictionary;
-                    //WriteLine(dictionary[""]);
-                    AddDrug(Extensions.FromMapToDrug(dictionary, Convert.ToInt32(item.Key)));
+                    JavaDictionary dictionary = refList[i] as JavaDictionary;
+                    if(dictionary!=null)
+                    AddDrug(Extensions.FromMapToDrug(dictionary, Convert.ToInt32(i)));
                 }
             }
         }

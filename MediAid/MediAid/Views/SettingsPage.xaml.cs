@@ -58,7 +58,7 @@ namespace MediAid.Views
         {
             //Remove all recording
             DirectoryInfo di = new DirectoryInfo(App.audioHandler.RecordingPath);
-            //di.GetFiles().ToList().ForEach(file => file.Delete());
+            di.GetFiles().Where(file => file.Name.EndsWith(".3gpp")).ToList().ForEach(file => file.Delete());
             //Directory.Delete(App.audioHandler.RecordingPath);
             //Remove all image
             App.Drugs.GetItems().Select(kp => kp.Key).ToList().ForEach(drug => File.Delete(drug.ImageFile));
@@ -66,6 +66,16 @@ namespace MediAid.Views
             //Remove all data
             MessagingCenter.Send(this, "ClearReminder");
             MessagingCenter.Send(this, "ClearDrug");
+
+            //Restoring data
+            App.firebase.drugs.ForEach(d => Debug.WriteLine(d.Name ));
+            App.firebase.drugs.ForEach(drug => MessagingCenter.Send(this, "AddDrug", drug));
+            App.firebase.reminders.ForEach(reminder => MessagingCenter.Send(this, "AddReminder", reminder));
+
+
+            App.firebase.RedownloadFiles();
+            
+
 
         }
     }
