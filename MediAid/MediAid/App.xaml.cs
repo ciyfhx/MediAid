@@ -42,10 +42,11 @@ namespace MediAid
             if (ReminderId != -1)
             {
                 //Go to details page
-                var rootMasterPage = new RootMasterPage();
-                Current.MainPage = rootMasterPage;
-                Debug.WriteLine(firebase.IsLogin);
-                rootMasterPage.Detail.Navigation.PushAsync(new ReminderDetails(Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId)));
+                MainPage = new StartPage(ReminderId);
+                //var rootMasterPage = new RootMasterPage();
+                //Current.MainPage = rootMasterPage;
+                //Debug.WriteLine(firebase.IsLogin);
+                //rootMasterPage.Detail.Navigation.PushAsync(new ReminderDetails(Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId)));
             }
         }
 

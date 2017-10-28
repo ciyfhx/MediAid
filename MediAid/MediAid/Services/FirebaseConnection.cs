@@ -15,7 +15,6 @@ namespace MediAid.Services
         public List<Reminder> reminders = new List<Reminder>();
 
         public bool IsLogin { get; set; } = false;
-        public event OnRemindersUpdate ReminderUpdate;
 
         public abstract Task<bool> CreateUser(string username, string password);
         public abstract void SignOut();
@@ -36,7 +35,5 @@ namespace MediAid.Services
         public abstract void RedownloadFiles();
 
     }
-
-    public delegate void OnRemindersUpdate(Reminder reminder);
 
 }

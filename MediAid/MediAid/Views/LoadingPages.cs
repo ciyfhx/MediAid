@@ -10,8 +10,18 @@ namespace MediAid.Views
 {
     public class StartPage : LoadingPage
     {
+        public int ReminderId { get; set; }
 
-        public StartPage() : base() => this.LoadingText = "Welcome to MediAid, Your own medications reminder.";
+        public StartPage() : this(-1)
+        {
+
+        }
+
+        public StartPage(int reminderId) : base()
+        {
+            this.LoadingText = "Welcome to MediAid, Your own medications reminder.";
+            this.ReminderId = reminderId;
+        }
 
         public async override void LoadingTask()
         {
@@ -25,8 +35,14 @@ namespace MediAid.Views
                 {
                     Debug.WriteLine($"Logging in as {settings.Username}");
                     var connected = await firebase.LoginUserAsync(settings.Username, settings.Password);
-                    if (connected) App.Current.MainPage = new RootMasterPage();
-                    //if(connected) NavigationPage.SetHasNavigationBar(this, false);
+                    if (connected)
+                    {
+                        var rootMasterPage = new RootMasterPage();
+                        App.Current.MainPage = rootMasterPage;
+                        
+                        if (ReminderId != -1) await rootMasterPage.Detail.Navigation.PushAsync(new ReminderDetails(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId)));
+
+                    }//if(connected) NavigationPage.SetHasNavigationBar(this, false);
                 }
                 else
                 {

@@ -175,7 +175,7 @@ namespace MediAid.Droid
         public override void RedownloadFiles()
         {
             drugs.ForEach(drug => sDrugsRef.Child(drug.DatabaseId.ToString()).GetFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile))));
-            reminders.ForEach(reminder => sDrugsRef.Child(reminder.ReminderId.ToString()).GetFile(Android.Net.Uri.FromFile(new Java.IO.File(Path.Combine(App.audioHandler.RecordingPath, reminder.RecordId + ".3gpp")))));
+            reminders.ForEach(reminder => sRemindersRef.Child(reminder.ReminderId.ToString()).GetFile(Android.Net.Uri.FromFile(new Java.IO.File(Path.Combine(App.audioHandler.RecordingPath, reminder.RecordId + ".3gpp")))));
 
         }
 
