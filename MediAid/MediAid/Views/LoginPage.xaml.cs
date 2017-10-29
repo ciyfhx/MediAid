@@ -38,13 +38,15 @@ namespace MediAid.Views
             var tap = new TapGestureRecognizer();
             tap.Tapped += (s, e) =>
             {
-                Navigation.PushAsync(new CreateAccountPage());
+                if(s.Equals(CreateAccountLbl))Navigation.PushAsync(new CreateAccountPage());
+                else if(s.Equals(ForgotPasswordLbl)) Navigation.PushAsync(new ForgotPasswordPage());
             };
             CreateAccountLbl.GestureRecognizers.Add(tap);
+            ForgotPasswordLbl.GestureRecognizers.Add(tap);
 
 
 
-		}
+        }
 
         //protected async override void OnAppearing()
         //{
@@ -96,6 +98,8 @@ namespace MediAid.Views
             }
             return false;
         }
+
+
 
 
     }

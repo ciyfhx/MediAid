@@ -12,6 +12,7 @@
                 <Label x:Name="Warning" FontSize="Small" TextColor="Red"/>
                 <Button Text="Login" Clicked="Login_ToFirebase"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
                 <Label x:Name="CreateAccountLbl" FontSize="Small" Text="Create account" TextColor="Blue"/>
+                <Label x:Name="ForgotPasswordLbl" FontSize="Small" Text="Forgot password" TextColor="Blue"/>
             </StackLayout>
         </Frame>
     </ContentPage.Content>

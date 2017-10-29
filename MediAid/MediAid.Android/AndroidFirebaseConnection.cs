@@ -147,6 +147,20 @@ namespace MediAid.Droid
             IsLogin = false;
         }
 
+        public override async Task<bool> ResetEmail(string email)
+        {
+            try
+            {
+                await FirebaseAuth.Instance.SendPasswordResetEmailAsync(email);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+
         public override async Task<bool> CreateUser(string username, string password)
         {
             IAuthResult result = await FirebaseAuth.Instance.CreateUserWithEmailAndPasswordAsync(username, password);

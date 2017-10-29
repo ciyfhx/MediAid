@@ -19,6 +19,7 @@ namespace MediAid.Services
         public abstract Task<bool> CreateUser(string username, string password);
         public abstract void SignOut();
         public abstract Task<bool> LoginUserAsync(string username, string password);
+        public abstract Task<bool> ResetEmail(string email);
         //public abstract  void LoginUser(string username, string password);
 
         //public abstract void SetData(string json, params string[] childs);
