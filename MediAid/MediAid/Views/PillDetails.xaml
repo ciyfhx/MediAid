@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MediAid.Views.PillDetails">
     <ContentPage.Content>
-
+        <ScrollView>
         <StackLayout Spacing="20" Padding="15">
             <Frame>
                 <StackLayout  Spacing="20" Padding="15">
@@ -16,5 +16,6 @@
             <Button Text="Remove Medication" Clicked="Remove_Medication" BackgroundColor="{StaticResource Primary}" TextColor="White"></Button>
 
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
