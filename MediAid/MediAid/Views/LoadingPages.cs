@@ -27,31 +27,26 @@ namespace MediAid.Views
         {
             var firebase = App.firebase;
             var settings = App.Settings;
-            if (!firebase.IsLogin)
+            //There is login information for us to do automatic login
+            if (settings.IsLogin && !String.IsNullOrEmpty(settings.Username) && !String.IsNullOrEmpty(settings.Password))
             {
-
-                //There is login information for us to do automatic login
-                if (settings.FirstLogin && !String.IsNullOrEmpty(settings.Username) && !String.IsNullOrEmpty(settings.Password))
+                Debug.WriteLine($"Logging in as {settings.Username}");
+                bool connected = (!App.firebase.IsLogin) ? await firebase.LoginUserAsync(settings.Username, settings.Password) : true;
+                if (connected)
                 {
-                    Debug.WriteLine($"Logging in as {settings.Username}");
-                    var connected = await firebase.LoginUserAsync(settings.Username, settings.Password);
-                    if (connected)
-                    {
-                        var rootMasterPage = new RootMasterPage();
-                        App.Current.MainPage = rootMasterPage;
-                        
-                        if (ReminderId != -1) await rootMasterPage.Detail.Navigation.PushAsync(new ReminderDetails(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId)));
+                    var rootMasterPage = new RootMasterPage();
+                    App.Current.MainPage = rootMasterPage;
 
-                    }//if(connected) NavigationPage.SetHasNavigationBar(this, false);
-                }
-                else
-                {
-                    Debug.WriteLine("To Login Page");
-                    //Let the Login Page handle the login
-                    App.Current.MainPage = new NavigationPage(new LoginPage());
-                    //Navigation.PushAsync(new LoginPage());
+                    if (ReminderId != -1) await rootMasterPage.Detail.Navigation.PushAsync(new ReminderDetails(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId)));
 
-                }
+                }//if(connected) NavigationPage.SetHasNavigationBar(this, false);
+            }
+            else
+            {
+                Debug.WriteLine("To Login Page");
+                //Let the Login Page handle the login
+                App.Current.MainPage = new NavigationPage(new LoginPage());
+                //Navigation.PushAsync(new LoginPage());
 
             }
             //else
@@ -68,7 +63,7 @@ namespace MediAid.Views
 
         public override void LoadingTask() {
             App.firebase.SignOut();
-            App.Settings.FirstLogin = false;
+            App.Settings.IsLogin = false;
             App.Settings.DeleteCredentials();
 
             //To Login Page

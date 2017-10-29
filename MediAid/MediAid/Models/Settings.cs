@@ -17,20 +17,22 @@ namespace MediAid.Models
         [PrimaryKey]
         public int SettingsId { get; set; }
 
-        private bool firstLogin;
+        public string Version { get; } = "1.3.1";
+
+        private bool isLogin;
 
         ////Not the best way to store user sensitive informations
         //private string username;
         //private string password;
 
 
-        public bool FirstLogin {
+        public bool IsLogin {
 
-            get => firstLogin;
+            get => isLogin;
 
             set {
 
-                firstLogin = value;
+                isLogin = value;
                 UpdateSettings();
 
         } }

@@ -68,7 +68,7 @@ namespace MediAid.Views
 
                 //Set the username and password for next automatic login
                 var settings = App.Settings;
-                settings.FirstLogin = true;
+                settings.IsLogin = true;
 
                 App.Settings.SaveCredentials(this.Username, this.Password);
 

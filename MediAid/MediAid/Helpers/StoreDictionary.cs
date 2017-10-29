@@ -95,7 +95,7 @@ namespace MediAid.Helpers
 
 
             MessagingCenter.Subscribe<Settings, Settings>(this, "UpdateSettings", (obj, settings) => {
-                Debug.WriteLine($"Updating Settings {settings.FirstLogin}");
+                Debug.WriteLine($"Updating Settings {settings.IsLogin}");
 
                 db.Update(settings);
             });
