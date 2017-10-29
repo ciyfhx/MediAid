@@ -52,8 +52,9 @@ namespace MediAid.Droid
                         context.GetSystemService(Context.NotificationService) as NotificationManager;
 
 
-                    
-                    notificationManager.Notify(notificationId, notification);
+
+                    //notificationManager.Notify(notificationId, notification);
+                    StartForeground(notificationId, notification);
 
 
                     MediaPlayer = MediaPlayer.Create(this, Resource.Raw.ringtone);
@@ -75,7 +76,8 @@ namespace MediAid.Droid
                     MediaPlayer.Stop();
                     MediaPlayer.Reset();
                     MediaPlayer = null;
-                    notificationManager.Cancel(notificationId);
+                    //notificationManager.Cancel(notificationId);
+                    StopForeground(notificationId);
                 }
             }
 

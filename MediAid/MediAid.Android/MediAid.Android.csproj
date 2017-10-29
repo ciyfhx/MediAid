@@ -263,6 +263,9 @@
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\raw\ringtone_old.wav" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\raw\ringtone.wav" />
   </ItemGroup>
   <Import Project="..\MediAid\MediAid.projitems" Label="Shared" Condition="Exists('..\MediAid\MediAid.projitems')" />

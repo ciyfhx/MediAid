@@ -14,7 +14,7 @@ namespace MediAid.Models
 
     public sealed class Reminder : BaseModel, INotifyPropertyChanged
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int ReminderId { get; set; }
 
         public string Name { get; set; }

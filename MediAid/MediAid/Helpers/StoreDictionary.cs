@@ -129,6 +129,8 @@ namespace MediAid.Helpers
             //Subscribe to store data
             MessagingCenter.Subscribe<RecordReminder, Reminder>(this, "AddReminder", (obj, reminder) =>
             {
+                //Auto increment
+                reminder.ReminderId = remindersPath.Keys.Select(r => r.ReminderId).DefaultIfEmpty(0).Max() + 1;
                 AddReminderDatabase(db, remindersPath, reminder);
                 App.firebase.AddReminder(reminder);
             });
@@ -210,8 +212,9 @@ namespace MediAid.Helpers
             //Subscribe to store data
             MessagingCenter.Subscribe<AddDrug, Drug>(this, "AddDrug", (obj, drug) =>
             {
+                //Auto increment
+                drug.DatabaseId = drugsPath.Keys.Select(d => d.DatabaseId).DefaultIfEmpty(0).Max() + 1;
                 AddDrug(db, drugsPath, drug);
-                App.firebase.AddDrug(drug);
             });
             MessagingCenter.Subscribe<PillDetails, Drug>(this, "RemoveDrug", (obj, drug) =>
             {
@@ -227,6 +230,7 @@ namespace MediAid.Helpers
 
             MessagingCenter.Subscribe<SettingsPage, Drug>(this, "AddDrug", (obj, drug) => {
                 AddDrug(db, drugsPath, drug);
+                App.firebase.AddDrug(drug);
             });
 
         }

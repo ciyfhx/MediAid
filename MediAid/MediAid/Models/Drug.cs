@@ -24,7 +24,7 @@ namespace MediAid.Models
 
     public class Drug : BaseModel
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int DatabaseId { get; set; }
         public string Name { get; set; }
 
@@ -39,7 +39,7 @@ namespace MediAid.Models
 
     public class ReminderDrug
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
 
         [ForeignKey(typeof(Drug))]

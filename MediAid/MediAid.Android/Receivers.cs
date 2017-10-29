@@ -42,7 +42,6 @@ namespace MediAid.Droid
                     ringIntent.PutExtra("ReminderId", ReminderId);
                 }
 
-
                 context.StartService(ringIntent);
 
 

@@ -3784,6 +3784,9 @@ namespace MediAid.Droid
 			// aapt resource value: 0x7f080000
 			public const int ringtone = 2131230720;
 			
+			// aapt resource value: 0x7f080001
+			public const int ringtone_old = 2131230721;
+			
 			static Raw()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
