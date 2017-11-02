@@ -39,7 +39,7 @@ namespace MediAid.Models
 
     public class ReminderDrug
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
         [ForeignKey(typeof(Drug))]

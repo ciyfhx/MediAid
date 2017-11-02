@@ -54,14 +54,18 @@ namespace MediAid.Views
 
         }
 
-        private void Restore(object sender, EventArgs e)
+        private async void Restore(object sender, EventArgs e)
         {
+            var result = await DisplayAlert("Restoration", "Do you want to restore all your medications and reminders?", "Continue", "Cancel");
+            if (!result) return;
             //Remove all recording
             DirectoryInfo di = new DirectoryInfo(App.audioHandler.RecordingPath);
             di.GetFiles().Where(file => file.Name.EndsWith(".3gpp")).ToList().ForEach(file => file.Delete());
             //Directory.Delete(App.audioHandler.RecordingPath);
             //Remove all image
-            App.Drugs.GetItems().Select(kp => kp.Key).ToList().ForEach(drug => File.Delete(drug.ImageFile));
+            App.Drugs.GetItems().Select(kp => kp.Key).ToList().ForEach(drug => {
+                if (!String.IsNullOrEmpty(drug.ImageFile)) File.Delete(drug.ImageFile);
+            });
 
             //Remove all data
             MessagingCenter.Send(this, "ClearReminder");
@@ -74,6 +78,8 @@ namespace MediAid.Views
 
 
             App.firebase.RedownloadFiles();
+
+            await DisplayAlert("Restoration", "Restore completed", "Done");
             
 
 

@@ -208,7 +208,7 @@ namespace MediAid.Droid
             map.Put("RecordId", reminder.RecordId);
 
             var list = new JavaList();
-            reminder.Drugs.ForEach(drug => list.Add(drug.DatabaseId));
+            reminder.Drugs?.ForEach(drug => list.Add(drug.DatabaseId));
 
             map.Put("Drugs", list);
 
