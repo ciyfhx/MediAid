@@ -48,20 +48,14 @@ namespace MediAid.Views
 
         }
 
-        //protected async override void OnAppearing()
-        //{
-        //    var settings = App.Settings;
-
-        //    if (settings.FirstLogin && !String.IsNullOrEmpty(settings.Username) && !String.IsNullOrEmpty(settings.Password))
-        //    {
-        //        Debug.WriteLine($"Logging in as {settings.Username}");
-        //        var connected = await LoginAsync(settings.Username, settings.Password);
-        //        if (connected) App.Current.MainPage = new RootMasterPage();
-        //    }
-        //}
+        public bool Validation()
+        {
+            return !(String.IsNullOrEmpty(username) && String.IsNullOrEmpty(password));
+        }
 
         public async void Login_ToFirebase(object sender, EventArgs e)
         {
+            if (!Validation()) return;
             bool connected = await LoginAsync(this.username, this.password);
 
             if (connected)
@@ -90,6 +84,7 @@ namespace MediAid.Views
         {
             try
             {
+                Warning.Text = "";
                 bool connected = await App.firebase.LoginUserAsync(username, password);
                 return connected;
             }

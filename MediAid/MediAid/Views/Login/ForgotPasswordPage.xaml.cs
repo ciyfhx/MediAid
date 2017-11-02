@@ -26,6 +26,7 @@ namespace MediAid.Views
 
         private async void Reset(object sender, EventArgs e)
         {
+            Info.Text = "";
             bool emailSended = await App.firebase.ResetEmail(Email);
             if (emailSended)
             {

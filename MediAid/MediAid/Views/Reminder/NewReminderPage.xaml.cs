@@ -54,10 +54,14 @@ namespace MediAid.Views
 		{
             //MessagingCenter.Send(this, "AddTiming", new Timing { Time = this.Time});
             //Debug.WriteLine($"{picker.Time.Hours}, {picker.Time.TotalHours}");
+            if(Validation())
             await Navigation.PushAsync(new PillsSelectListPage(Reminder));
 		}
 
-       
+        public bool Validation()
+        {
+            return !String.IsNullOrEmpty(Reminder.Name);
+        }
        
 
 

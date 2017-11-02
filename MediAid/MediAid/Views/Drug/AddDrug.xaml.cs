@@ -26,7 +26,7 @@ namespace MediAid.Views
 
         public AddDrug()
         {
-            
+            Title = "New Drug";
             BindingContext = viewModel = new AddDrugViewModel();
 
             InitializeComponent();
@@ -36,17 +36,17 @@ namespace MediAid.Views
 
         public async void Save()
         {
-            if (!Validate()) return;
+            if (!Validation()) return;
             save = true;
             viewModel.Drug.DrugTypeEnum = DrugTypeConverter.FromString(viewModel.DrugTypeName).Id;
             MessagingCenter.Send(this, "AddDrug", viewModel.Drug);
             await Navigation.PopToRootAsync();
         }
 
-        private bool Validate()
+        private bool Validation()
         {
             var drug = viewModel.Drug;
-            return (!String.IsNullOrEmpty(drug.Name) && viewModel.Drug.DrugType != null);
+            return (!String.IsNullOrEmpty(drug.Name) && drug.DrugType != null && viewModel.DrugTypeName!=null);
         }
 
         async void Take_PictureAsync(object sender, EventArgs e)
@@ -65,32 +65,35 @@ namespace MediAid.Views
                 Name = "temp.jpg"
             });
 
-
-            Debug.WriteLine("Done:" + file.Path);
-            ImageSource newImage = ImageSource.FromStream(() =>
+            if (file != null)
             {
-                var stream = file.GetStream();
-                file.Dispose();
-                return stream;
-            });
-            Debug.WriteLine("Image Taken:" + newImage);
+                Debug.WriteLine("Done:" + file.Path);
+                ImageSource newImage = ImageSource.FromStream(() =>
+                {
+                    var stream = file.GetStream();
+                    file.Dispose();
+                    return stream;
+                });
+                Debug.WriteLine("Image Taken:" + newImage);
 
-            //Set Drug Image
-            viewModel.Drug.ImageFile = file.Path;
+                //Set Drug Image
+                viewModel.Drug.ImageFile = file.Path;
 
-            //Get Predictions
-            //var predictions = await SendImageForPredictionAsync(file.Path);
-            //var highest = predictions.GetHighest();
-            //viewModel.DrugTypeName = highest.Item1.Name;
-            //DrugsPicker.SelectedItem = highest.Item1.Name;
+                //Get Predictions
+                var predictions = await SendImageForPredictionAsync(file.Path);
+                var highest = predictions.GetHighest();
+                viewModel.DrugTypeName = highest.Item1.Name;
+                DrugsPicker.SelectedItem = highest.Item1.Name;
 
-            Image.Source = newImage;
+                Image.Source = newImage;
+            }
+            
 
         }
 
         private async Task<Predictions> SendImageForPredictionAsync(string file)
         {
-            WebRequest webrequest = WebRequest.Create(new Uri("http://220.255.167.114:80"));
+            WebRequest webrequest = WebRequest.Create(new Uri("http://ciyfhx.ddns.net:80"));
             webrequest.ContentType = "application/x-www-form-urlencoded";
             webrequest.Method = "POST";
 

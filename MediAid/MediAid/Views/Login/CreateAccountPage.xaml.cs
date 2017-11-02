@@ -62,12 +62,13 @@ namespace MediAid.Views
             if (!Validation()) return;
             try
             {
+                if (String.IsNullOrEmpty(viewModel.Email) && String.IsNullOrEmpty(viewModel.Password) && String.IsNullOrEmpty(viewModel.ConfirmPassword)) return;
                 bool done = await App.firebase.CreateUser(viewModel.Email, viewModel.Password);
                 if (done) await Navigation.PushModalAsync(new ToLoginDone());
             }
             catch(Exception)
             {
-                PasswordError.Text = "Account already exists";
+                PasswordError.Text = "Account already exists or an error has occur";
                 PasswordError.IsVisible = true;
             }
 

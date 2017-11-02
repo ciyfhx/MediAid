@@ -29,6 +29,7 @@ namespace MediAid.Views
 
         public RecordReminder (Reminder reminder)
 		{
+            Title = "Record Reminder";
             this.reminder = reminder;
 			InitializeComponent ();
 
