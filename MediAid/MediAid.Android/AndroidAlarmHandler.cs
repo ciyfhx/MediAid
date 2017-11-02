@@ -52,13 +52,13 @@ namespace MediAid.Droid
             int cMins = (diffMins < 0) ? (24 + diffMins) : diffMins;
 
 #if DEBUG
-            long millis = 1000*reminder.Hours;
-            
+            long millis = 1000 * reminder.Hours;
+
 #else
             long millis = ((cHours + reminder.Hours) * 1000 * 60 * 60) + (diffMins * 60 * 1000);
 #endif
 
-            alarmManager.SetExactAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, millis, pendingIntent);
+            alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, Java.Lang.JavaSystem.CurrentTimeMillis() + millis, pendingIntent);
 
             Toast.MakeText(context, $"Alarm Created On {now.AddMilliseconds(millis).ToString("d MMM (ddd), h:mm tt")}", ToastLength.Long).Show();
 
