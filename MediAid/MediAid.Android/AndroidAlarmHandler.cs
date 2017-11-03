@@ -30,6 +30,8 @@ namespace MediAid.Droid
     public class AndroidAlarmHandler : AlarmHandler
     {
 
+
+
         public bool CreateAlarm(Reminder reminder)
         {
             Context context = Android.App.Application.Context;
@@ -45,17 +47,23 @@ namespace MediAid.Droid
             DateTime now = DateTime.Now;
             //Get Change in time
             System.Diagnostics.Debug.WriteLine($"{reminder.Time.Hours}, {now.Hour}");
-            int diffHours = reminder.Time.Hours - now.Hour;
-            int diffMins = reminder.Time.Minutes - now.Minute;
 
-            int cHours = (diffHours < 0) ? (24 + diffHours) : diffHours;
-            int cMins = (diffMins < 0) ? (24 + diffMins) : diffMins;
+            int cHours = 0, cMins = 0;
+
+            if (reminder.RepeatingCount==0)
+            {
+                int diffHours = reminder.Time.Hours - now.Hour;
+                int diffMins = reminder.Time.Minutes - now.Minute;
+
+                cHours = (diffHours < 0) ? (24 + diffHours) : diffHours;
+                cMins = (diffMins < 0) ? (24 + diffMins) : diffMins;
+            }
 
 #if DEBUG
             long millis = 1000 * reminder.Hours;
 
 #else
-            long millis = ((cHours + reminder.Hours) * 1000 * 60 * 60) + (diffMins * 60 * 1000);
+            long millis = ((cHours + reminder.Hours) * 1000 * 60 * 60) + ((cMins + reminder.Mins) * 60 * 1000);
 #endif
 
             alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, Java.Lang.JavaSystem.CurrentTimeMillis() + millis, pendingIntent);

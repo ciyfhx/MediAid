@@ -8,6 +8,7 @@ using SQLite;
 using SQLiteNetExtensions.Extensions;
 using Newtonsoft.Json;
 using System.IO;
+using Xamarin.Forms;
 
 namespace MediAid.Models
 {
@@ -33,12 +34,34 @@ namespace MediAid.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
             }
         }
+        private int mins;
+        public int Mins
+        {
+            get => mins;
+            set
+            {
+                mins = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
+            }
+        }
 
         public bool IsEnabled { get; set; }
         public DateTime TimeEnabled { get; set; }
         public TimeSpan Time { get; set; }
         [ManyToMany(typeof(ReminderDrug), CascadeOperations = CascadeOperation.All)]
         public List<Drug> Drugs { get; set; }
+
+        private int repeatingCount = 0;
+        public int RepeatingCount
+        {
+            get => repeatingCount;
+            set
+            {
+                repeatingCount = value;
+                MessagingCenter.Send(this, "UpdateReminder", this);
+            }
+        }
+
 
         //[OneToMany]
         //public List<Timing> Timings { get; set; }

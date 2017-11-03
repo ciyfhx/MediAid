@@ -44,7 +44,14 @@ namespace MediAid.Views
             MessagingCenter.Send(this, "RemoveDrug", drug);
 
             //Remove image
-            File.Delete(drug.ImageFile);
+            try
+            {
+                File.Delete(drug.ImageFile);
+            }
+            catch (Exception)
+            {
+
+            }
 
             Navigation.PopToRootAsync();
         }

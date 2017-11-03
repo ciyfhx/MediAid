@@ -37,8 +37,13 @@ namespace MediAid.Views
                     var rootMasterPage = new RootMasterPage();
                     App.Current.MainPage = rootMasterPage;
 
-                    if (ReminderId != -1) await rootMasterPage.Detail.Navigation.PushAsync(new ReminderDetails(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId)));
-
+                    if (ReminderId != -1)
+                    {
+                        var reminderDetails = new ReminderDetails(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId));
+                        //Update recreate our reminder by firing the event
+                        reminderDetails.OnAppearToggleFirstFire = true;
+                        await rootMasterPage.Detail.Navigation.PushAsync(reminderDetails);
+                    }
                 }//if(connected) NavigationPage.SetHasNavigationBar(this, false);
             }
             else

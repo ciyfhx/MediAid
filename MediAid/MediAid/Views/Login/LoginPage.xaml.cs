@@ -66,7 +66,7 @@ namespace MediAid.Views
                 var settings = App.Settings;
                 settings.IsLogin = true;
 
-                App.Settings.SaveCredentials(this.Username, this.Password);
+                App.Settings.SaveCredentials(this.Username.Trim(), this.Password);
 
                 //settings.Username = this.username;
                 //settings.Password = this.Password;

@@ -126,7 +126,7 @@ namespace MediAid.Helpers
             });
             //
 
-            //Subscribe to store data
+            //Subscribe to store data (Too much stuff)
             MessagingCenter.Subscribe<RecordReminder, Reminder>(this, "AddReminder", (obj, reminder) =>
             {
                 //Auto increment
@@ -148,6 +148,10 @@ namespace MediAid.Helpers
             MessagingCenter.Subscribe<RecordReminder, Reminder>(this, "UpdateReminder", (obj, reminder) => {
                 UpdateReminderDatabase(db, reminder);
                 App.firebase.AddReminder(reminder);
+            });
+
+            MessagingCenter.Subscribe<Reminder, Reminder>(this, "UpdateReminder", (obj, reminder) => {
+                UpdateReminderDatabase(db, reminder);
             });
 
             MessagingCenter.Subscribe<SettingsPage>(this, "ClearReminder", (obj) => {
