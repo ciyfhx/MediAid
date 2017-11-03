@@ -18,6 +18,7 @@ namespace MediAid.Views
 	public partial class ReminderDetails : ContentPage
 	{
         private ReminderDrugsListPage viewModel;
+        public bool OnAppearToggleFirstFire = false;
 
         public ReminderDetails(Reminder reminder)
         {
@@ -73,16 +74,23 @@ namespace MediAid.Views
                 viewModel.LoadItemsCommand.Execute(null);
         }
 
-        private void Toggle_Reminder(object sender, ToggledEventArgs e)
+        private void Toggle_Reminder(object sender, EventArgs e)
         {
+            //Hack-around to stop the event from fired from first launch
+            if (!OnAppearToggleFirstFire)
+            {
+                OnAppearToggleFirstFire = true;
+                return;
+            }
             if (viewModel.Reminder.IsEnabled)
             {
-                viewModel.Reminder.TimeEnabled = DateTime.Now;
-
+                 viewModel.Reminder.TimeEnabled = DateTime.Now;
+                 viewModel.Reminder.RepeatingCount++;
                 App.alarmHandler.CreateAlarm(viewModel.Reminder);
             }
             else
             {
+                viewModel.Reminder.RepeatingCount = 0;
                 App.alarmHandler.RemoveAlarm(viewModel.Reminder);
             }
             MessagingCenter.Send(this, "UpdateReminder", viewModel.Reminder);

@@ -56,7 +56,7 @@ namespace MediAid.Views
         public async void Login_ToFirebase(object sender, EventArgs e)
         {
             if (!Validation()) return;
-            bool connected = await LoginAsync(this.username, this.password);
+            bool connected = await LoginAsync(this.username.Trim(), this.password);
 
             if (connected)
             {
@@ -66,7 +66,7 @@ namespace MediAid.Views
                 var settings = App.Settings;
                 settings.IsLogin = true;
 
-                App.Settings.SaveCredentials(this.Username, this.Password);
+                App.Settings.SaveCredentials(this.Username.Trim(), this.Password);
 
                 //settings.Username = this.username;
                 //settings.Password = this.Password;

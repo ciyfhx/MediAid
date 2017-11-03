@@ -133,11 +133,19 @@ namespace MediAid.Droid
 
         public override async Task<bool> LoginUserAsync(string username, string password)
         {
-            IAuthResult result = await FirebaseAuth.Instance.SignInWithEmailAndPasswordAsync(username, password);
-            user = result.User;
-            IsLogin = true;
-            InitDatabase();
-            return user!=null;
+            try
+            {
+                IAuthResult result = await FirebaseAuth.Instance.SignInWithEmailAndPasswordAsync(username, password);
+                user = result.User;
+                IsLogin = true;
+                InitDatabase();
+                return user != null;
+            }
+            catch (FirebaseNetworkException)
+            {
+                return false;
+            }
+
         }
 
         public override void SignOut()
@@ -203,6 +211,7 @@ namespace MediAid.Droid
             HashMap map = new HashMap();
             map.Put("Name", reminder.Name);
             map.Put("Hours", reminder.Hours);
+            map.Put("Mins", reminder.Mins);
             map.Put("IsEnabled", reminder.IsEnabled);
             map.Put("Time", reminder.Time.ToString());
             map.Put("RecordId", reminder.RecordId);
@@ -220,6 +229,7 @@ namespace MediAid.Droid
             return new Reminder { ReminderId = id,
                 Name = dictionary["Name"].ToString(),
                 Hours = Convert.ToInt32(dictionary["Hours"]),
+                Mins = Convert.ToInt32(dictionary["Mins"]),
                 IsEnabled = Boolean.Parse(dictionary["IsEnabled"].ToString()),
                 Time = TimeSpan.Parse(dictionary["Time"].ToString()),
                 RecordId = dictionary["RecordId"].ToString()
