@@ -56,7 +56,7 @@ namespace MediAid.Views
         public async void Login_ToFirebase(object sender, EventArgs e)
         {
             if (!Validation()) return;
-            bool connected = await LoginAsync(this.username, this.password);
+            bool connected = await LoginAsync(this.username.Trim(), this.password);
 
             if (connected)
             {
@@ -85,7 +85,7 @@ namespace MediAid.Views
             try
             {
                 Warning.Text = "";
-                bool connected = await App.firebase.LoginUserAsync(username, password);
+                bool connected = await App.firebase.LoginUserAsync(username.Trim(), password);
                 return connected;
             }
             catch(FirebaseAuthInvalidCredentialsException)
