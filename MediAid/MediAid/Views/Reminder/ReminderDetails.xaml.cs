@@ -18,11 +18,19 @@ namespace MediAid.Views
 	public partial class ReminderDetails : ContentPage
 	{
         private ReminderDrugsListPage viewModel;
+
+        //Toggle will not fire first time if the value is false
         public bool OnAppearToggleFirstFire = false;
 
-        public ReminderDetails(Reminder reminder)
+        public ReminderDetails(Reminder reminder, bool OnAppearToggleFirstFire)
         {
-            App.alarmHandler.RemoveAlarm(reminder);
+            this.OnAppearToggleFirstFire = OnAppearToggleFirstFire;
+            //check whether the reminder is enabled and if the value is already true we dont need to change it
+            if (!OnAppearToggleFirstFire) OnAppearToggleFirstFire = !reminder.IsEnabled;
+            else if (reminder.IsEnabled) App.alarmHandler.RemoveAlarm(reminder);
+
+            //if (OnAppearToggleFirstFire && ) 
+
             InitializeComponent();
 
             //Manually set the data
@@ -35,6 +43,12 @@ namespace MediAid.Views
 
             BindingContext = viewModel = new ReminderDrugsListPage(reminder);
 
+          
+            
+        }
+
+        public ReminderDetails(Reminder reminder) : this(reminder, false)
+        {
         }
 
         async void To_PillDetails(object sender, SelectedItemChangedEventArgs e)
@@ -74,9 +88,9 @@ namespace MediAid.Views
                 viewModel.LoadItemsCommand.Execute(null);
         }
 
-        private void Toggle_Reminder(object sender, EventArgs e)
+        private void Toggle_Reminder(object sender, ToggledEventArgs e)
         {
-            //Hack-around to stop the event from fired from first launch
+            //Hack-around to stop the event from fired from first launch if reminder is enabled is true
             if (!OnAppearToggleFirstFire)
             {
                 OnAppearToggleFirstFire = true;
@@ -84,9 +98,9 @@ namespace MediAid.Views
             }
             if (viewModel.Reminder.IsEnabled)
             {
-                 viewModel.Reminder.TimeEnabled = DateTime.Now;
-                 viewModel.Reminder.RepeatingCount++;
+                viewModel.Reminder.TimeEnabled = DateTime.Now;
                 App.alarmHandler.CreateAlarm(viewModel.Reminder);
+                viewModel.Reminder.RepeatingCount++;
             }
             else
             {
