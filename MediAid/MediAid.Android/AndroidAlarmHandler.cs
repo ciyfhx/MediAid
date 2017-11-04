@@ -55,15 +55,20 @@ namespace MediAid.Droid
                 int diffHours = reminder.Time.Hours - now.Hour;
                 int diffMins = reminder.Time.Minutes - now.Minute;
 
-                cHours = (diffHours < 0) ? (24 + diffHours) : diffHours;
-                cMins = (diffMins < 0) ? (24 + diffMins) : diffMins;
+
+                cHours = (diffHours <= 0 && diffMins < 0) ? (24 + diffHours) : diffHours;
+
+                cMins = (diffMins < 0) ? (60 + diffMins) : diffMins;
+
+                if (cMins > 0 && cHours > 0) cHours--;
             }
+            
 
 #if DEBUG
             long millis = 1000 * reminder.Hours;
 
 #else
-            long millis = ((cHours + reminder.Hours) * 1000 * 60 * 60) + ((cMins + reminder.Mins) * 60 * 1000);
+            long millis = (((cHours + ((reminder.RepeatingCount>0) ? reminder.Hours : 0))) * 1000 * 60 * 60) + ((cMins + ((reminder.RepeatingCount > 0) ? reminder.Mins : 0)) * 60 * 1000);
 #endif
 
             alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, Java.Lang.JavaSystem.CurrentTimeMillis() + millis, pendingIntent);

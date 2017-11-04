@@ -12,7 +12,7 @@
                 <StackLayout  Spacing="20" Padding="15">
                     <StackLayout Orientation="Horizontal">
                         <Label HorizontalTextAlignment="Center" x:Name="Reminder"  FontSize="Large" />
-                        <Switch x:Name="Switch" IsToggled="{Binding Reminder.IsEnabled, Mode=TwoWay}" PropertyChanged="Toggle_Reminder"/>
+                        <Switch x:Name="Switch" IsToggled="{Binding Reminder.IsEnabled, Mode=TwoWay}" Toggled="Toggle_Reminder"/>
                     </StackLayout>
                     <ListView ItemsSource="{Binding Items}"
                                ItemTapped="To_PillDetails"

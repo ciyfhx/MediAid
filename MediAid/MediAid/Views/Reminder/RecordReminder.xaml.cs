@@ -71,7 +71,16 @@ namespace MediAid.Views
             //Check if reminder exists
             if (!App.Reminders.GetItems().Keys.Any(cReminder => cReminder.ReminderId == reminder.ReminderId))
                 MessagingCenter.Send(this, "AddReminder", reminder);
-            else MessagingCenter.Send(this, "UpdateReminder", reminder);
+            else
+            {
+                MessagingCenter.Send(this, "UpdateReminder", reminder);
+                if (reminder.IsEnabled)
+                {
+                    App.alarmHandler.RemoveAlarm(reminder);
+                    reminder.RepeatingCount = 0;
+                    App.alarmHandler.CreateAlarm(reminder);
+                }
+            }
             //AlarmHandler handler = DependencyService.Get<AlarmHandler>();
 
             //handler.CreateAlarm(reminder);
