@@ -78,7 +78,7 @@ namespace MediAid.Views
                     App.alarmHandler.RemoveAlarm(reminder);
                     //reminder.RepeatingCount = 0;
 
-                    App.alarmHandler.CreateAlarm(reminder, AlarmUtils.NextTimeMillis(reminder, DateTime.Now));
+                    App.alarmHandler.CreateAlarm(reminder, AlarmUtils.NextTimeMillis(reminder));
                 }
             }
             //AlarmHandler handler = DependencyService.Get<AlarmHandler>();

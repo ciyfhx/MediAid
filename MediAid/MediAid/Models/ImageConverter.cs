@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using Xamarin.Forms;
 
@@ -12,6 +13,7 @@ namespace MediAid.Models
         {
             if(value is string)
             {
+                if (String.IsNullOrEmpty(value as string) || !File.Exists(value as string)) return ImageSource.FromResource("pills.png");
                 return ImageSource.FromFile(value as string);
             }
             return null;

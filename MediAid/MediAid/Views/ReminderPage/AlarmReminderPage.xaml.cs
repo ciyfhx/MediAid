@@ -32,7 +32,7 @@ namespace MediAid.Views
         private async void NextReminder(object sender, EventArgs e)
         {
             Reminder.RepeatingCount++;
-            long millis = AlarmUtils.NextTimeMillis(Reminder, DateTime.Now);
+            long millis = AlarmUtils.NextTimeMillis(Reminder);
             App.alarmHandler.CreateAlarm(Reminder, millis);
             MessagingCenter.Send(this, "UpdateReminder", Reminder);
 

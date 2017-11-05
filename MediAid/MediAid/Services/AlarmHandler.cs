@@ -22,29 +22,23 @@ namespace MediAid.Services
         /// <param name="reminder"></param>
         /// <param name="fromTime"></param>
         /// <returns>millis second for the next alarm rings</returns>
-        public static long NextTimeMillis(Reminder reminder, DateTime fromTime)
+        public static long NextTimeMillis(Reminder reminder)
         {
+            DateTime nextRing = (reminder.Date - reminder.Date.TimeOfDay).Add(reminder.Time);
 
-            int cHours = 0, cMins = 0;
-
-            if (reminder.RepeatingCount == 0)
+            if (reminder.RepeatingCount > 0)
             {
-                int diffHours = reminder.Time.Hours - fromTime.Hour;
-                int diffMins = reminder.Time.Minutes - fromTime.Minute;
 
+                nextRing = nextRing.AddHours(reminder.Hours * reminder.RepeatingCount);
+                nextRing = nextRing.AddMinutes(reminder.Mins * reminder.RepeatingCount);
 
-                cHours = (diffHours <= 0 && diffMins < 0) ? (24 + diffHours) : diffHours;
-
-                cMins = (diffMins < 0) ? (60 + diffMins) : diffMins;
-
-                if (cMins > 0 && cHours > 0) cHours--;
             }
 
 #if DEBUG
             reminder.NextRingMillis =  1000 * reminder.Hours;
 
 #else
-            reminder.NextRingMillis = (((cHours + ((reminder.RepeatingCount > 0) ? reminder.Hours : 0))) * 1000 * 60 * 60) + ((cMins + ((reminder.RepeatingCount > 0) ? reminder.Mins : 0)) * 60 * 1000);
+            reminder.NextRingMillis = (long) (nextRing - DateTime.Now).TotalMilliseconds;
 #endif
             return reminder.NextRingMillis;
 

@@ -19,15 +19,19 @@ namespace MediAid.Views
 	{
         private ReminderDrugsListPage viewModel;
 
+        public bool OnAppearToggleFirstFire = false;
+
 
         public ReminderDetails(Reminder reminder)
         {
 
             InitializeComponent();
-            if(reminder.NextRingMillis!=0 && reminder.IsEnabled) UpdateAlarmLabel(reminder);
-
+            OnAppearToggleFirstFire = !reminder.IsEnabled;
+            if (reminder.IsEnabled) UpdateAlarmLabel(reminder);
+            
             //Manually set the data
             Reminder.Text = reminder.Name;
+            Title = reminder.Name;
 
             if (!App.audioHandler.RecordingExist($"{reminder.RecordId}.3gpp"))
             {
@@ -77,15 +81,26 @@ namespace MediAid.Views
                 viewModel.LoadItemsCommand.Execute(null);
         }
 
-        private void Toggle_Reminder(object sender, ToggledEventArgs e)
+        private async void Toggle_Reminder(object sender, ToggledEventArgs e)
         {
+            if (!OnAppearToggleFirstFire)
+            {
+                OnAppearToggleFirstFire = true;
+                return;
+            }
             if (viewModel.Reminder.IsEnabled)
             {
-                if(viewModel.Reminder.RepeatingCount == 0)
+                if((viewModel.Reminder.Date - viewModel.Reminder.Date.TimeOfDay + viewModel.Reminder.Time) < DateTime.Now)
+                {
+                    await DisplayAlert("Error", "This alarm has a starting time in the past", "OK");
+                    viewModel.Reminder.IsEnabled = false;
+                    return;
+                }
+                if (viewModel.Reminder.RepeatingCount == 0)
                 {
                     viewModel.Reminder.TimeEnabled = DateTime.Now;
 
-                    long millis = AlarmUtils.NextTimeMillis(viewModel.Reminder, DateTime.Now);
+                    long millis = AlarmUtils.NextTimeMillis(viewModel.Reminder);
                     App.alarmHandler.CreateAlarm(viewModel.Reminder, millis);
                     //viewModel.Reminder.RepeatingCount = 0;
                     UpdateAlarmLabel(viewModel.Reminder);

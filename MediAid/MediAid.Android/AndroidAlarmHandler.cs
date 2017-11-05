@@ -45,10 +45,8 @@ namespace MediAid.Droid
             PendingIntent pendingIntent = PendingIntent.GetService(context, reminder.ReminderId, intent, PendingIntentFlags.UpdateCurrent);
 
             DateTime now = DateTime.Now;
-            //Get Change in time
-            System.Diagnostics.Debug.WriteLine($"{reminder.Time.Hours}, {now.Hour}");
 
-            if(Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Lollipop)
+            if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Lollipop)
             {
                 alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, Java.Lang.JavaSystem.CurrentTimeMillis() + millis, pendingIntent);
             }

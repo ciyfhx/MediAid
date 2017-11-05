@@ -195,7 +195,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\LoginPage\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\DrugPage\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Others\" />
@@ -218,5 +217,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\pills.png" />
   </ItemGroup>
 </Project>
