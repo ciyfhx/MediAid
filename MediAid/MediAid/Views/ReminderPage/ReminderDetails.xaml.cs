@@ -19,15 +19,9 @@ namespace MediAid.Views
 	{
         private ReminderDrugsListPage viewModel;
 
-        //Toggle will not fire first time if the value is false
-        public bool OnAppearToggleFirstFire = false;
 
         public ReminderDetails(Reminder reminder, bool OnAppearToggleFirstFire)
         {
-            this.OnAppearToggleFirstFire = OnAppearToggleFirstFire;
-            //check whether the reminder is enabled and if the value is already true we dont need to change it
-            if (!OnAppearToggleFirstFire) this.OnAppearToggleFirstFire = !reminder.IsEnabled;
-            else if (reminder.IsEnabled) App.alarmHandler.RemoveAlarm(reminder);
 
             InitializeComponent();
             if(reminder.NextRingMillis!=0 && reminder.IsEnabled) UpdateAlarmLabel(reminder);
@@ -89,19 +83,13 @@ namespace MediAid.Views
 
         private void Toggle_Reminder(object sender, ToggledEventArgs e)
         {
-            //Hack-around to stop the event from fired from first launch if reminder is enabled is true
-            if (!OnAppearToggleFirstFire)
-            {
-                OnAppearToggleFirstFire = true;
-                return;
-            }
             if (viewModel.Reminder.IsEnabled)
             {
-                if (viewModel.Reminder.RepeatingCount == 0) viewModel.Reminder.TimeEnabled = DateTime.Now;
+                viewModel.Reminder.TimeEnabled = DateTime.Now;
 
                 long millis = AlarmUtils.NextTimeMillis(viewModel.Reminder, DateTime.Now);
                 App.alarmHandler.CreateAlarm(viewModel.Reminder, millis);
-                viewModel.Reminder.RepeatingCount++;
+                viewModel.Reminder.RepeatingCount = 0;
                 UpdateAlarmLabel(viewModel.Reminder);
             }
             else
