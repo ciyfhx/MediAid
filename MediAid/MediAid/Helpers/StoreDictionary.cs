@@ -224,6 +224,7 @@ namespace MediAid.Helpers
                 //Auto increment
                 drug.DatabaseId = drugsPath.Keys.Select(d => d.DatabaseId).DefaultIfEmpty(0).Max() + 1;
                 AddDrug(db, drugsPath, drug);
+                App.firebase.AddDrug(drug);
             });
             MessagingCenter.Subscribe<PillDetails, Drug>(this, "RemoveDrug", (obj, drug) =>
             {
