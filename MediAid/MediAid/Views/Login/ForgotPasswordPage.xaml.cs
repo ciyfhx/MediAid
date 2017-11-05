@@ -27,7 +27,7 @@ namespace MediAid.Views
         private async void Reset(object sender, EventArgs e)
         {
             Info.Text = "";
-            bool emailSended = await App.firebase.ResetEmail(Email);
+            bool emailSended = await App.firebase.ResetEmail(Email.Trim());
             if (emailSended)
             {
                 Info.Text = "Check your email for password reset";
