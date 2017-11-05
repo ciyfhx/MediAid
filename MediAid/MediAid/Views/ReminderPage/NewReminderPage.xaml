@@ -19,7 +19,11 @@
                         <Label Text="{Binding Reminder.Mins, StringFormat='Mins {0}'}" FontSize="Medium"/>
                         <Slider Maximum="60" Minimum="1"  Value="{Binding Reminder.Mins, Mode=TwoWay}">
                         </Slider>
-
+                        
+                        <Label Text="Starting Date" FontSize="Medium"/>
+                        <DatePicker x:Name="DatePicker" VerticalOptions="CenterAndExpand"  Date="{Binding Reminder.Date}">
+                            <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
+                        </DatePicker>
                         <Label Text="Starting Time" FontSize="Medium"/>
                         <TimePicker Time="{Binding Reminder.Time}"/>
 

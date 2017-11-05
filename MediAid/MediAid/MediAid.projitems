@@ -13,7 +13,7 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Others\AboutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Reminder\NewReminderPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderPage\NewReminderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -36,9 +36,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\TakeCameraPicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CreateAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddDrugViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RecordReminderViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ReminderDrugsListPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DrugsListPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RemindersListPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderPage\AlarmReminderPage.xaml.cs">
+      <DependentUpon>AlarmReminderPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Others\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
@@ -48,11 +53,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ObservableRangeCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MessengingCenterAlert.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Drug\AddDrug.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DrugPage\AddDrug.xaml.cs">
       <DependentUpon>AddDrug.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Login\CreateAccountPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage\CreateAccountPage.xaml.cs">
       <DependentUpon>CreateAccountPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -60,14 +65,14 @@
       <DependentUpon>Done.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Login\ForgotPasswordPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage\ForgotPasswordPage.xaml.cs">
       <DependentUpon>ForgotPasswordPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Others\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Login\LoginPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -76,26 +81,26 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\TabbedPages.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Reminder\NewReminderPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderPage\NewReminderPage.xaml.cs">
       <DependentUpon>NewReminderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Drug\PillDetails.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DrugPage\PillDetails.xaml.cs">
       <DependentUpon>PillDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Drug\PillsListPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DrugPage\PillsListPage.xaml.cs">
       <DependentUpon>PillsListPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Drug\PillsSelectListPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Reminder\RecordReminder.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DrugPage\PillsSelectListPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderPage\RecordReminder.xaml.cs">
       <DependentUpon>RecordReminder.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Reminder\ReminderDetails.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderPage\ReminderDetails.xaml.cs">
       <DependentUpon>ReminderDetails.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Reminder\RemindersListPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderPage\RemindersListPage.xaml.cs">
       <DependentUpon>RemindersListPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -113,43 +118,43 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\Others\LoadingPages.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Reminder\RemindersListPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderPage\RemindersListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Drug\PillsListPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\DrugPage\PillsListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Drug\AddDrug.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\DrugPage\AddDrug.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Login\LoginPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Reminder\ReminderDetails.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderPage\ReminderDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Drug\PillDetails.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\DrugPage\PillDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Reminder\RecordReminder.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderPage\RecordReminder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -173,7 +178,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Login\CreateAccountPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage\CreateAccountPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -190,12 +195,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Login\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Drug\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\LoginPage\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\DrugPage\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Others\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\RootMaster\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Reminder\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Others\SettingsPage.xaml">
@@ -204,9 +207,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Login\ForgotPasswordPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage\ForgotPasswordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderPage\AlarmReminderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\pills.png" />
   </ItemGroup>
 </Project>

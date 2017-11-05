@@ -19,22 +19,19 @@ namespace MediAid.Views
 	{
         private ReminderDrugsListPage viewModel;
 
-        //Toggle will not fire first time if the value is false
         public bool OnAppearToggleFirstFire = false;
 
-        public ReminderDetails(Reminder reminder, bool OnAppearToggleFirstFire)
-        {
-            this.OnAppearToggleFirstFire = OnAppearToggleFirstFire;
-            //check whether the reminder is enabled and if the value is already true we dont need to change it
-            if (!OnAppearToggleFirstFire) OnAppearToggleFirstFire = !reminder.IsEnabled;
-            else if (reminder.IsEnabled) App.alarmHandler.RemoveAlarm(reminder);
 
-            //if (OnAppearToggleFirstFire && ) 
+        public ReminderDetails(Reminder reminder)
+        {
 
             InitializeComponent();
-
+            OnAppearToggleFirstFire = !reminder.IsEnabled;
+            if (reminder.IsEnabled) UpdateAlarmLabel(reminder);
+            
             //Manually set the data
             Reminder.Text = reminder.Name;
+            Title = reminder.Name;
 
             if (!App.audioHandler.RecordingExist($"{reminder.RecordId}.3gpp"))
             {
@@ -45,10 +42,6 @@ namespace MediAid.Views
 
           
             
-        }
-
-        public ReminderDetails(Reminder reminder) : this(reminder, false)
-        {
         }
 
         async void To_PillDetails(object sender, SelectedItemChangedEventArgs e)
@@ -88,9 +81,8 @@ namespace MediAid.Views
                 viewModel.LoadItemsCommand.Execute(null);
         }
 
-        private void Toggle_Reminder(object sender, ToggledEventArgs e)
+        private async void Toggle_Reminder(object sender, ToggledEventArgs e)
         {
-            //Hack-around to stop the event from fired from first launch if reminder is enabled is true
             if (!OnAppearToggleFirstFire)
             {
                 OnAppearToggleFirstFire = true;
@@ -98,23 +90,47 @@ namespace MediAid.Views
             }
             if (viewModel.Reminder.IsEnabled)
             {
-                viewModel.Reminder.TimeEnabled = DateTime.Now;
-                App.alarmHandler.CreateAlarm(viewModel.Reminder);
-                viewModel.Reminder.RepeatingCount++;
+                if((viewModel.Reminder.Date - viewModel.Reminder.Date.TimeOfDay + viewModel.Reminder.Time) < DateTime.Now)
+                {
+                    await DisplayAlert("Error", "This alarm has a starting time in the past", "OK");
+                    viewModel.Reminder.IsEnabled = false;
+                    return;
+                }
+                if (viewModel.Reminder.RepeatingCount == 0)
+                {
+                    viewModel.Reminder.TimeEnabled = DateTime.Now;
+
+                    long millis = AlarmUtils.NextTimeMillis(viewModel.Reminder);
+                    App.alarmHandler.CreateAlarm(viewModel.Reminder, millis);
+                    //viewModel.Reminder.RepeatingCount = 0;
+                    UpdateAlarmLabel(viewModel.Reminder);
+                }
             }
             else
             {
                 viewModel.Reminder.RepeatingCount = 0;
                 App.alarmHandler.RemoveAlarm(viewModel.Reminder);
+                NextAlarm.Text = "";
             }
             MessagingCenter.Send(this, "UpdateReminder", viewModel.Reminder);
 
 
         }
 
-        private void Edit_Clicked(object sender, EventArgs e)
+        private void UpdateAlarmLabel(Reminder reminder)
         {
-            Navigation.PushAsync(new NewReminderPage(viewModel.Reminder));
+            DateTime now = DateTime.Now;
+
+
+            NextAlarm.Text = $"Next alarm will ring on {now.AddMilliseconds(reminder.NextRingMillis).ToString("d MMM (ddd), h:mm tt")}";
         }
+
+        private async void Edit_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NewReminderPage(viewModel.Reminder));
+        }
+
+        
+
     }
 }

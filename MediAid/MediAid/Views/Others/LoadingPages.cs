@@ -40,8 +40,8 @@ namespace MediAid.Views
                     if (ReminderId != -1)
                     {
                         //Update recreate our reminder by firing the event
-                        var reminderDetails = new ReminderDetails(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId), true);
-                        await rootMasterPage.Detail.Navigation.PushAsync(reminderDetails);
+                        var alarmReminderPage = new AlarmReminderPage(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId));
+                        await rootMasterPage.Detail.Navigation.PushModalAsync(alarmReminderPage);
                     }
                 }//if(connected) NavigationPage.SetHasNavigationBar(this, false);
             }

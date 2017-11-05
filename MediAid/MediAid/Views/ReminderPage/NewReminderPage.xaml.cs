@@ -30,8 +30,9 @@ namespace MediAid.Views
                 Hours = 1,
                 IsEnabled = false,
                 RecordId = Guid.NewGuid().ToString(),
-                Time = new TimeSpan(12, 0, 0)
-			};
+                Time = DateTime.Now.TimeOfDay,
+                Date = DateTime.Now,
+            };
 
             Init(temp);
         }
@@ -45,6 +46,8 @@ namespace MediAid.Views
         {
             InitializeComponent();
 
+            DatePicker.MinimumDate = DateTime.Now;
+
             Reminder = reminder;
 
             BindingContext = this;
@@ -54,8 +57,16 @@ namespace MediAid.Views
 		{
             //MessagingCenter.Send(this, "AddTiming", new Timing { Time = this.Time});
             //Debug.WriteLine($"{picker.Time.Hours}, {picker.Time.TotalHours}");
-            if(Validation())
-            await Navigation.PushAsync(new PillsSelectListPage(Reminder));
+            if ((Reminder.Date - Reminder.Date.TimeOfDay + Reminder.Time) < DateTime.Now)
+            {
+                await DisplayAlert("Error" , "Cannot set alarm in the past", "OK");
+                return;
+            }
+            if (Validation())
+            {
+                await Navigation.PushAsync(new PillsSelectListPage(Reminder));
+            }
+
 		}
 
         public bool Validation()

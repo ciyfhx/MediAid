@@ -17,6 +17,7 @@ namespace MediAid.Views
         public PillDetails(Drug drug)
         {
             this.Drug = drug;
+            Title = drug.Name;
             InitializeComponent();
 
             BindingContext = this;

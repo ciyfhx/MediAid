@@ -51,6 +51,12 @@ namespace MediAid.Models
         [ManyToMany(typeof(ReminderDrug), CascadeOperations = CascadeOperation.All)]
         public List<Drug> Drugs { get; set; }
 
+        public DateTime Date { get; set; } = DateTime.Now;
+
+
+        //Initiate with AlarmUtils.NextTimeMillis
+        public long NextRingMillis = 0;
+
         private int repeatingCount = 0;
         public int RepeatingCount
         {

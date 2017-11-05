@@ -214,6 +214,7 @@ namespace MediAid.Droid
             map.Put("Mins", reminder.Mins);
             map.Put("IsEnabled", reminder.IsEnabled);
             map.Put("Time", reminder.Time.ToString());
+            map.Put("Date", reminder.Date.ToString());
             map.Put("RecordId", reminder.RecordId);
 
             var list = new JavaList();
@@ -232,6 +233,7 @@ namespace MediAid.Droid
                 Mins = Convert.ToInt32(dictionary["Mins"]),
                 IsEnabled = Boolean.Parse(dictionary["IsEnabled"].ToString()),
                 Time = TimeSpan.Parse(dictionary["Time"].ToString()),
+                Date = DateTime.Parse(dictionary["Date"].ToString()),
                 RecordId = dictionary["RecordId"].ToString()
             };
         }

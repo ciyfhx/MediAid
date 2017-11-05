@@ -65,7 +65,7 @@ namespace MediAid.Droid
 
                 //Restart alarms
                 db.Table<Reminder>().ToList().ForEach(reminder => {
-                    if (reminder.IsEnabled) alarmHandler.CreateAlarm(reminder);
+                    if (reminder.IsEnabled) alarmHandler.CreateAlarm(reminder, AlarmUtils.NextTimeMillis(reminder));
                 });
                 WriteLine("Alarm Restart Complete");
             }

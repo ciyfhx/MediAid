@@ -32,7 +32,7 @@ namespace MediAid.Droid
 
 
 
-        public bool CreateAlarm(Reminder reminder)
+        public bool CreateAlarm(Reminder reminder, long millis)
         {
             Context context = Android.App.Application.Context;
             AlarmManager alarmManager = context.GetSystemService(Context.AlarmService) as AlarmManager;
@@ -45,33 +45,15 @@ namespace MediAid.Droid
             PendingIntent pendingIntent = PendingIntent.GetService(context, reminder.ReminderId, intent, PendingIntentFlags.UpdateCurrent);
 
             DateTime now = DateTime.Now;
-            //Get Change in time
-            System.Diagnostics.Debug.WriteLine($"{reminder.Time.Hours}, {now.Hour}");
 
-            int cHours = 0, cMins = 0;
-
-            if (reminder.RepeatingCount==0)
+            if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Lollipop)
             {
-                int diffHours = reminder.Time.Hours - now.Hour;
-                int diffMins = reminder.Time.Minutes - now.Minute;
-
-
-                cHours = (diffHours <= 0 && diffMins < 0) ? (24 + diffHours) : diffHours;
-
-                cMins = (diffMins < 0) ? (60 + diffMins) : diffMins;
-
-                if (cMins > 0 && cHours > 0) cHours--;
+                alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, Java.Lang.JavaSystem.CurrentTimeMillis() + millis, pendingIntent);
             }
-            
-
-#if DEBUG
-            long millis = 1000 * reminder.Hours;
-
-#else
-            long millis = (((cHours + ((reminder.RepeatingCount>0) ? reminder.Hours : 0))) * 1000 * 60 * 60) + ((cMins + ((reminder.RepeatingCount > 0) ? reminder.Mins : 0)) * 60 * 1000);
-#endif
-
-            alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, Java.Lang.JavaSystem.CurrentTimeMillis() + millis, pendingIntent);
+            else
+            {
+                alarmManager.Set(AlarmType.RtcWakeup, Java.Lang.JavaSystem.CurrentTimeMillis() + millis, pendingIntent);
+            }
 
             Toast.MakeText(context, $"Alarm Created On {now.AddMilliseconds(millis).ToString("d MMM (ddd), h:mm tt")}", ToastLength.Long).Show();
 
