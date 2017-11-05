@@ -1,9 +1,12 @@
-﻿using MediAid.Models;
+﻿using MediAid.Helpers;
+using MediAid.Models;
 using MediAid.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,8 +16,8 @@ using Xamarin.Forms.Xaml;
 namespace MediAid.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class RecordReminder : ContentPage
-	{
+	public partial class RecordReminder : ContentPage, INotifyPropertyChanged
+    {
 
 
         private const string RECORD_TEXT = "Record a Reminder";
@@ -63,6 +66,7 @@ namespace MediAid.Views
         private void UpdateDetails(object source)
         {
             Details = $"{seconds}s";
+            OnPropertyChanged();
         }
 
         async void Done()
@@ -77,16 +81,19 @@ namespace MediAid.Views
                 if (reminder.IsEnabled)
                 {
                     App.alarmHandler.RemoveAlarm(reminder);
-                    reminder.RepeatingCount = 0;
-                    App.alarmHandler.CreateAlarm(reminder);
+                    //reminder.RepeatingCount = 0;
+
+                    App.alarmHandler.CreateAlarm(reminder, AlarmUtils.NextTimeMillis(reminder, DateTime.Now));
                 }
             }
             //AlarmHandler handler = DependencyService.Get<AlarmHandler>();
 
             //handler.CreateAlarm(reminder);
 
-            await Navigation.PopToRootAsync();
+            await Navigation.PushAsync(new ReminderDetails(reminder));
         }
+
+
 
     }
 }

@@ -26,12 +26,11 @@ namespace MediAid.Views
         {
             this.OnAppearToggleFirstFire = OnAppearToggleFirstFire;
             //check whether the reminder is enabled and if the value is already true we dont need to change it
-            if (!OnAppearToggleFirstFire) OnAppearToggleFirstFire = !reminder.IsEnabled;
+            if (!OnAppearToggleFirstFire) this.OnAppearToggleFirstFire = !reminder.IsEnabled;
             else if (reminder.IsEnabled) App.alarmHandler.RemoveAlarm(reminder);
 
-            //if (OnAppearToggleFirstFire && ) 
-
             InitializeComponent();
+            if(reminder.NextRingMillis!=0 && reminder.IsEnabled) UpdateAlarmLabel(reminder);
 
             //Manually set the data
             Reminder.Text = reminder.Name;
@@ -98,23 +97,38 @@ namespace MediAid.Views
             }
             if (viewModel.Reminder.IsEnabled)
             {
-                viewModel.Reminder.TimeEnabled = DateTime.Now;
-                App.alarmHandler.CreateAlarm(viewModel.Reminder);
+                if (viewModel.Reminder.RepeatingCount == 0) viewModel.Reminder.TimeEnabled = DateTime.Now;
+
+                long millis = AlarmUtils.NextTimeMillis(viewModel.Reminder, DateTime.Now);
+                App.alarmHandler.CreateAlarm(viewModel.Reminder, millis);
                 viewModel.Reminder.RepeatingCount++;
+                UpdateAlarmLabel(viewModel.Reminder);
             }
             else
             {
                 viewModel.Reminder.RepeatingCount = 0;
                 App.alarmHandler.RemoveAlarm(viewModel.Reminder);
+                NextAlarm.Text = "";
             }
             MessagingCenter.Send(this, "UpdateReminder", viewModel.Reminder);
 
 
         }
 
-        private void Edit_Clicked(object sender, EventArgs e)
+        private void UpdateAlarmLabel(Reminder reminder)
         {
-            Navigation.PushAsync(new NewReminderPage(viewModel.Reminder));
+            DateTime now = DateTime.Now;
+
+
+            NextAlarm.Text = $"Next alarm will ring on {now.AddMilliseconds(reminder.NextRingMillis).ToString("d MMM (ddd), h:mm tt")}";
         }
+
+        private async void Edit_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NewReminderPage(viewModel.Reminder));
+        }
+
+        
+
     }
 }
