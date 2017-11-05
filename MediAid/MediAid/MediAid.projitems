@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\TakeCameraPicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CreateAccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddDrugViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RecordReminderViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ReminderDrugsListPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DrugsListPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RemindersListPageViewModel.cs" />
@@ -195,7 +196,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Views\Drug\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Others\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\RootMaster\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Reminder\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Others\SettingsPage.xaml">

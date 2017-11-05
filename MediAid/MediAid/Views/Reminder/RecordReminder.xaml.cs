@@ -1,6 +1,7 @@
 ﻿using MediAid.Helpers;
 using MediAid.Models;
 using MediAid.Services;
+using MediAid.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,19 +17,16 @@ using Xamarin.Forms.Xaml;
 namespace MediAid.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class RecordReminder : ContentPage, INotifyPropertyChanged
+	public partial class RecordReminder : ContentPage
     {
-
-
         private const string RECORD_TEXT = "Record a Reminder";
         private const string STOP_RECORD_TEXT = "Stop Recording";
 
         private Timer timer;
-        private int seconds = 0;
-
-        private string Details;
 
         private Reminder reminder;
+
+        private RecordReminderViewModel viewModel;
 
         public RecordReminder (Reminder reminder)
 		{
@@ -36,7 +34,7 @@ namespace MediAid.Views
             this.reminder = reminder;
 			InitializeComponent ();
 
-            BindingContext = this;
+            BindingContext = viewModel = new RecordReminderViewModel();
 
             RecordBtn.Text = RECORD_TEXT;
 
@@ -50,7 +48,8 @@ namespace MediAid.Views
                 RecordBtn.Text = STOP_RECORD_TEXT;
                 Debug.WriteLine(reminder.RecordId);
 
-                timer = new Timer(new TimerCallback(UpdateDetails), null, 1000, 1000);
+                viewModel.Reset();
+                timer = new Timer(new TimerCallback(viewModel.UpdateDetails), null, 1000, 1000);
                 App.audioHandler.StartRecording($"{reminder.RecordId}.3gpp");
             }
             else
@@ -63,11 +62,7 @@ namespace MediAid.Views
 
         }
 
-        private void UpdateDetails(object source)
-        {
-            Details = $"{seconds}s";
-            OnPropertyChanged();
-        }
+
 
         async void Done()
         {

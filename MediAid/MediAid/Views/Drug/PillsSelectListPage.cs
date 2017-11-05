@@ -5,7 +5,6 @@ using global::MediAid.ViewModels;
 using System.ComponentModel;
 using Xamarin.Forms;
 using static Xamarin.Forms.Device;
-using MediAid.Services;
 
 namespace MediAid.Views
 {
