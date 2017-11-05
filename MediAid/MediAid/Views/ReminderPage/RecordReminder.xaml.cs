@@ -84,7 +84,7 @@ namespace MediAid.Views
             //AlarmHandler handler = DependencyService.Get<AlarmHandler>();
 
             //handler.CreateAlarm(reminder);
-
+            await Navigation.PopToRootAsync();
             await Navigation.PushAsync(new ReminderDetails(reminder));
         }
 
