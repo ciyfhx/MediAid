@@ -20,7 +20,7 @@ namespace MediAid.Views
         private ReminderDrugsListPage viewModel;
 
 
-        public ReminderDetails(Reminder reminder, bool OnAppearToggleFirstFire)
+        public ReminderDetails(Reminder reminder)
         {
 
             InitializeComponent();
@@ -38,10 +38,6 @@ namespace MediAid.Views
 
           
             
-        }
-
-        public ReminderDetails(Reminder reminder) : this(reminder, false)
-        {
         }
 
         async void To_PillDetails(object sender, SelectedItemChangedEventArgs e)
@@ -85,12 +81,15 @@ namespace MediAid.Views
         {
             if (viewModel.Reminder.IsEnabled)
             {
-                viewModel.Reminder.TimeEnabled = DateTime.Now;
+                if(viewModel.Reminder.RepeatingCount == 0)
+                {
+                    viewModel.Reminder.TimeEnabled = DateTime.Now;
 
-                long millis = AlarmUtils.NextTimeMillis(viewModel.Reminder, DateTime.Now);
-                App.alarmHandler.CreateAlarm(viewModel.Reminder, millis);
-                viewModel.Reminder.RepeatingCount = 0;
-                UpdateAlarmLabel(viewModel.Reminder);
+                    long millis = AlarmUtils.NextTimeMillis(viewModel.Reminder, DateTime.Now);
+                    App.alarmHandler.CreateAlarm(viewModel.Reminder, millis);
+                    //viewModel.Reminder.RepeatingCount = 0;
+                    UpdateAlarmLabel(viewModel.Reminder);
+                }
             }
             else
             {

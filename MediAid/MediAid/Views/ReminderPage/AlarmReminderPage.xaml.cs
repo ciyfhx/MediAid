@@ -31,9 +31,11 @@ namespace MediAid.Views
 
         private async void NextReminder(object sender, EventArgs e)
         {
+            Reminder.RepeatingCount++;
             long millis = AlarmUtils.NextTimeMillis(Reminder, DateTime.Now);
             App.alarmHandler.CreateAlarm(Reminder, millis);
-            Reminder.RepeatingCount++;
+            MessagingCenter.Send(this, "UpdateReminder", Reminder);
+
 
 
             await (App.Current.MainPage as RootMasterPage).Detail.Navigation.PopModalAsync();

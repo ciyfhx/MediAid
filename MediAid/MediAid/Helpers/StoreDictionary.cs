@@ -149,6 +149,10 @@ namespace MediAid.Helpers
                 UpdateReminderDatabase(db, reminder);
                 App.firebase.AddReminder(reminder);
             });
+            MessagingCenter.Subscribe<AlarmReminderPage, Reminder>(this, "UpdateReminder", (obj, reminder) => {
+                UpdateReminderDatabase(db, reminder);
+                App.firebase.AddReminder(reminder);
+            });
 
             MessagingCenter.Subscribe<Reminder, Reminder>(this, "UpdateReminder", (obj, reminder) => {
                 UpdateReminderDatabase(db, reminder);
