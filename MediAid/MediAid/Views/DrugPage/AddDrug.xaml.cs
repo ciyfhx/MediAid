@@ -80,10 +80,10 @@ namespace MediAid.Views
                 viewModel.Drug.ImageFile = file.Path;
 
                 //Get Predictions
-                //var predictions = await SendImageForPredictionAsync(file.Path);
-                //var highest = predictions.GetHighest();
-                //viewModel.DrugTypeName = highest.Item1.Name;
-                //DrugsPicker.SelectedItem = highest.Item1.Name;
+                var predictions = await SendImageForPredictionAsync(file.Path);
+                var highest = predictions.GetHighest();
+                viewModel.DrugTypeName = highest.Item1.Name;
+                DrugsPicker.SelectedItem = highest.Item1.Name;
 
                 Image.Source = newImage;
             }
@@ -93,7 +93,7 @@ namespace MediAid.Views
 
         private async Task<Predictions> SendImageForPredictionAsync(string file)
         {
-            WebRequest webrequest = WebRequest.Create(new Uri("http://ciyfhx.ddns.net:80"));
+            WebRequest webrequest = WebRequest.Create(new Uri("http://ciyfhx.ddns.net:5555"));
             webrequest.ContentType = "application/x-www-form-urlencoded";
             webrequest.Method = "POST";
 
