@@ -31,10 +31,13 @@ namespace MediAid.Views
 
         private async void NextReminder(object sender, EventArgs e)
         {
-            Reminder.RepeatingCount++;
-            long millis = AlarmUtils.NextTimeMillis(Reminder);
-            App.alarmHandler.CreateAlarm(Reminder, millis);
-            MessagingCenter.Send(this, "UpdateReminder", Reminder);
+            if (Reminder.IsEnabled)
+            {
+                Reminder.RepeatingCount++;
+                long millis = AlarmUtils.NextTimeMillis(Reminder);
+                App.alarmHandler.CreateAlarm(Reminder, millis);
+                MessagingCenter.Send(this, "UpdateReminder", Reminder);
+            }
 
 
 
@@ -42,5 +45,13 @@ namespace MediAid.Views
             await (App.Current.MainPage as RootMasterPage).Detail.Navigation.PushAsync(new ReminderDetails(Reminder));
             //Navigation.RemovePage(this.Navigation.NavigationStack[this.Navigation.NavigationStack.Count - 1]);
         }
+
+        void Play_Reminder(object sender, EventArgs e)
+        {
+            App.audioHandler.PlayRecording($"{Reminder.RecordId}.3gpp");
+
+
+        }
+
     }
 }

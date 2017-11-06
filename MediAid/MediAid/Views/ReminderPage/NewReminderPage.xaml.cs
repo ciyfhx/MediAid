@@ -31,7 +31,7 @@ namespace MediAid.Views
                 IsEnabled = false,
                 RecordId = Guid.NewGuid().ToString(),
                 Time = DateTime.Now.TimeOfDay,
-                Date = DateTime.Now,
+                Date = DateTime.Today,
             };
 
             Init(temp);
@@ -44,6 +44,9 @@ namespace MediAid.Views
 
         private void Init(Reminder reminder)
         {
+            //Fix the bug where the time set on the previous day will cause error
+            if (reminder.Date < DateTime.Today) reminder.Date = DateTime.Today;
+
             InitializeComponent();
 
             DatePicker.MinimumDate = DateTime.Now;
@@ -57,7 +60,7 @@ namespace MediAid.Views
 		{
             //MessagingCenter.Send(this, "AddTiming", new Timing { Time = this.Time});
             //Debug.WriteLine($"{picker.Time.Hours}, {picker.Time.TotalHours}");
-            if ((Reminder.Date - Reminder.Date.TimeOfDay + Reminder.Time) < DateTime.Now)
+            if ((Reminder.Date + Reminder.Time) < DateTime.Now)
             {
                 await DisplayAlert("Error" , "Cannot set alarm in the past", "OK");
                 return;

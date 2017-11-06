@@ -90,7 +90,7 @@ namespace MediAid.Views
             }
             if (viewModel.Reminder.IsEnabled)
             {
-                if((viewModel.Reminder.Date - viewModel.Reminder.Date.TimeOfDay + viewModel.Reminder.Time) < DateTime.Now)
+                if((viewModel.Reminder.Date + viewModel.Reminder.Time) < DateTime.Now)
                 {
                     await DisplayAlert("Error", "This alarm has a starting time in the past", "OK");
                     viewModel.Reminder.IsEnabled = false;
