@@ -17,7 +17,7 @@ namespace MediAid.Models
         [PrimaryKey]
         public int SettingsId { get; set; }
 
-        public string Version { get; } = "1.3.10";
+        public string Version { get; } = "1.3.11";
 
         private bool isLogin;
 
