@@ -10,9 +10,9 @@
         <StackLayout Spacing="20" Padding="15">
             <Frame>
                 <StackLayout  Spacing="20" Padding="15">
-                    <Label HorizontalTextAlignment="Center" x:Name="NextAlarm" TextColor="Black"  FontSize="Small" />
+                    <Label HorizontalTextAlignment="Center" x:Name="NextAlarm" TextColor="Black"  FontSize="Medium" />
                     <StackLayout Orientation="Horizontal">
-                        <Label HorizontalTextAlignment="Center" x:Name="Reminder" TextColor="Black"  FontSize="Large" />
+                        <Label HorizontalTextAlignment="Center" x:Name="Reminder" TextColor="Black"  FontSize="35" />
                         <Switch x:Name="Switch" IsToggled="{Binding Reminder.IsEnabled, Mode=TwoWay}" Toggled="Toggle_Reminder"/>
                     </StackLayout>
                     <ListView ItemsSource="{Binding Items}"

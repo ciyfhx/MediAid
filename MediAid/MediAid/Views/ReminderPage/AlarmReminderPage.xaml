@@ -8,7 +8,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" 
                    TextColor="Black"
-                   FontSize="Large"/>
+                   FontSize="35"/>
             <Button Text="Play Reminder" Clicked="Play_Reminder"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
             <Button Text="Done" Clicked="NextReminder"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
         </StackLayout>
