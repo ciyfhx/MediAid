@@ -3959,6 +3959,27 @@ namespace MediAid.Droid
 			// aapt resource value: 0x7f0a0010
 			public const int common_signin_button_text_long = 2131361808;
 			
+			// aapt resource value: 0x7f0a0054
+			public const int default_web_client_id = 2131361876;
+			
+			// aapt resource value: 0x7f0a0055
+			public const int firebase_database_url = 2131361877;
+			
+			// aapt resource value: 0x7f0a0052
+			public const int gcm_defaultSenderId = 2131361874;
+			
+			// aapt resource value: 0x7f0a0056
+			public const int google_api_key = 2131361878;
+			
+			// aapt resource value: 0x7f0a0053
+			public const int google_app_id = 2131361875;
+			
+			// aapt resource value: 0x7f0a0057
+			public const int google_crash_reporting_api_key = 2131361879;
+			
+			// aapt resource value: 0x7f0a0058
+			public const int google_storage_bucket = 2131361880;
+			
 			// aapt resource value: 0x7f0a0012
 			public const int mr_button_content_description = 2131361810;
 			
