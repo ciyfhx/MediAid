@@ -80,10 +80,10 @@ namespace MediAid.Views
                 viewModel.Drug.ImageFile = file.Path;
 
                 //Get Predictions
-                var predictions = await SendImageForPredictionAsync(file.Path);
-                var highest = predictions.GetHighest();
-                viewModel.DrugTypeName = highest.Item1.Name;
-                DrugsPicker.SelectedItem = highest.Item1.Name;
+                //var predictions = await SendImageForPredictionAsync(file.Path);
+                //var highest = predictions.GetHighest();
+                //viewModel.DrugTypeName = highest.Item1.Name;
+                //DrugsPicker.SelectedItem = highest.Item1.Name;
 
                 Image.Source = newImage;
             }
