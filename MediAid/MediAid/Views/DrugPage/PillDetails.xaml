@@ -8,7 +8,7 @@
             <Frame>
                 <StackLayout  Spacing="20" Padding="15">
 
-                    <Label HorizontalTextAlignment="Center" Text="{Binding Drug.Name}"  FontSize="Large" />
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Drug.Name}"  FontSize="35" />
                     <Image Source="{Binding Drug.ImageFile, Converter={StaticResource ImageConverter}}"/>
 
                 </StackLayout>

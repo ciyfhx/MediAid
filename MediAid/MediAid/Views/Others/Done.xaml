@@ -4,7 +4,7 @@
              x:Class="MediAid.Views.Done">
     <ContentPage.Content>
         <StackLayout  Spacing="20" Padding="15" VerticalOptions="CenterAndExpand">
-            <Label HorizontalTextAlignment="Center" FontSize="Large" TextColor="Black"  Text="{Binding Text, Mode=TwoWay}" />
+            <Label HorizontalTextAlignment="Center" FontSize="35" TextColor="Black"  Text="{Binding Text, Mode=TwoWay}" />
             <Button Text="Done" Clicked="OnClickTask"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
         </StackLayout>
     </ContentPage.Content>

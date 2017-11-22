@@ -9,22 +9,22 @@
             <StackLayout Spacing="20" Padding="15">
                 <Frame>
                     <StackLayout Spacing="20" Padding="15">
-                        <Label Text="Reminder Name" FontSize="Medium" />
-                        <Entry Text="{Binding Reminder.Name, Mode=TwoWay}" FontSize="Small" />
+                        <Label Text="Reminder Name" FontSize="Large" />
+                        <Entry Text="{Binding Reminder.Name, Mode=TwoWay}" FontSize="Medium" />
 
                        
-                        <Label Text="{Binding Reminder.Hours, StringFormat='Hours {0}'}" FontSize="Medium"/>
+                        <Label Text="{Binding Reminder.Hours, StringFormat='Hours {0}'}" FontSize="Large"/>
                         <Slider Maximum="24" Minimum="0"  Value="{Binding Reminder.Hours, Mode=TwoWay}">
                         </Slider>
-                        <Label Text="{Binding Reminder.Mins, StringFormat='Mins {0}'}" FontSize="Medium"/>
+                        <Label Text="{Binding Reminder.Mins, StringFormat='Mins {0}'}" FontSize="Large"/>
                         <Slider Maximum="60" Minimum="1"  Value="{Binding Reminder.Mins, Mode=TwoWay}">
                         </Slider>
                         
-                        <Label Text="Starting Date" FontSize="Medium"/>
+                        <Label Text="Starting Date" FontSize="Large"/>
                         <DatePicker x:Name="DatePicker" VerticalOptions="CenterAndExpand"  Date="{Binding Reminder.Date}">
                             <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
                         </DatePicker>
-                        <Label Text="Starting Time" FontSize="Medium"/>
+                        <Label Text="Starting Time" FontSize="Large"/>
                         <TimePicker Time="{Binding Reminder.Time}"/>
 
                     </StackLayout>

@@ -9,7 +9,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10" Padding="15" >
-                <Label x:Name="PasswordError" IsVisible="False" TextColor="Red" FontSize="Small"/>
+                <Label x:Name="PasswordError" IsVisible="False" TextColor="Red" FontSize="Medium"/>
                 <Label Text="Email:" />
                 <Entry Text="{Binding Email}" Placeholder="Email"/>
                 <Label Text="Password:" />
