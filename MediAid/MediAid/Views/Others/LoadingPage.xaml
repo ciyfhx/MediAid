@@ -6,7 +6,7 @@
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15" VerticalOptions="CenterAndExpand">
-            <Label HorizontalTextAlignment="Center" FontSize="35" TextColor="Black"  Text="{Binding LoadingText, Mode=TwoWay}" />
+            <Label HorizontalTextAlignment="Center" FontSize="Large" TextColor="Black"  Text="{Binding LoadingText, Mode=TwoWay}" />
             <ActivityIndicator Color="{StaticResource Primary}" IsRunning="true" />
         </StackLayout>
 

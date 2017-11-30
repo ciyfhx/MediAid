@@ -23,6 +23,7 @@ using static System.Diagnostics.Debug;
 using Android.Content.Res;
 using Firebase.Storage;
 using System.IO;
+using MediAid.Helpers;
 
 [assembly: Dependency(typeof(AndroidFirebaseConnection))]
 namespace MediAid.Droid
@@ -78,7 +79,7 @@ namespace MediAid.Droid
 
                     //reminder.Drugs = drugs.Where(drug => cList.Any(id => drug.DatabaseId == id)).ToList();
 
-                    reminder.Drugs = drugs.Where(drug => list.CheckIdContains(drug.DatabaseId)).ToList();
+                    reminder.Drugs  = drugs.Where(drug => list.CheckIdContains(drug.DatabaseId)).ToList();
 
                 }
                 
@@ -218,7 +219,7 @@ namespace MediAid.Droid
             map.Put("RecordId", reminder.RecordId);
 
             var list = new JavaList();
-            reminder.Drugs?.ForEach(drug => list.Add(drug.DatabaseId));
+            reminder.Drugs?.ToList().ForEach(drug => list.Add(drug.DatabaseId));
 
             map.Put("Drugs", list);
 

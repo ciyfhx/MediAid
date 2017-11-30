@@ -11,12 +11,13 @@ using System.Diagnostics;
 
 namespace MediAid.Services
 {
+
 	public class LoadDataStore<T> : IDataStore<T> where T : BaseModel
     {
 		public bool IsInitialized { get; set; }
 		List<T> Items;
 
-        public delegate List<T> LoadData();
+        public delegate IEnumerable<T> LoadData();
 
         public LoadData LoadDataHandler;
 
@@ -82,9 +83,9 @@ namespace MediAid.Services
 
             Items = new List<T>();
 
-            List<T> _Items = LoadDataHandler();
+            IEnumerable<T> _Items = LoadDataHandler();
 
-            _Items.ForEach(Item => Items.Add(Item));
+            _Items.ToList().ForEach(Item => Items.Add(Item));
 
 			IsInitialized = true;
 		}

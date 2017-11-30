@@ -9,6 +9,8 @@ using SQLiteNetExtensions.Extensions;
 using Newtonsoft.Json;
 using System.IO;
 using Xamarin.Forms;
+using MediAid.Helpers;
+using System.Runtime.CompilerServices;
 
 namespace MediAid.Models
 {
@@ -18,7 +20,15 @@ namespace MediAid.Models
         [PrimaryKey]
         public int ReminderId { get; set; }
 
-        public string Name { get; set; }
+        private string name;
+        public string Name {
+            get => name;
+            set
+            {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string RecordId { get; set; }
 
@@ -31,7 +41,7 @@ namespace MediAid.Models
             set
             {
                 hours = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
+                OnPropertyChanged();
             }
         }
         private int mins;
@@ -41,7 +51,7 @@ namespace MediAid.Models
             set
             {
                 mins = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
+                OnPropertyChanged();
             }
         }
 
@@ -50,6 +60,7 @@ namespace MediAid.Models
         public TimeSpan Time { get; set; }
         [ManyToMany(typeof(ReminderDrug), CascadeOperations = CascadeOperation.All)]
         public List<Drug> Drugs { get; set; }
+
 
         public DateTime Date { get; set; }
 
@@ -75,6 +86,21 @@ namespace MediAid.Models
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #region INotifyPropertyChanged
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        public void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        {
+            var changed = PropertyChanged;
+            if (changed == null)
+                return;
+
+            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        } 
+        #endregion
 
 
 

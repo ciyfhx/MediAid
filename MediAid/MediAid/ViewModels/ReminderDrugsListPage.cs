@@ -17,7 +17,7 @@ namespace MediAid.ViewModels
     {
         public Reminder Reminder { get; set; }
 
-        public override List<Drug> GetData()
+        public override IEnumerable<Drug> GetData()
         {
             //reminder.Drugs.ForEach(drug => list.Add(drug.ToDrug()));
             return Reminder.Drugs;

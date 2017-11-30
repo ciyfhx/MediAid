@@ -15,7 +15,7 @@ namespace MediAid.ViewModels
     class DrugsListPageViewModel : LoadData<Drug>
     {
 
-        public override List<Drug> GetData()
+        public override IEnumerable<Drug> GetData()
         {
             return App.Drugs.GetItems().Keys.ToList();
         }

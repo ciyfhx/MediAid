@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediAid.Views.ReminderPage;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -15,7 +16,12 @@ namespace MediAid.Views
             {
                 Children =
                 {
-                    new RemindersListPage()
+                    new ReminderList()
+                    {
+                        Title = "Reminders",
+                        Icon = Device.OnPlatform<string>("tab_feed.png",null,null)
+                   },
+                   new RemindersListPage()
                     {
                         Title = "Reminders",
                         Icon = Device.OnPlatform<string>("tab_feed.png",null,null)

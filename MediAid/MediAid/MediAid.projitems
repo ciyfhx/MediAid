@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnvironmentUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\StoreDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\HorizontalListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Drug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LoadData.cs" />
@@ -78,6 +79,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Others\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderPage\ReminderList.xaml.cs">
+      <DependentUpon>ReminderList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\TabbedPages.cs" />
@@ -220,5 +225,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\pills.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderPage\ReminderList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -27,6 +27,9 @@ namespace MediAid.Views
 
 
             InitializeComponent ();
+
+            Play_Reminder(null, null);
+
 		}
 
         private async void NextReminder(object sender, EventArgs e)

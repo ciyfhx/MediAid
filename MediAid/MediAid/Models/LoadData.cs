@@ -18,7 +18,7 @@ namespace MediAid.Models
 
         protected LoadDataStore<T> ItemsDataStore = new LoadDataStore<T>();
 
-        public abstract List<T> GetData();
+        public abstract IEnumerable<T> GetData();
 
         public LoadData()
         {
