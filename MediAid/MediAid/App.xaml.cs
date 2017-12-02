@@ -29,7 +29,7 @@ namespace MediAid
         //Dependency Services
         public static readonly FirebaseConnection firebase = DependencyService.Get<FirebaseConnection>();
         public static readonly AudioHandler audioHandler = DependencyService.Get<AudioHandler>();
-        public static readonly AlarmHandler alarmHandler = DependencyService.Get<AlarmHandler>();
+        public static readonly IAlarmHandler alarmHandler = DependencyService.Get<IAlarmHandler>();
 
         //Settings information
         public static Settings Settings { get => settings; }

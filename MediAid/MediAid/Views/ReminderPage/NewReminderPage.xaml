@@ -21,7 +21,7 @@
                         </Slider>
                         
                         <Label Text="Starting Date" FontSize="Large"/>
-                        <DatePicker x:Name="DatePicker" VerticalOptions="CenterAndExpand"  Date="{Binding Reminder.Date}">
+                        <DatePicker x:Name="DatePicker" VerticalOptions="CenterAndExpand"  Date="{Binding Reminder.Date}"> 
                             <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
                         </DatePicker>
                         <Label Text="Starting Time" FontSize="Large"/>

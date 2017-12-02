@@ -27,7 +27,7 @@ using static System.Diagnostics.Debug;
 [assembly: Dependency(typeof(AndroidAlarmHandler))]
 namespace MediAid.Droid
 {
-    public class AndroidAlarmHandler : AlarmHandler
+    public class AndroidAlarmHandler : IAlarmHandler
     {
 
 

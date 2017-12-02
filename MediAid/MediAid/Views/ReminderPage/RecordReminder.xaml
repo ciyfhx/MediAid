@@ -7,9 +7,12 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center" Padding="5" Spacing="5">
-            <Button x:Name="RecordBtn" Clicked="Record_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White">
+            <Button x:Name="RecordAudioBtn" Clicked="Record_Audio_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White">
             </Button>
             <Label Text="{Binding Details, Mode=TwoWay}" TextColor="Red" />
+            <Button x:Name="RecordVideoBtn" Clicked="Record_Video_Reminder" BackgroundColor="{StaticResource Primary}" TextColor="White">
+            </Button>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

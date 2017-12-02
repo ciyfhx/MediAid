@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\AlarmHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AudioHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FirebaseConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IMediaService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoadDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TakeCameraPicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CreateAccountViewModel.cs" />

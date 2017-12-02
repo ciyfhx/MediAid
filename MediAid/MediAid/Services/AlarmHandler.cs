@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MediAid.Services
 {
-    public interface AlarmHandler
+    public interface IAlarmHandler
     {
 
         bool CreateAlarm(Reminder reminder, long millis);

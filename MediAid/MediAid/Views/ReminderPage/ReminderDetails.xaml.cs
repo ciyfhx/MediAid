@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace MediAid.Views
         private ReminderDrugsListPage viewModel;
 
         public bool OnAppearToggleFirstFire = false;
+
+        private IMediaService mediaService = DependencyService.Get<IMediaService>();
 
 
         public ReminderDetails(Reminder reminder)
@@ -37,6 +40,8 @@ namespace MediAid.Views
             {
                 PlayReminderBtn.IsEnabled = false;
             }
+
+            PlayVideoReminderBtn.IsEnabled = File.Exists($"/storage/emulated/0/Android/data/com.ciyfhx.MediAid/files/Movies/temp/{reminder.RecordId}.mp4");
 
             BindingContext = viewModel = new ReminderDrugsListPage(reminder);
 
@@ -115,6 +120,12 @@ namespace MediAid.Views
             MessagingCenter.Send(this, "UpdateReminder", viewModel.Reminder);
 
 
+        }
+
+        private async void Play_Video_Reminder(object sender, EventArgs e)
+        {
+            //path "/storage/emulated/0/Android/data/com.ciyfhx.MediAid/files/Movies/temp/{RecordID}.mp4"
+            await mediaService.PlayVideoAsync($"/storage/emulated/0/Android/data/com.ciyfhx.MediAid/files/Movies/temp/{viewModel.Reminder.RecordId}.mp4");
         }
 
         private void UpdateAlarmLabel(Reminder reminder)

@@ -232,6 +232,7 @@
     <Compile Include="AndroidAlarmHandler.cs" />
     <Compile Include="AndroidAudioHandler.cs" />
     <Compile Include="AndroidFirebaseConnection.cs" />
+    <Compile Include="AndroidMediaService.cs" />
     <Compile Include="Helpers\IStoreDictionary.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Receivers.cs" />

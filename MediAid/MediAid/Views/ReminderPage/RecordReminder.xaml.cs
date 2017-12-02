@@ -2,10 +2,13 @@
 using MediAid.Models;
 using MediAid.Services;
 using MediAid.ViewModels;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -28,6 +31,8 @@ namespace MediAid.Views
 
         private RecordReminderViewModel viewModel;
 
+
+
         public RecordReminder (Reminder reminder)
 		{
             Title = "Record Reminder";
@@ -36,16 +41,45 @@ namespace MediAid.Views
 
             BindingContext = viewModel = new RecordReminderViewModel();
 
-            RecordBtn.Text = RECORD_TEXT;
+            RecordVideoBtn.Text = "Record a Video Reminder";
+
+            RecordAudioBtn.Text = RECORD_TEXT;
 
 
         }
 
-        void Record_Reminder(object sender, EventArgs e)
+        async void Record_Video_Reminder(object sender, EventArgs e)
+        {
+            DeleteVideo(reminder.RecordId);
+            await CrossMedia.Current.Initialize();
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakeVideoSupported)
+            {
+                Debug.WriteLine("Unable to take video");
+                await DisplayAlert("Error", "Video taking is not supported", "OK");
+                return;
+            }
+
+            var file = await CrossMedia.Current.TakeVideoAsync(new StoreVideoOptions
+            {
+                Directory = "temp",
+                Name = $"{reminder.RecordId}.mp4"
+            });
+
+        }
+
+        void DeleteVideo(string file)
+        {
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+        }
+
+        void Record_Audio_Reminder(object sender, EventArgs e)
         {
             if (!App.audioHandler.IsRecording)
             {
-                RecordBtn.Text = STOP_RECORD_TEXT;
+                RecordAudioBtn.Text = STOP_RECORD_TEXT;
                 Debug.WriteLine(reminder.RecordId);
 
                 viewModel.Reset();
@@ -54,7 +88,7 @@ namespace MediAid.Views
             }
             else
             {
-                RecordBtn.Text = RECORD_TEXT;
+                RecordAudioBtn.Text = RECORD_TEXT;
                 App.audioHandler.StopRecording();
                 timer?.Dispose();
 
