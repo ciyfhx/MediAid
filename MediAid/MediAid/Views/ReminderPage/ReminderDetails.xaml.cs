@@ -71,6 +71,10 @@ namespace MediAid.Views
         {
             App.audioHandler.RemoveRecording($"{viewModel.Reminder.RecordId}.3gpp");
 
+            //Delete video recording if exist
+            string path = $"/storage/emulated/0/Android/data/com.ciyfhx.MediAid/files/Movies/temp/{viewModel.Reminder.RecordId}.mp4";
+            if (File.Exists(path)) File.Delete(path);
+
             MessagingCenter.Send(this, "RemoveReminder", viewModel.Reminder);
 
             Navigation.PopToRootAsync();

@@ -222,7 +222,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\pills.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\pills.png">
+	<LogicalName>alarm.png</LogicalName>
+	</EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\alarm.png">
