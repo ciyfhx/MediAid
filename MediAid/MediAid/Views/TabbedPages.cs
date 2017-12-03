@@ -1,4 +1,4 @@
-﻿using MediAid.Views.ReminderPage;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Text;
