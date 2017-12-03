@@ -45,7 +45,7 @@ namespace MediAid.Views
 
             BindingContext = viewModel = new ReminderDrugsListPage(reminder);
 
-          
+            
             
         }
 
@@ -84,6 +84,7 @@ namespace MediAid.Views
 
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
+
         }
 
         private async void Toggle_Reminder(object sender, ToggledEventArgs e)

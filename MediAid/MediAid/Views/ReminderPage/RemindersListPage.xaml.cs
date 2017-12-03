@@ -54,6 +54,18 @@ namespace MediAid.Views
 
             if (viewModel.Items.Count == 0)
             viewModel.LoadItemsCommand.Execute(null);
+
+            if (!viewModel.Items.Any())
+            {
+                NoReminders.IsVisible = true;
+                NoReminders.Opacity = 0;
+                NoReminders.FadeTo(1, 700, easing: Easing.SinIn);
+            }
+            else
+            {
+                NoReminders.IsVisible = false;
+            }
+
         }
 
     }

@@ -2,27 +2,76 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="{Binding Title}"
+             xmlns:local="clr-namespace:MediAid.Services"
              x:Class="MediAid.Views.RemindersListPage">
 <ContentPage.ToolbarItems>
   <ToolbarItem Text="Add Reminder" Clicked="AddReminder_Clicked" />
 </ContentPage.ToolbarItems>
-    <ListView ItemsSource="{Binding Items}"
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="NoReminders">
+                <Grid BackgroundColor="DarkGray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <Label
+                          Grid.Column="1"
+                          Grid.Row="1"
+                          TextColor="GhostWhite"
+                          HorizontalTextAlignment="Center" 
+                          Text="No Reminders" />
+                </Grid>
+            </StackLayout>
+
+            <ListView ItemsSource="{Binding Items, Mode=TwoWay}"
             ItemTapped="Handle_ReminderTapped"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             VerticalOptions="FillAndExpand"
             HasUnevenRows="true"
-            CachingStrategy="RecycleElement">
+            CachingStrategy="RecycleElement"
+            IsPullToRefreshEnabled="False"
+            RefreshCommand="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}"
+            x:Name="ListView">
 
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Padding="10">
-                        <Label Text="{Binding Name}" 
-                         Style="{DynamicResource ListReminderTextStyle}" 
-                         FontSize="16"/>
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout
+                            Margin="10">
+
+                                <Frame>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="1"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.RowSpan="2" HeightRequest="40" WidthRequest="40" Source="{local:ImageResource alarm.png}" />
+                                        <StackLayout Grid.Column="2" Orientation="Horizontal">
+                                            <Label Text="{Binding Name}" 
+                                   Style="{DynamicResource ListReminderTextStyle}" 
+                                   FontSize="15" TextColor="{StaticResource Primary}"/>
+                                        </StackLayout>
+                                        <Label Grid.Column="2" Grid.Row="1" TextColor="Black" Text="{Binding TimeEnabled, StringFormat='{}{0:MM/dd/yyyy a\\t h:mm tt}'}" ></Label>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

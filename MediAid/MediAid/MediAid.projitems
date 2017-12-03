@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\AlarmHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AudioHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FirebaseConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ImageResourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IMediaService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoadDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TakeCameraPicture.cs" />
@@ -80,10 +81,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Others\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ReminderPage\ReminderList.xaml.cs">
-      <DependentUpon>ReminderList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\TabbedPages.cs" />
@@ -228,9 +225,8 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\pills.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ReminderPage\ReminderList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\alarm.png">
+      <LogicalName>alarm.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

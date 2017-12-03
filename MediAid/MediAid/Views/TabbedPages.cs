@@ -16,11 +16,6 @@ namespace MediAid.Views
             {
                 Children =
                 {
-                    new ReminderList()
-                    {
-                        Title = "Reminders",
-                        Icon = Device.OnPlatform<string>("tab_feed.png",null,null)
-                   },
                    new RemindersListPage()
                     {
                         Title = "Reminders",

@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -70,6 +71,13 @@ namespace MediAid
             //    Debug.WriteLine($"{pair.Key.ToJson()}");
 
             //});
+
+            var assembly = typeof(App).GetTypeInfo().Assembly;
+            foreach (var res in assembly.GetManifestResourceNames())
+            {
+                System.Diagnostics.Debug.WriteLine("found resource: " + res);
+            }
+
             InitAudioHandler();
 
             MainPage = new StartPage();

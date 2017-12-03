@@ -47,9 +47,16 @@ namespace MediAid.Droid
             var user = FirebaseAuth.Instance.CurrentUser;
 
             database = FirebaseDatabase.Instance;
+
+            //Allow offline cache
+            database.SetPersistenceEnabled(true);
+
             databaseRef = database.GetReference("").Child("users").Child(user.Uid);
+            databaseRef.KeepSynced(true);
             remindersRef = databaseRef.Child("reminders");
+            remindersRef.KeepSynced(true);
             drugsRef = databaseRef.Child("drugs");
+            drugsRef.KeepSynced(true);
 
             storage = FirebaseStorage.Instance;
             storageRef = storage.GetReferenceFromUrl("gs://mediaid-79290.appspot.com").Child("users").Child(user.Uid);
