@@ -109,7 +109,8 @@ namespace MediAid.Droid
 
             var sReminderRef = sRemindersRef.Child(reminder.ReminderId.ToString());
 
-            sReminderRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(Path.Combine(App.audioHandler.RecordingPath, reminder.RecordId + ".3gpp"))));
+            string path = Path.Combine(App.audioHandler.RecordingPath, reminder.RecordId + ".3gpp");
+            if(!String.IsNullOrEmpty(path))sReminderRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(path)));
 
         }
 
@@ -121,7 +122,7 @@ namespace MediAid.Droid
 
             var sDrugRef = sDrugsRef.Child(drug.DatabaseId.ToString());
 
-            if(sDrugRef != null)sDrugRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile)));
+            if(!String.IsNullOrEmpty(drug.ImageFile)) sDrugRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile)));
 
         }
 
