@@ -13,8 +13,7 @@ namespace MediAid.Models
         {
             if(value is string)
             {
-                System.Diagnostics.Debug.WriteLine(File.Exists(value as string));
-                if (String.IsNullOrEmpty(value as string) || !File.Exists(value as string)) return ImageSource.FromResource("pills.png");
+                //if (String.IsNullOrEmpty(value as string) || !File.Exists(value as string)) return ImageSource.FromResource("pills.png");
                 return ImageSource.FromFile(value as string);
             }
             return null;

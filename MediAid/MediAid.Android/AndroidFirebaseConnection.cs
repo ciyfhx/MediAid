@@ -121,7 +121,7 @@ namespace MediAid.Droid
 
             var sDrugRef = sDrugsRef.Child(drug.DatabaseId.ToString());
 
-            if(drug.ImageFile != null)sDrugRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile)));
+            sDrugRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile)));
 
         }
 
@@ -151,9 +151,6 @@ namespace MediAid.Droid
             }
             catch (FirebaseNetworkException)
             {
-
-
-
                 return false;
             }
 
