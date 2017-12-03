@@ -104,6 +104,7 @@ namespace MediAid.Views
                 {
                     await DisplayAlert("Error", "This alarm has a starting time in the past", "OK");
                     viewModel.Reminder.IsEnabled = false;
+                    ((Xamarin.Forms.Switch)sender).IsEnabled = false;
                     return;
                 }
                 if (viewModel.Reminder.RepeatingCount == 0)

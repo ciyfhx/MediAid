@@ -35,6 +35,15 @@ namespace MediAid.Views
         }
     }
 
+    public class LogInPageMenuItem : RootMasterPageMenuItem
+    {
+        public override Page CreatePage()
+        {
+            App.Current.MainPage = new NavigationPage(new LoginPage());
+            return null;
+        }
+    }
+
     public class LogOutPageMenuItem : RootMasterPageMenuItem
     {
         public override Page CreatePage()

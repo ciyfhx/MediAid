@@ -38,7 +38,7 @@ namespace MediAid.Views
 
             //Email
             //Causing alarm restarting issue
-            public string Email { get;  } = App.firebase.GetEmail();
+            public string Email { get;  } = App.firebase.GetEmail() + ((App.firebase.IsLogin)? "" : "(Not login)");
 
             //Profile Picture
             public ImageSource ProfilePicture { get {
@@ -52,9 +52,17 @@ namespace MediAid.Views
             {
                 MenuItems = new ObservableCollection<RootMasterPageMenuItem> {
                     new MainPageMenuItem { Id = 0, Title = "Medications" },
-                    new SettingsPageMenuItem { Id = 1, Title = "Settings" },
-                    new LogOutPageMenuItem { Id = 2, Title = "Logout" }
+                    new SettingsPageMenuItem { Id = 1, Title = "Settings" }
+                    
                 };
+                if (App.firebase.IsLogin)
+                {
+                    MenuItems.Add(new LogOutPageMenuItem { Id = 2, Title = "Logout" });
+                }
+                else
+                {
+                    MenuItems.Add(new LogInPageMenuItem { Id = 2, Title = "Login" });
+                }
 
             }
             

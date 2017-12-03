@@ -9,7 +9,8 @@
                     <Image Source="{Binding ProfilePicture}" WidthRequest="50" HeightRequest="50" />
                     <Label Text="{Binding Settings.Username}" HorizontalTextAlignment="Center" Style="{DynamicResource SubtitleStyle}"/>
                     <Label x:Name="Verified" HorizontalTextAlignment="Center" Style="{DynamicResource SubtitleStyle}"/>
-                    <Button Text="Restore" Clicked="Restore"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
+                    <Button x:Name="RestoreBtn" Text="Restore" Clicked="Restore"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
+                    <Button x:Name="BackupBtn" Text="Backup" Clicked="Backup"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
                     <Label Text="{Binding Settings.Version, StringFormat='Version: {0}'}}" HorizontalTextAlignment="Center" Style="{DynamicResource SubtitleStyle}"/>
                 </StackLayout>
             </Frame>

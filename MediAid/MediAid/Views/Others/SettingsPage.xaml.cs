@@ -13,13 +13,13 @@ using System.Diagnostics;
 
 namespace MediAid.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SettingsPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class SettingsPage : ContentPage
+    {
 
         public Settings Settings { get; } = App.Settings;
 
-        public bool IsAccountVerified { get; } = App.firebase.IsAccountVerified();
+        public bool IsAccountVerified { get; }
 
         public ImageSource ProfilePicture
         {
@@ -30,15 +30,27 @@ namespace MediAid.Views
             }
         }
 
-        public SettingsPage ()
-		{
-			InitializeComponent ();
+        public SettingsPage()
+        {
+
+            InitializeComponent();
+
+             try
+            {
+                IsAccountVerified = App.firebase.IsAccountVerified();
+            }
+            catch (InvalidOperationException)
+            {
+                IsAccountVerified = false;
+                RestoreBtn.IsEnabled = false;
+                BackupBtn.IsEnabled = false;
+            }
 
             this.BindingContext = this;
 
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
@@ -52,6 +64,23 @@ namespace MediAid.Views
                 Verified.TextColor = Color.Red;
             }
 
+            //Not login
+            if (!RestoreBtn.IsEnabled)
+            {
+                await DisplayAlert("Warning", "Some features will not work until you login", "OK");
+            }
+
+
+        }
+
+        private async void Backup(object sender, EventArgs e)
+        {
+            //Backup data which are not sync with firebase
+            App.Drugs.GetItems().Keys.ToList().ForEach(App.firebase.AddDrug);
+            App.Reminders.GetItems().Keys.ToList().ForEach(App.firebase.AddReminder);
+
+            await DisplayAlert("Backup", "Backup completed", "OK");
+
         }
 
         private async void Restore(object sender, EventArgs e)
@@ -63,7 +92,8 @@ namespace MediAid.Views
             di.GetFiles().Where(file => file.Name.EndsWith(".3gpp")).ToList().ForEach(file => file.Delete());
             //Directory.Delete(App.audioHandler.RecordingPath);
             //Remove all image
-            App.Drugs.GetItems().Select(kp => kp.Key).ToList().ForEach(drug => {
+            App.Drugs.GetItems().Select(kp => kp.Key).ToList().ForEach(drug =>
+            {
                 if (!String.IsNullOrEmpty(drug.ImageFile)) File.Delete(drug.ImageFile);
             });
 
@@ -72,7 +102,7 @@ namespace MediAid.Views
             MessagingCenter.Send(this, "ClearDrug");
 
             //Restoring data
-            App.firebase.drugs.ForEach(d => Debug.WriteLine(d.Name ));
+            App.firebase.drugs.ForEach(d => Debug.WriteLine(d.Name));
             App.firebase.drugs.ForEach(drug => MessagingCenter.Send(this, "AddDrug", drug));
             App.firebase.reminders.ForEach(reminder => MessagingCenter.Send(this, "AddReminder", reminder));
 
@@ -80,7 +110,7 @@ namespace MediAid.Views
             App.firebase.RedownloadFiles();
 
             await DisplayAlert("Restoration", "Restore completed", "Done");
-            
+
 
 
         }

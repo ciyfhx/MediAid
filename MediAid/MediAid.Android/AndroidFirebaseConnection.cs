@@ -121,7 +121,7 @@ namespace MediAid.Droid
 
             var sDrugRef = sDrugsRef.Child(drug.DatabaseId.ToString());
 
-            sDrugRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile)));
+            if(sDrugRef != null)sDrugRef.PutFile(Android.Net.Uri.FromFile(new Java.IO.File(drug.ImageFile)));
 
         }
 
@@ -188,12 +188,12 @@ namespace MediAid.Droid
 
         public override string GetEmail()
         {
-            return user.Email;
+            return user?.Email?? "";
         }
 
         public override string GetProfilePicture()
         {
-            return user.PhotoUrl?.ToString();
+            return user?.PhotoUrl?.ToString();
         }
 
         public override bool IsAccountVerified()

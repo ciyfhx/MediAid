@@ -50,13 +50,13 @@ namespace MediAid.Views
 
         public bool Validation()
         {
-            return !(String.IsNullOrEmpty(username) && String.IsNullOrEmpty(password));
+            return !(String.IsNullOrEmpty(Username) && String.IsNullOrEmpty(Password));
         }
 
         public async void Login_ToFirebase(object sender, EventArgs e)
         { 
             if (!Validation()) return;
-            bool connected = await LoginAsync(this.username.Trim(), this.password);
+            bool connected = await LoginAsync(this.Username.Trim(), this.Password);
 
             if (connected)
             {
@@ -85,7 +85,7 @@ namespace MediAid.Views
             try
             {
                 Warning.Text = "";
-                bool connected = await App.firebase.LoginUserAsync(username.Trim(), password);
+                bool connected = await App.firebase.LoginUserAsync(Username.Trim(), Password);
                 return connected;
             }
             catch (Exception)

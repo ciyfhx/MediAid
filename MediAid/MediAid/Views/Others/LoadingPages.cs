@@ -43,7 +43,13 @@ namespace MediAid.Views
                         var alarmReminderPage = new AlarmReminderPage(App.Reminders.GetItems().Keys.First(k => k.ReminderId == ReminderId));
                         await rootMasterPage.Detail.Navigation.PushModalAsync(alarmReminderPage);
                     }
-                }//if(connected) NavigationPage.SetHasNavigationBar(this, false);
+                }
+                else
+                {
+                    var rootMasterPage = new RootMasterPage();
+                    App.Current.MainPage = rootMasterPage;
+                }
+                //if(connected) NavigationPage.SetHasNavigationBar(this, false);
             }
             else
             {

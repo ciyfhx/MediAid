@@ -56,7 +56,13 @@ namespace MediAid.Models
         }
 
         public bool IsEnabled { get; set; }
-        public DateTime TimeEnabled { get; set; }
+        private DateTime timeEnabled;
+        public DateTime TimeEnabled { get => timeEnabled; set {
+
+                timeEnabled = value;
+                OnPropertyChanged();
+
+            } }
         public TimeSpan Time { get; set; }
         [ManyToMany(typeof(ReminderDrug), CascadeOperations = CascadeOperation.All)]
         public List<Drug> Drugs { get; set; }

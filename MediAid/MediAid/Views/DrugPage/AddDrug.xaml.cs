@@ -61,8 +61,8 @@ namespace MediAid.Views
 
             var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
             {
-                Directory = "temp",
-                Name = "temp.jpg"
+                Directory = "Media",
+                Name = $"{viewModel.Drug.DatabaseId}.jpg"
             });
 
             if (file != null)
