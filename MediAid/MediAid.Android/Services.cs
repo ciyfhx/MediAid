@@ -36,7 +36,7 @@ namespace MediAid.Droid
                 {
                     var title = intent.GetStringExtra("Title");
                     var ReminderId = intent.GetIntExtra("ReminderId", -1);
-                    
+
                     Notification.Builder builder = new Notification.Builder(context)
                         .SetContentTitle(title)
                         .SetOngoing(true)
@@ -67,7 +67,7 @@ namespace MediAid.Droid
                     MediaPlayer.Start();
 
                 }
-                
+
                 return StartCommandResult.Sticky;
 
             }
@@ -92,7 +92,7 @@ namespace MediAid.Droid
                 return null;
             }
         }
-     
+
 
     }
 }
