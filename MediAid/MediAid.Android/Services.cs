@@ -59,7 +59,7 @@ namespace MediAid.Droid
 
                     long[] pattern = { 0, 100, 1000 };
 
-                    vibrator = (Vibrator)context.GetSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator = (Vibrator)context.GetSystemService(Context.VibratorService);
                     vibrator.Vibrate(pattern, 0);
 
                     MediaPlayer = MediaPlayer.Create(this, Resource.Raw.ringtone);
