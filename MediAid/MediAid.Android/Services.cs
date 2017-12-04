@@ -24,6 +24,8 @@ namespace MediAid.Droid
             public MediaPlayer MediaPlayer;
             public NotificationManager notificationManager;
 
+            public Vibrator vibrator;
+
             private const int notificationId = 0;
 
 
@@ -55,6 +57,10 @@ namespace MediAid.Droid
 
                     notificationManager.Notify(notificationId, notification);
 
+                    long[] pattern = { 0, 100, 1000 };
+
+                    vibrator = (Vibrator)context.GetSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.Vibrate(pattern, 0);
 
                     MediaPlayer = MediaPlayer.Create(this, Resource.Raw.ringtone);
                     MediaPlayer.Looping = true;
@@ -75,6 +81,7 @@ namespace MediAid.Droid
                     MediaPlayer.Stop();
                     MediaPlayer.Reset();
                     MediaPlayer = null;
+                    vibrator.Cancel();
                     notificationManager.Cancel(notificationId);
                 }
             }
