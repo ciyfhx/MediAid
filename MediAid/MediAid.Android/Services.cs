@@ -57,7 +57,7 @@ namespace MediAid.Droid
 
                     notificationManager.Notify(notificationId, notification);
 
-                    long[] pattern = { 0, 100, 1000 };
+                    long[] pattern = { 0, 400, 1000 };
 
                     vibrator = (Vibrator)context.GetSystemService(Context.VibratorService);
                     vibrator.Vibrate(pattern, 0);
