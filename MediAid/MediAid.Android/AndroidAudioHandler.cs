@@ -76,12 +76,14 @@ namespace MediAid.Services.Android
         {
             if (player != null) return false;
             Debug.WriteLine($"TEST Recording File: {fileName}");
-            Debug.WriteLine(Path.Combine(RecordingPath, fileName));
+            string path = Path.Combine(RecordingPath, fileName);
+            if (!File.Exists(path)) return false;
+            Debug.WriteLine(path);
 
             ListFile(RecordingPath);
             
            player = new MediaPlayer();
-           player.SetDataSource(Path.Combine(RecordingPath, fileName));
+           player.SetDataSource(path);
            player.Prepare();
            player.Start();
 

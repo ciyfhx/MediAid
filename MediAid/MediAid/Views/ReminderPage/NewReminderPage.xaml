@@ -14,10 +14,10 @@
 
                        
                         <Label Text="{Binding Reminder.Hours, StringFormat='Hours {0}'}" FontSize="Large"/>
-                        <Slider Maximum="24" Minimum="0"  Value="{Binding Reminder.Hours, Mode=TwoWay}">
+                        <Slider Maximum="23" Minimum="0"  Value="{Binding Reminder.Hours, Mode=TwoWay}">
                         </Slider>
                         <Label Text="{Binding Reminder.Mins, StringFormat='Mins {0}'}" FontSize="Large"/>
-                        <Slider Maximum="60" Minimum="1"  Value="{Binding Reminder.Mins, Mode=TwoWay}">
+                        <Slider Maximum="59" Minimum="0"  Value="{Binding Reminder.Mins, Mode=TwoWay}">
                         </Slider>
                         
                         <Label Text="Starting Date" FontSize="Large"/>

@@ -36,10 +36,7 @@ namespace MediAid.Views
             Reminder.Text = reminder.Name;
             Title = reminder.Name;
 
-            if (!App.audioHandler.RecordingExist($"{reminder.RecordId}.3gpp"))
-            {
-                PlayReminderBtn.IsEnabled = false;
-            }
+            PlayReminderBtn.IsEnabled = App.audioHandler.RecordingExist($"{reminder.RecordId}.3gpp");
 
             PlayVideoReminderBtn.IsEnabled = File.Exists($"/storage/emulated/0/Android/data/com.ciyfhx.MediAid/files/Movies/temp/{reminder.RecordId}.mp4");
 

@@ -9,7 +9,16 @@
                 HorizontalOptions="CenterAndExpand" 
                    TextColor="Black"
                    FontSize="35"/>
-            <Button Text="Play Reminder" Clicked="Play_Reminder"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
+            <ListView ItemsSource="{Binding Reminder.Drugs}"
+                               ItemTapped="To_PillDetails"
+                               VerticalOptions="FillAndExpand"
+                               HasUnevenRows="true"
+                               CachingStrategy="RecycleElement"
+                               ItemTemplate="{StaticResource PillsTemplate}">
+
+            </ListView>
+            <Button x:Name="PlayReminderBtn" Text="Play Reminder" Clicked="Play_Audio_Reminder"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
+            <Button x:Name="PlayVideoReminderBtn" Text="Play Video Reminder" Clicked="Play_Video_Reminder"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
             <Button Text="Done" Clicked="NextReminder"  BackgroundColor="{StaticResource Primary}" TextColor="White"/>
         </StackLayout>
     </ContentPage.Content>

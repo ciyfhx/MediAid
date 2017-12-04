@@ -2,6 +2,7 @@
 using MediAid.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,11 +25,13 @@ namespace MediAid.Views
             App.alarmHandler.RemoveAlarm(reminder);
 
             this.BindingContext = this;
+            InitializeComponent();
 
+            PlayReminderBtn.IsEnabled = App.audioHandler.RecordingExist($"{reminder.RecordId}.3gpp");
 
-            InitializeComponent ();
+            PlayVideoReminderBtn.IsEnabled = File.Exists($"/storage/emulated/0/Android/data/com.ciyfhx.MediAid/files/Movies/temp/{reminder.RecordId}.mp4");
 
-            Play_Reminder(null, null);
+            if (PlayReminderBtn.IsEnabled)Play_Audio_Reminder(null, null);
 
 		}
 
@@ -49,11 +52,28 @@ namespace MediAid.Views
             //Navigation.RemovePage(this.Navigation.NavigationStack[this.Navigation.NavigationStack.Count - 1]);
         }
 
-        void Play_Reminder(object sender, EventArgs e)
+        async void To_PillDetails(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+                return;
+
+            NextReminder(null, null);
+            await (App.Current.MainPage as RootMasterPage).Detail.Navigation.PushAsync(new PillDetails(e.SelectedItem as Drug));
+
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
+        }
+
+        void Play_Audio_Reminder(object sender, EventArgs e)
         {
             App.audioHandler.PlayRecording($"{Reminder.RecordId}.3gpp");
 
 
+        }
+
+        void Play_Video_Reminder(object sender, EventArgs e)
+        {
+            App.audioHandler.PlayRecording($"{Reminder.RecordId}.3gpp");
         }
 
     }

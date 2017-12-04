@@ -64,6 +64,10 @@ namespace MediAid.Views
             {
                 await DisplayAlert("Error" , "Cannot set alarm in the past", "OK");
                 return;
+            }else if((Reminder.Mins == 0) && (Reminder.Hours == 0))
+            {
+                await DisplayAlert("Error", "Reminder interval cannot be 0", "OK");
+                return;
             }
             if (Validation())
             {
